@@ -1,0 +1,302 @@
+import Link from 'next/link';
+
+export default function ScheduleConfirmPage() {
+  return (
+    <>
+      {/* TopNavBar */}
+<header className="fixed top-0 w-full z-50 bg-[#faf9f6]/70 dark:bg-stone-900/70 backdrop-blur-xl shadow-[0_8px_32px_rgba(48,51,48,0.06)]">
+<nav className="flex justify-between items-center px-12 py-4 max-w-screen-2xl mx-auto font-['Plus_Jakarta_Sans'] tracking-tight">
+<div className="flex items-center gap-12">
+<div className="flex items-center gap-2">
+<img src="/purrbook.png" alt="PurrBook logo" className="h-8 w-auto" />
+<span className="text-2xl font-bold italic text-amber-900 dark:text-amber-100">PurrBook</span>
+</div>
+<div className="hidden md:flex items-center gap-8">
+<Link className="text-stone-600 dark:text-stone-400 hover:text-amber-800 transition-colors" href="/">Explore</Link>
+<Link className="text-stone-600 dark:text-stone-400 hover:text-amber-800 transition-colors" href="/search">Search</Link>
+<Link className="text-stone-600 dark:text-stone-400 hover:text-amber-800 transition-colors" href="/profile">Profile</Link>
+</div>
+</div>
+<div className="flex items-center gap-6">
+<div className="flex items-center gap-4 text-stone-600 dark:text-stone-400">
+<span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">notifications</span>
+<span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">pets</span>
+</div>
+<Link href="/search" className="bg-gradient-to-r from-primary to-primary-dim text-on-primary px-8 py-3 rounded-full font-label font-bold tracking-wide active:scale-95 transition-all shadow-lg shadow-primary/20">Book Now</Link>
+</div>
+</nav>
+</header>
+
+<main className="pt-32 pb-20 px-6 md:px-12 max-w-screen-2xl mx-auto">
+{/* Editorial Header */}
+<header className="mb-16">
+<h1 className="text-5xl md:text-7xl font-headline font-extrabold text-on-surface tracking-tight leading-tight">
+  Almost <span className="text-primary italic">There.</span>
+</h1>
+<p className="text-on-surface-variant text-lg md:text-xl mt-4 max-w-2xl font-light">
+  Review your bespoke sanctuary reservation. One final touch before Barnaby's radiance is restored.
+</p>
+</header>
+
+<div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+
+{/* Stepper Navigation */}
+<aside className="lg:col-span-3 sticky top-40">
+<div className="space-y-12">
+  {/* Step 01 — Complete */}
+  <div className="flex items-center gap-6">
+    <div className="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container font-bold shadow-sm ring-4 ring-surface">
+      <span className="material-symbols-outlined" style={{"fontVariationSettings": "'FILL' 1"}}>check</span>
+    </div>
+    <div>
+      <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary">Step 01</p>
+      <h3 className="text-on-surface font-semibold">Select Muse</h3>
+    </div>
+  </div>
+  {/* Step 02 — Complete */}
+  <div className="flex items-center gap-6">
+    <div className="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container font-bold shadow-sm ring-4 ring-surface">
+      <span className="material-symbols-outlined" style={{"fontVariationSettings": "'FILL' 1"}}>check</span>
+    </div>
+    <div>
+      <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary">Step 02</p>
+      <h3 className="text-on-surface font-semibold">Reserve Moment</h3>
+    </div>
+  </div>
+  {/* Step 03 — Active */}
+  <div className="flex items-center gap-6">
+    <div className="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold shadow-xl ring-4 ring-surface animate-pulse">
+      03
+    </div>
+    <div>
+      <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary">Step 03</p>
+      <h3 className="text-on-surface font-semibold">Confirm Care</h3>
+    </div>
+  </div>
+</div>
+</aside>
+
+{/* Main Form Column */}
+<section className="lg:col-span-6 space-y-10">
+
+  {/* Section 1 — Your Companion */}
+  <div className="bg-surface-container-low p-8 rounded-xl">
+    <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary mb-6">Your Companion</p>
+    <div className="flex items-center gap-6 bg-surface-container-lowest p-6 rounded-lg ring-2 ring-primary/20">
+      <img
+        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqPLXkvBImvBgNNsUjdng4AAKjaYGdFqtuMjNkth3AvE0-I7rl15nOw3OK6HjgSrDG0LlRmOVKuVMN_O81glZEttBwTv2sVGzDA9Rgr-mds3DoEkSu0Zg2Rg8pWCYJ5-uuu-djeMf3YI5WKuuzlUV8kOUm9ROWhnlkzmSkZkx9uu4cOWoEuRzbHYXd0w1C_S4Dj-m9KcDIMJYyf16pKM4V9LQEA9bJIvxUgqZD0TI9rvXQUg6KJ5_9wdSmPjmNOj0Pryufghzvzg7B"
+        alt="Barnaby"
+        data-alt="Close up of a golden retriever smiling in soft morning light in a cozy living room setting"
+        className="w-20 h-20 rounded-xl object-cover shadow-md flex-shrink-0"
+      />
+      <div className="flex-1">
+        <div className="flex items-center gap-3 mb-1">
+          <h3 className="text-xl font-headline font-bold text-on-surface">Barnaby</h3>
+          <span className="inline-block px-3 py-1 rounded-full bg-tertiary-container text-on-tertiary-container font-label text-xs font-bold uppercase tracking-widest">Selected Muse</span>
+        </div>
+        <p className="text-sm text-on-surface-variant">Golden Retriever · Male · 3 yrs</p>
+        <p className="text-xs text-on-surface-variant/60 mt-1 italic">Grooming profile: double coat, gentle temperament</p>
+      </div>
+      <span className="material-symbols-outlined text-primary flex-shrink-0" style={{"fontVariationSettings": "'FILL' 1"}}>check_circle</span>
+    </div>
+  </div>
+
+  {/* Section 2 — The Moment */}
+  <div className="bg-surface-container-low p-8 rounded-xl">
+    <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary mb-6">The Moment</p>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="bg-surface-container-lowest p-5 rounded-lg text-center">
+        <span className="material-symbols-outlined text-primary text-2xl mb-2 block">calendar_month</span>
+        <p className="text-xs text-on-surface-variant uppercase tracking-widest mb-1">Date</p>
+        <p className="font-headline font-bold text-on-surface">Nov 14, 2024</p>
+        <p className="text-xs text-on-surface-variant mt-0.5">Thursday</p>
+      </div>
+      <div className="bg-surface-container-lowest p-5 rounded-lg text-center">
+        <span className="material-symbols-outlined text-primary text-2xl mb-2 block">schedule</span>
+        <p className="text-xs text-on-surface-variant uppercase tracking-widest mb-1">Time</p>
+        <p className="font-headline font-bold text-on-surface">11:15 AM</p>
+        <p className="text-xs text-on-surface-variant mt-0.5">~90 min session</p>
+      </div>
+      <div className="bg-surface-container-lowest p-5 rounded-lg text-center">
+        <span className="material-symbols-outlined text-primary text-2xl mb-2 block">storefront</span>
+        <p className="text-xs text-on-surface-variant uppercase tracking-widest mb-1">Sanctuary</p>
+        <p className="font-headline font-bold text-on-surface text-sm leading-tight">The Amber Sanctuary</p>
+        <p className="text-xs text-on-surface-variant mt-0.5">San Vicente, Tarlac City</p>
+      </div>
+    </div>
+  </div>
+
+  {/* Section 3 — Your Details */}
+  <div className="bg-surface-container-low p-8 rounded-xl">
+    <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary mb-6">Your Details</p>
+    <div className="space-y-4">
+      <div>
+        <label className="block text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-2">Full Name</label>
+        <input
+          type="text"
+          defaultValue="Maria Santos"
+          className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-5 py-3.5 text-on-surface font-body text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+        />
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-2">Phone</label>
+          <input
+            type="tel"
+            defaultValue="+63 917 234 5678"
+            className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-5 py-3.5 text-on-surface font-body text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+          />
+        </div>
+        <div>
+          <label className="block text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-2">Email</label>
+          <input
+            type="email"
+            defaultValue="maria.santos@email.com"
+            className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-5 py-3.5 text-on-surface font-body text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Section 4 — Special Requests */}
+  <div className="bg-surface-container-low p-8 rounded-xl">
+    <div className="flex justify-between items-start mb-6">
+      <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary">Special Requests</p>
+      <span className="text-xs text-on-surface-variant italic">Optional</span>
+    </div>
+    <textarea
+      rows={4}
+      placeholder="Share any notes for your groomer — sensitivities, preferred techniques, or anything that would help us craft a perfect sanctuary experience for Barnaby..."
+      className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-5 py-4 text-on-surface font-body text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all resize-none leading-relaxed"
+    />
+  </div>
+
+  {/* Section 5 — The PurrBook Promise */}
+  <div className="bg-surface-container-lowest border border-outline-variant/10 p-8 rounded-xl">
+    <div className="flex items-center gap-4 mb-8">
+      <div className="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center flex-shrink-0">
+        <span className="material-symbols-outlined text-on-tertiary-container" style={{"fontVariationSettings": "'FILL' 1"}}>verified_user</span>
+      </div>
+      <div>
+        <h3 className="font-headline font-bold text-on-surface">The PurrBook Promise</h3>
+        <p className="text-xs text-on-surface-variant mt-0.5">Every reservation is protected and guaranteed.</p>
+      </div>
+    </div>
+    <div className="space-y-5">
+      <div className="flex items-start gap-4">
+        <span className="material-symbols-outlined text-primary text-base mt-0.5 flex-shrink-0">event_available</span>
+        <div>
+          <p className="text-sm font-bold text-on-surface">Free Cancellation</p>
+          <p className="text-xs text-on-surface-variant leading-relaxed mt-0.5">Cancel or reschedule at no charge up to 24 hours before your session begins.</p>
+        </div>
+      </div>
+      <div className="flex items-start gap-4">
+        <span className="material-symbols-outlined text-primary text-base mt-0.5 flex-shrink-0">shield</span>
+        <div>
+          <p className="text-sm font-bold text-on-surface">Care Guarantee</p>
+          <p className="text-xs text-on-surface-variant leading-relaxed mt-0.5">If your muse isn't treated to our editorial standard, we'll make it right — no questions asked.</p>
+        </div>
+      </div>
+      <div className="flex items-start gap-4">
+        <span className="material-symbols-outlined text-primary text-base mt-0.5 flex-shrink-0">lock</span>
+        <div>
+          <p className="text-sm font-bold text-on-surface">Secure Payment</p>
+          <p className="text-xs text-on-surface-variant leading-relaxed mt-0.5">Your payment details are encrypted and never stored. Pay at the sanctuary on the day.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Bottom Row */}
+  <div className="flex justify-between items-center pt-8 border-t border-outline-variant/10">
+    <Link href="/schedule" className="flex items-center gap-2 text-on-surface-variant font-label text-sm uppercase tracking-widest hover:text-on-surface transition-colors active:scale-95">
+      <span className="material-symbols-outlined text-sm">arrow_back</span>
+      Back to Timing
+    </Link>
+    <Link href="/schedule/confirmed" className="bg-gradient-to-r from-primary to-primary-dim text-on-primary px-12 py-4 rounded-full font-label font-bold tracking-wide uppercase active:scale-95 transition-all shadow-lg shadow-primary/20">
+      Reserve Your Sanctuary
+    </Link>
+  </div>
+
+</section>
+
+{/* Reservation Sidebar */}
+<aside className="lg:col-span-3 space-y-6 sticky top-40">
+  {/* Details Card */}
+  <div className="bg-surface-container-highest/30 backdrop-blur-md p-8 rounded-xl border border-outline-variant/10">
+    <h3 className="text-xl font-headline font-bold mb-8">Reservation Details</h3>
+    <div className="space-y-5">
+      <div className="flex justify-between items-start">
+        <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">Service</span>
+        <span className="text-sm font-semibold text-right max-w-[140px]">The "Royal Bath" &amp; Silk Cut</span>
+      </div>
+      <div className="flex justify-between items-start">
+        <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">Companion</span>
+        <span className="text-sm font-semibold">Barnaby</span>
+      </div>
+      <div className="flex justify-between items-start">
+        <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">Date</span>
+        <span className="text-sm font-semibold">Nov 14, 2024</span>
+      </div>
+      <div className="flex justify-between items-start">
+        <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">Time</span>
+        <span className="text-sm font-semibold">11:15 AM</span>
+      </div>
+    </div>
+
+    {/* Price Breakdown */}
+    <div className="mt-6 pt-6 border-t border-outline-variant/20 space-y-3">
+      <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-4">Price Breakdown</p>
+      <div className="flex justify-between items-center">
+        <span className="text-sm text-on-surface-variant">Base Service</span>
+        <span className="text-sm font-semibold">₱7,000.00</span>
+      </div>
+      <div className="flex justify-between items-center">
+        <span className="text-sm text-on-surface-variant">Grooming Materials</span>
+        <span className="text-sm font-semibold">₱800.00</span>
+      </div>
+      <div className="flex justify-between items-center">
+        <span className="text-sm text-on-surface-variant">PurrBook Fee</span>
+        <span className="text-sm font-semibold">₱400.00</span>
+      </div>
+      <div className="pt-4 border-t border-outline-variant/20 flex justify-between items-center text-primary">
+        <span className="text-sm font-bold uppercase tracking-widest">Total</span>
+        <span className="text-2xl font-headline font-extrabold">₱8,200.00</span>
+      </div>
+      <p className="text-[10px] text-on-surface-variant/60 italic text-right">*Pay at sanctuary on the day</p>
+    </div>
+  </div>
+
+  {/* Protected Badge */}
+  <div className="flex items-center gap-4 p-5 bg-surface-container-lowest rounded-xl border border-outline-variant/10">
+    <span className="material-symbols-outlined text-primary text-3xl flex-shrink-0" style={{"fontVariationSettings": "'FILL' 1"}}>verified_user</span>
+    <div>
+      <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface">Protected by PurrBook</p>
+      <p className="text-[10px] text-on-surface-variant mt-0.5 leading-relaxed">Your booking is covered by our care guarantee and secure handling policy.</p>
+    </div>
+  </div>
+</aside>
+
+</div>
+</main>
+
+{/* Footer */}
+<footer className="w-full mt-20 bg-stone-100 dark:bg-stone-950">
+<div className="flex flex-col md:flex-row justify-between items-center px-12 py-16 gap-8 border-t border-stone-200/20 max-w-screen-2xl mx-auto">
+<div className="text-lg font-black text-amber-900 dark:text-amber-200 uppercase tracking-tighter">PurrBook</div>
+<div className="flex flex-wrap justify-center gap-8 font-['Be_Vietnam_Pro'] text-sm uppercase tracking-widest">
+<a className="text-stone-500 hover:text-amber-600 transition-colors" href="#">About Us</a>
+<a className="text-stone-500 hover:text-amber-600 transition-colors" href="#">Services</a>
+<a className="text-stone-500 hover:text-amber-600 transition-colors" href="#">Privacy Policy</a>
+<a className="text-stone-500 hover:text-amber-600 transition-colors" href="#">Terms of Service</a>
+<a className="text-stone-500 hover:text-amber-600 transition-colors" href="#">Contact</a>
+</div>
+<div className="text-stone-500 text-[10px] uppercase tracking-[0.2em] opacity-80">
+  © 2024 PurrBook Editorial Pet Care. All rights reserved.
+</div>
+</div>
+</footer>
+    </>
+  );
+}
