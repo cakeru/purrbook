@@ -74,7 +74,7 @@ export default function ShopDetailsPage() {
                 <span className="bg-tertiary-container/20 text-tertiary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
                   Premium Care
                 </span>
-                <div className="flex items-center text-primary ml-auto">
+                <div className="flex items-center text-tertiary ml-auto">
                   <span
                     className="material-symbols-outlined text-sm"
                     style={{ fontVariationSettings: "'FILL' 1" }}
@@ -84,8 +84,8 @@ export default function ShopDetailsPage() {
                   <span className="text-sm font-bold ml-1">4.9</span>
                 </div>
               </div>
-              <h1 className="font-headline text-4xl font-bold text-on-surface tracking-tight mb-3 leading-tight">
-                The Amber Sanctuary
+              <h1 className="font-headline text-5xl md:text-7xl font-extrabold text-on-surface tracking-tight mb-3 leading-tight">
+                The Amber <span className="text-primary italic">Sanctuary.</span>
               </h1>
               <p className="text-on-surface-variant text-sm leading-relaxed mb-4">
                 A sensory-driven grooming experience designed for the modern pet. Where botanical
@@ -133,7 +133,7 @@ export default function ShopDetailsPage() {
           <div className="lg:col-span-2 space-y-16">
             {/* Gallery Section (Asymmetric) */}
             <div>
-              <h2 className="font-headline text-2xl font-extrabold mb-8 flex items-center gap-3">
+              <h2 className="font-headline text-2xl font-bold tracking-tight mb-8 flex items-center gap-3">
                 The Experience{" "}
                 <span className="h-px bg-outline-variant flex-grow opacity-30"></span>
               </h2>
@@ -177,7 +177,7 @@ export default function ShopDetailsPage() {
             </div>
             {/* Service List (Clean, No Dividers) */}
             <div>
-              <h2 className="font-headline text-2xl font-extrabold mb-8 flex items-center gap-3">
+              <h2 className="font-headline text-2xl font-bold tracking-tight mb-8 flex items-center gap-3">
                 Boutique Services{" "}
                 <span className="h-px bg-outline-variant flex-grow opacity-30"></span>
               </h2>

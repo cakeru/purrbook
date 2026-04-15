@@ -4,13 +4,50 @@ import { useState } from "react";
 
 type Variant = "card" | "button";
 
-export default function AddCompanionModal({ variant = "button" }: { variant?: Variant }) {
+export type Pet = {
+  name: string;
+  breed: string;
+  species: "dog" | "cat";
+  gender: "male" | "female";
+  age: string;
+  weight: string;
+  coatType: string;
+  notes: string;
+};
+
+export default function AddCompanionModal({
+  variant = "button",
+  onAdd,
+}: {
+  variant?: Variant;
+  onAdd?: (pet: Pet) => void;
+}) {
   const [open, setOpen] = useState(false);
   const [species, setSpecies] = useState<"dog" | "cat">("dog");
   const [gender, setGender] = useState<"male" | "female">("male");
+  const [name, setName] = useState("");
+  const [breed, setBreed] = useState("");
+  const [age, setAge] = useState("");
+  const [weight, setWeight] = useState("");
+  const [coatType, setCoatType] = useState("");
+  const [notes, setNotes] = useState("");
 
   function closeModal() {
     setOpen(false);
+  }
+
+  function handleAdd() {
+    if (!name.trim()) return;
+    onAdd?.({ name: name.trim(), breed, species, gender, age, weight, coatType, notes });
+    setName("");
+    setBreed("");
+    setAge("");
+    setWeight("");
+    setCoatType("");
+    setNotes("");
+    setSpecies("dog");
+    setGender("male");
+    closeModal();
   }
 
   return (
@@ -149,10 +186,12 @@ export default function AddCompanionModal({ variant = "button" }: { variant?: Va
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-2">
-                    Name
+                    Name <span className="text-red-400 ml-0.5">*</span>
                   </label>
                   <input
                     type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. Barnaby"
                     className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-3 text-on-surface font-body text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
                   />
@@ -163,6 +202,8 @@ export default function AddCompanionModal({ variant = "button" }: { variant?: Va
                   </label>
                   <input
                     type="text"
+                    value={breed}
+                    onChange={(e) => setBreed(e.target.value)}
                     placeholder={species === "dog" ? "e.g. Golden Retriever" : "e.g. Persian Cat"}
                     className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-3 text-on-surface font-body text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
                   />
@@ -198,6 +239,8 @@ export default function AddCompanionModal({ variant = "button" }: { variant?: Va
                     type="number"
                     min={0}
                     max={30}
+                    value={age}
+                    onChange={(e) => setAge(e.target.value)}
                     placeholder="e.g. 3"
                     className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-3 text-on-surface font-body text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
                   />
@@ -214,6 +257,8 @@ export default function AddCompanionModal({ variant = "button" }: { variant?: Va
                     <input
                       type="number"
                       min={0}
+                      value={weight}
+                      onChange={(e) => setWeight(e.target.value)}
                       placeholder="e.g. 28"
                       className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-3 text-on-surface font-body text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all pr-12"
                     />
@@ -231,6 +276,8 @@ export default function AddCompanionModal({ variant = "button" }: { variant?: Va
                   </label>
                   <input
                     type="text"
+                    value={coatType}
+                    onChange={(e) => setCoatType(e.target.value)}
                     placeholder="e.g. Double coat"
                     className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-3 text-on-surface font-body text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
                   />
@@ -247,6 +294,8 @@ export default function AddCompanionModal({ variant = "button" }: { variant?: Va
                 </label>
                 <textarea
                   rows={3}
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
                   placeholder="Any sensitivities, preferred handling techniques, or things your groomer should know…"
                   className="w-full bg-surface-container-low border border-outline-variant/30 rounded-lg px-4 py-3 text-on-surface font-body text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all resize-none leading-relaxed"
                 />
@@ -261,8 +310,9 @@ export default function AddCompanionModal({ variant = "button" }: { variant?: Va
                   Cancel
                 </button>
                 <button
-                  onClick={closeModal}
-                  className="flex-1 py-3.5 rounded-full bg-gradient-to-r from-primary to-primary-dim text-on-primary font-label font-bold tracking-wide uppercase active:scale-95 transition-all shadow-lg shadow-primary/20"
+                  onClick={handleAdd}
+                  disabled={!name.trim()}
+                  className="flex-1 py-3.5 rounded-full bg-gradient-to-r from-primary to-primary-dim text-on-primary font-label font-bold tracking-wide uppercase active:scale-95 transition-all shadow-lg shadow-primary/20 disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Add Companion
                 </button>
