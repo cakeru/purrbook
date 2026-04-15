@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import Map, { ShopMarker } from './Map';
+import Map, { ShopMarker } from "./Map";
 
 interface MapWrapperProps {
   center?: [number, number];

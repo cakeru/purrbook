@@ -1,6 +1,7 @@
 import Link from "next/link";
+import PaymentMethodSelector from "@/components/PaymentMethodSelector";
 
-export default function ScheduleConfirmPage() {
+export default function SchedulePaymentPage() {
   return (
     <>
       {/* TopNavBar */}
@@ -63,11 +64,10 @@ export default function ScheduleConfirmPage() {
         {/* Editorial Header */}
         <header className="mb-16">
           <h1 className="text-5xl md:text-7xl font-headline font-extrabold text-on-surface tracking-tight leading-tight">
-            Almost <span className="text-primary italic">There.</span>
+            Almost <span className="text-primary italic">Done.</span>
           </h1>
           <p className="text-on-surface-variant text-lg md:text-xl mt-4 max-w-2xl font-light">
-            Review your bespoke sanctuary reservation. One final touch before Barnaby's radiance is
-            restored.
+            One final step. Choose how you'd like to secure Barnaby's sanctuary moment.
           </p>
         </header>
 
@@ -109,10 +109,15 @@ export default function ScheduleConfirmPage() {
                   <h3 className="text-on-surface font-semibold">Reserve Moment</h3>
                 </div>
               </div>
-              {/* Step 03 — Active */}
+              {/* Step 03 — Complete */}
               <div className="flex items-center gap-6">
-                <div className="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold shadow-xl ring-4 ring-surface animate-pulse">
-                  03
+                <div className="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center text-on-tertiary-container font-bold shadow-sm ring-4 ring-surface">
+                  <span
+                    className="material-symbols-outlined"
+                    style={{ fontVariationSettings: "'FILL' 1" }}
+                  >
+                    check
+                  </span>
                 </div>
                 <div>
                   <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary">
@@ -121,45 +126,46 @@ export default function ScheduleConfirmPage() {
                   <h3 className="text-on-surface font-semibold">Confirm Care</h3>
                 </div>
               </div>
-              {/* Step 04 — Pending */}
-              <div className="flex items-center gap-6 opacity-40">
-                <div className="w-12 h-12 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-bold ring-4 ring-surface">
+              {/* Step 04 — Active */}
+              <div className="flex items-center gap-6">
+                <div className="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center font-bold shadow-xl ring-4 ring-surface animate-pulse">
                   04
                 </div>
                 <div>
-                  <p className="text-xs font-headline font-bold uppercase tracking-widest text-on-surface-variant">
+                  <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary">
                     Step 04
                   </p>
-                  <h3 className="text-on-surface-variant font-semibold">Secure Payment</h3>
+                  <h3 className="text-on-surface font-semibold">Secure Payment</h3>
                 </div>
               </div>
             </div>
           </aside>
 
-          {/* Main Form Column */}
+          {/* Main Content Column */}
           <section className="lg:col-span-6 space-y-10">
-            {/* Section 1 — Your Companion */}
+            {/* Section 1 — Order Summary */}
             <div className="bg-surface-container-low p-8 rounded-xl">
               <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary mb-6">
-                Your Companion
+                Order Summary
               </p>
-              <div className="flex items-center gap-6 bg-surface-container-lowest p-6 rounded-lg ring-2 ring-primary/20">
+
+              {/* Companion */}
+              <div className="flex items-center gap-6 bg-surface-container-lowest p-5 rounded-lg mb-6">
                 <img
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqPLXkvBImvBgNNsUjdng4AAKjaYGdFqtuMjNkth3AvE0-I7rl15nOw3OK6HjgSrDG0LlRmOVKuVMN_O81glZEttBwTv2sVGzDA9Rgr-mds3DoEkSu0Zg2Rg8pWCYJ5-uuu-djeMf3YI5WKuuzlUV8kOUm9ROWhnlkzmSkZkx9uu4cOWoEuRzbHYXd0w1C_S4Dj-m9KcDIMJYyf16pKM4V9LQEA9bJIvxUgqZD0TI9rvXQUg6KJ5_9wdSmPjmNOj0Pryufghzvzg7B"
                   alt="Barnaby"
                   data-alt="Close up of a golden retriever smiling in soft morning light in a cozy living room setting"
-                  className="w-20 h-20 rounded-xl object-cover shadow-md flex-shrink-0"
+                  className="w-16 h-16 rounded-xl object-cover shadow-md flex-shrink-0"
                 />
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-1">
-                    <h3 className="text-xl font-headline font-bold text-on-surface">Barnaby</h3>
+                    <h3 className="text-lg font-headline font-bold text-on-surface">Barnaby</h3>
                     <span className="inline-block px-3 py-1 rounded-full bg-tertiary-container text-on-tertiary-container font-label text-xs font-bold uppercase tracking-widest">
-                      Selected Companion
+                      Companion
                     </span>
                   </div>
-                  <p className="text-sm text-on-surface-variant">Golden Retriever · Male · 3 yrs</p>
-                  <p className="text-xs text-on-surface-variant/60 mt-1 italic">
-                    Grooming profile: double coat, gentle temperament
+                  <p className="text-sm text-on-surface-variant">
+                    Golden Retriever · The "Royal Bath" &amp; Silk Cut
                   </p>
                 </div>
                 <span
@@ -169,14 +175,9 @@ export default function ScheduleConfirmPage() {
                   check_circle
                 </span>
               </div>
-            </div>
 
-            {/* Section 2 — The Moment */}
-            <div className="bg-surface-container-low p-8 rounded-xl">
-              <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary mb-6">
-                The Moment
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Date / Time / Sanctuary */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div className="bg-surface-container-lowest p-5 rounded-lg text-center">
                   <span className="material-symbols-outlined text-primary text-2xl mb-2 block">
                     calendar_month
@@ -210,135 +211,90 @@ export default function ScheduleConfirmPage() {
                   <p className="text-xs text-on-surface-variant mt-0.5">San Vicente, Tarlac City</p>
                 </div>
               </div>
+
+              {/* Price Breakdown */}
+              <div className="bg-surface-container-lowest rounded-lg p-5 space-y-3">
+                <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-3">
+                  Price Breakdown
+                </p>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-on-surface-variant">Base Service</span>
+                  <span className="text-sm font-semibold">₱7,000.00</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-on-surface-variant">Grooming Materials</span>
+                  <span className="text-sm font-semibold">₱800.00</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-on-surface-variant">PurrBook Fee</span>
+                  <span className="text-sm font-semibold">₱400.00</span>
+                </div>
+                <div className="pt-3 border-t border-outline-variant/20 flex justify-between items-center text-primary">
+                  <span className="text-sm font-bold uppercase tracking-widest">Total</span>
+                  <span className="text-2xl font-headline font-extrabold">₱8,200.00</span>
+                </div>
+              </div>
             </div>
 
-            {/* Section 3 — Your Details */}
+            {/* Section 2 — Payment Method */}
             <div className="bg-surface-container-low p-8 rounded-xl">
               <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary mb-6">
-                Your Details
+                Choose Payment Method
               </p>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-2">
-                    Full Name
-                  </label>
-                  <input
-                    type="text"
-                    defaultValue="Maria Santos"
-                    className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-5 py-3.5 text-on-surface font-body text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
-                  />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-2">
-                      Phone
-                    </label>
-                    <input
-                      type="tel"
-                      defaultValue="+63 917 234 5678"
-                      className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-5 py-3.5 text-on-surface font-body text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-2">
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      defaultValue="maria.santos@email.com"
-                      className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-5 py-3.5 text-on-surface font-body text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
-                    />
-                  </div>
-                </div>
-              </div>
+              <PaymentMethodSelector />
             </div>
 
-            {/* Section 4 — Special Requests */}
-            <div className="bg-surface-container-low p-8 rounded-xl">
-              <div className="flex justify-between items-start mb-6">
-                <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary">
-                  Special Requests
-                </p>
-                <span className="text-xs text-on-surface-variant italic">Optional</span>
+            {/* Section 3 — Security Assurance */}
+            <div className="flex flex-wrap gap-3">
+              <div className="flex items-center gap-2 bg-surface-container-lowest rounded-full px-4 py-2 border border-outline-variant/10">
+                <span
+                  className="material-symbols-outlined text-primary text-base"
+                  style={{ fontVariationSettings: "'FILL' 1" }}
+                >
+                  lock
+                </span>
+                <span className="text-xs font-label font-bold text-on-surface">
+                  256-bit Encrypted
+                </span>
               </div>
-              <textarea
-                rows={4}
-                placeholder="Share any notes for your groomer — sensitivities, preferred techniques, or anything that would help us craft a perfect sanctuary experience for Barnaby..."
-                className="w-full bg-surface-container-lowest border border-outline-variant/30 rounded-lg px-5 py-4 text-on-surface font-body text-sm placeholder:text-on-surface-variant/40 focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all resize-none leading-relaxed"
-              />
-            </div>
-
-            {/* Section 5 — The PurrBook Promise */}
-            <div className="bg-surface-container-lowest border border-outline-variant/10 p-8 rounded-xl">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center flex-shrink-0">
-                  <span
-                    className="material-symbols-outlined text-on-tertiary-container"
-                    style={{ fontVariationSettings: "'FILL' 1" }}
-                  >
-                    verified_user
-                  </span>
-                </div>
-                <div>
-                  <h3 className="font-headline font-bold text-on-surface">The PurrBook Promise</h3>
-                  <p className="text-xs text-on-surface-variant mt-0.5">
-                    Every reservation is protected and guaranteed.
-                  </p>
-                </div>
+              <div className="flex items-center gap-2 bg-surface-container-lowest rounded-full px-4 py-2 border border-outline-variant/10">
+                <span
+                  className="material-symbols-outlined text-primary text-base"
+                  style={{ fontVariationSettings: "'FILL' 1" }}
+                >
+                  verified_user
+                </span>
+                <span className="text-xs font-label font-bold text-on-surface">
+                  PurrBook Guarantee
+                </span>
               </div>
-              <div className="space-y-5">
-                <div className="flex items-start gap-4">
-                  <span className="material-symbols-outlined text-primary text-base mt-0.5 flex-shrink-0">
-                    event_available
-                  </span>
-                  <div>
-                    <p className="text-sm font-bold text-on-surface">Free Cancellation</p>
-                    <p className="text-xs text-on-surface-variant leading-relaxed mt-0.5">
-                      Cancel or reschedule at no charge up to 24 hours before your session begins.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <span className="material-symbols-outlined text-primary text-base mt-0.5 flex-shrink-0">
-                    shield
-                  </span>
-                  <div>
-                    <p className="text-sm font-bold text-on-surface">Care Guarantee</p>
-                    <p className="text-xs text-on-surface-variant leading-relaxed mt-0.5">
-                      If your companion isn't treated to our editorial standard, we'll make it right
-                      — no questions asked.
-                    </p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <span className="material-symbols-outlined text-primary text-base mt-0.5 flex-shrink-0">
-                    lock
-                  </span>
-                  <div>
-                    <p className="text-sm font-bold text-on-surface">Secure Payment</p>
-                    <p className="text-xs text-on-surface-variant leading-relaxed mt-0.5">
-                      Your payment details are encrypted and never stored. Pay at the sanctuary on
-                      the day.
-                    </p>
-                  </div>
-                </div>
+              <div className="flex items-center gap-2 bg-surface-container-lowest rounded-full px-4 py-2 border border-outline-variant/10">
+                <span
+                  className="material-symbols-outlined text-primary text-base"
+                  style={{ fontVariationSettings: "'FILL' 1" }}
+                >
+                  shield
+                </span>
+                <span className="text-xs font-label font-bold text-on-surface">
+                  PCI-DSS Compliant
+                </span>
               </div>
             </div>
 
             {/* Bottom Row */}
             <div className="flex justify-between items-center pt-8 border-t border-outline-variant/10">
               <Link
-                href="/schedule"
+                href="/schedule/confirm"
                 className="flex items-center gap-2 text-on-surface-variant font-label text-sm uppercase tracking-widest hover:text-on-surface transition-colors active:scale-95"
               >
                 <span className="material-symbols-outlined text-sm">arrow_back</span>
-                Back to Timing
+                Back to Confirm
               </Link>
               <Link
-                href="/schedule/payment"
+                href="/schedule/confirmed"
                 className="bg-gradient-to-r from-primary to-primary-dim text-on-primary px-12 py-4 rounded-full font-label font-bold tracking-wide uppercase active:scale-95 transition-all shadow-lg shadow-primary/20"
               >
-                Proceed to Payment
+                Complete Reservation
               </Link>
             </div>
           </section>
@@ -399,7 +355,7 @@ export default function ScheduleConfirmPage() {
                   <span className="text-2xl font-headline font-extrabold">₱8,200.00</span>
                 </div>
                 <p className="text-[10px] text-on-surface-variant/60 italic text-right">
-                  *Finalize payment on the next step
+                  *Charged upon reservation confirmation
                 </p>
               </div>
             </div>
