@@ -5,10 +5,8 @@ import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import PaymentMethodSelector from "@/components/PaymentMethodSelector";
 
-const BARNABY_IMG =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuAqPLXkvBImvBgNNsUjdng4AAKjaYGdFqtuMjNkth3AvE0-I7rl15nOw3OK6HjgSrDG0LlRmOVKuVMN_O81glZEttBwTv2sVGzDA9Rgr-mds3DoEkSu0Zg2Rg8pWCYJ5-uuu-djeMf3YI5WKuuzlUV8kOUm9ROWhnlkzmSkZkx9uu4cOWoEuRzbHYXd0w1C_S4Dj-m9KcDIMJYyf16pKM4V9LQEA9bJIvxUgqZD0TI9rvXQUg6KJ5_9wdSmPjmNOj0Pryufghzvzg7B";
-const LUNA_IMG =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuA8gXkBB2zCRyHuJgng0VEl8TBTyvK8uhhA4p_2Wv5aD-W_F70oZX_bIJBpGenzMsR7GYGmkzWl46LWRMGnkvWnZ6WjTiHeXqeKZ1rfvUSF4rBg-toFHc3bNoBV158JmYisXNILjCeeMddzcloHxa_1fOmYh3oUAVWnvv3Dzy-j6woh5UCgukJohBO0CJw5yaidq8cJyLrpbNthJWsgd79Ahnp0OoSuHRWkhpoHAh8GfC1OiFpshz_Nt33Q8tESCGgD2PFQKogSjvLf";
+const BARNABY_IMG = "/pets/Barnaby.jpg";
+const LUNA_IMG = "/pets/Luna.jpg";
 
 function PaymentContent() {
   const searchParams = useSearchParams();

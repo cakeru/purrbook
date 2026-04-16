@@ -101,7 +101,7 @@ export default function BarnabysPage() {
             <div className="bg-surface-container-lowest border border-outline-variant/10 rounded-2xl overflow-hidden">
               <div className="overflow-hidden organic-mask-1 h-64">
                 <img
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqPLXkvBImvBgNNsUjdng4AAKjaYGdFqtuMjNkth3AvE0-I7rl15nOw3OK6HjgSrDG0LlRmOVKuVMN_O81glZEttBwTv2sVGzDA9Rgr-mds3DoEkSu0Zg2Rg8pWCYJ5-uuu-djeMf3YI5WKuuzlUV8kOUm9ROWhnlkzmSkZkx9uu4cOWoEuRzbHYXd0w1C_S4Dj-m9KcDIMJYyf16pKM4V9LQEA9bJIvxUgqZD0TI9rvXQUg6KJ5_9wdSmPjmNOj0Pryufghzvzg7B"
+                  src="/pets/Barnaby.jpg"
                   alt="Barnaby"
                   data-alt="Close up of a golden retriever smiling in soft morning light in a cozy living room setting"
                   className="w-full h-64 object-cover"

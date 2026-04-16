@@ -363,7 +363,7 @@ export default function SubscriptionsPage() {
                 <div className="flex items-center justify-between p-6 border-b border-outline-variant/10">
                   <div className="flex items-center gap-4">
                     <img
-                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqPLXkvBImvBgNNsUjdng4AAKjaYGdFqtuMjNkth3AvE0-I7rl15nOw3OK6HjgSrDG0LlRmOVKuVMN_O81glZEttBwTv2sVGzDA9Rgr-mds3DoEkSu0Zg2Rg8pWCYJ5-uuu-djeMf3YI5WKuuzlUV8kOUm9ROWhnlkzmSkZkx9uu4cOWoEuRzbHYXd0w1C_S4Dj-m9KcDIMJYyf16pKM4V9LQEA9bJIvxUgqZD0TI9rvXQUg6KJ5_9wdSmPjmNOj0Pryufghzvzg7B"
+                      src="/pets/Barnaby.jpg"
                       alt="Barnaby"
                       data-alt="Golden retriever close-up in warm light"
                       className="w-12 h-12 rounded-xl object-cover"

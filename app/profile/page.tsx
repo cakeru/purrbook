@@ -15,7 +15,7 @@ const SEED_COMPANIONS: (Pet & { image: string; href?: string })[] = [
     coatType: "Double coat",
     notes: "",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAqPLXkvBImvBgNNsUjdng4AAKjaYGdFqtuMjNkth3AvE0-I7rl15nOw3OK6HjgSrDG0LlRmOVKuVMN_O81glZEttBwTv2sVGzDA9Rgr-mds3DoEkSu0Zg2Rg8pWCYJ5-uuu-djeMf3YI5WKuuzlUV8kOUm9ROWhnlkzmSkZkx9uu4cOWoEuRzbHYXd0w1C_S4Dj-m9KcDIMJYyf16pKM4V9LQEA9bJIvxUgqZD0TI9rvXQUg6KJ5_9wdSmPjmNOj0Pryufghzvzg7B",
+      "/pets/Barnaby.jpg",
     href: "/pets/barnaby",
   },
   {
@@ -28,7 +28,7 @@ const SEED_COMPANIONS: (Pet & { image: string; href?: string })[] = [
     coatType: "Silky long coat",
     notes: "",
     image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuA8gXkBB2zCRyHuJgng0VEl8TBTyvK8uhhA4p_2Wv5aD-W_F70oZX_bIJBpGenzMsR7GYGmkzWl46LWRMGnkvWnZ6WjTiHeXqeKZ1rfvUSF4rBg-toFHc3bNoBV158JmYisXNILjCeeMddzcloHxa_1fOmYh3oUAVWnvv3Dzy-j6woh5UCgukJohBO0CJw5yaidq8cJyLrpbNthJWsgd79Ahnp0OoSuHRWkhpoHAh8GfC1OiFpshz_Nt33Q8tESCGgD2PFQKogSjvLf",
+      "/pets/Luna.jpg",
   },
 ];
 
@@ -246,7 +246,7 @@ export default function ProfilePage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <Link href="/shop-details" className="flex gap-4 p-3 rounded-xl border border-outline-variant/10 hover:border-primary bg-surface-container-lowest transition-all active:scale-95 group">
                     <img
-                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuCisizYA-UKaamDX6kW2add7sLhz-gimLA8hOCnbob3P_RE4FhUbTNHknE7mMITNtfW-VqTnESl5ig227WhCgc4NAEVgX5HBaRHi47Te7hJB66IomFrdyWErSzKLiQt4oZOdUkv12bD4bFMWDOrg8nAeAzZrNEPPCLgFyizmgYGt2Sy4hUID8LKfl9MyJ-zpowB5l9lpn64_KPngpltPs7vIXa-lvrqULibCFzIEbizpw6ZaDQsyO3DzMD-m1iyRVL5clEcZzuDKpR2"
+                      src="/studios/sniff-pet-salon-hotel.jpg"
                       alt="Sniff Pet Salon"
                       className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
                     />
@@ -264,7 +264,7 @@ export default function ProfilePage() {
                   </Link>
                   <Link href="/shop-details" className="flex gap-4 p-3 rounded-xl border border-outline-variant/10 hover:border-primary bg-surface-container-lowest transition-all active:scale-95 group">
                     <img
-                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuAD9OTcCHwYhTAYeRgmlAvpMCP6fXRTN6u4mniB5rO1-omCJkM-6ly7SySSvWMe8FmFFI6cJ0e31ova3gJI5I-37sLEDn0Hu_K2LEQ7ZnMHM0D5HObxgpcl5E2fDMCSImzIx09nqWxusRoQQRvsHO0hTlszDa-JgUXEZvzXYqkrZyESUmZDduAU5MNKxcz_PDRdgmz8k4hVtc5MiSFXMBAb51mRzjtFlltLo0-iEN9M14y0O_vvmJOHEXMjpOOio-sxNHeWH1x8Zu-D"
+                      src="/studios/vet-soucier-veterinary-grooming.jpg"
                       alt="Vet Soucier"
                       className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
                     />
@@ -282,7 +282,7 @@ export default function ProfilePage() {
                   </Link>
                   <Link href="/shop-details" className="flex gap-4 p-3 rounded-xl border border-outline-variant/10 hover:border-primary bg-surface-container-lowest transition-all active:scale-95 group">
                     <img
-                      src="https://lh3.googleusercontent.com/aida-public/AB6AXuDT48xD8i_fFqMT5oji6et_7cF6boFYVww5YaRsXMrEHRj1NFiKpAKnL6X1eDPkXbzL2WyVRsPlWv43hLuxMqD7mOp_iMTFPwXPS9RczIjUCo6zMV5vR9yBq8S8_6sqHva0glprtyCzgDfwqPqrcbg73UQPoH_q7jJC1eVFH1FwW_JLnwmy3cwHOOFxOrw1E-DfPdgz8EjgB8u1yzmPV7V1efwNvwP3rVCvlKlOUCUZ1n1KvcrJOIIVu1Vh4iI3Yvhl8FqFafpBR6yJ"
+                      src="/studios/petorria-animal-clinic-grooming.jpg"
                       alt="Petorria"
                       className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
                     />

@@ -18,6 +18,9 @@ const beVietnamPro = Be_Vietnam_Pro({
 export const metadata: Metadata = {
   title: "PurrBook | Premium Pet Grooming",
   description: "Discover editorial-grade grooming and curated pet care experiences.",
+  icons: {
+    icon: "/icon.png",
+  },
 };
 
 export default function RootLayout({
