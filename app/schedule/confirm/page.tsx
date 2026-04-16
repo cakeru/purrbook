@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
@@ -11,6 +12,7 @@ const LUNA_IMG =
 
 function ConfirmContent() {
   const searchParams = useSearchParams();
+  const [shareRecords, setShareRecords] = useState(false);
   const pet = searchParams.get("pet") || "Barnaby";
   const dateStr = searchParams.get("date") || "";
   const time = searchParams.get("time") || "11:15 AM";
@@ -200,7 +202,84 @@ function ConfirmContent() {
               />
             </div>
 
-            {/* Section 5 — The PurrBook Promise */}
+            {/* Section 5 — Share Care History */}
+            <div className="bg-surface-container-low p-8 rounded-xl">
+              <div className="flex items-start justify-between gap-6">
+                <div className="flex-1">
+                  <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary mb-1">
+                    Care History
+                  </p>
+                  <h3 className="font-headline font-bold text-on-surface text-base leading-snug mb-1">
+                    Share {pet}&apos;s records with The Amber Sanctuary
+                  </h3>
+                  <p className="text-xs text-on-surface-variant leading-relaxed">
+                    Allow the groomer to view {pet}&apos;s past visit history, coat notes, and service preferences before your session. Helps them deliver a more personalized experience.
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShareRecords((v) => !v)}
+                  className={`relative w-12 h-7 rounded-full transition-all flex-shrink-0 mt-1 active:scale-95 ${
+                    shareRecords ? "bg-primary" : "bg-surface-container-highest"
+                  }`}
+                >
+                  <span
+                    className={`absolute top-1.5 w-4 h-4 bg-white rounded-full shadow-sm transition-all ${
+                      shareRecords ? "left-7" : "left-1.5"
+                    }`}
+                  />
+                </button>
+              </div>
+
+              {shareRecords && (
+                <div className="mt-5 space-y-3">
+                  <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant">
+                    Records that will be shared
+                  </p>
+                  {[
+                    {
+                      date: "Nov 14, 2024",
+                      summary: "Royal Bath & Silk Cut",
+                      services: ["Full bath", "Silk cut", "Nail trim", "Ear cleaning"],
+                    },
+                    {
+                      date: "Jul 3, 2024",
+                      summary: "Full Groom + De-shed Treatment",
+                      services: ["Full bath", "Summer trim", "De-shed treatment"],
+                    },
+                  ].map((record) => (
+                    <div
+                      key={record.date}
+                      className="bg-surface-container-lowest rounded-xl p-4 flex items-start gap-3"
+                    >
+                      <span className="material-symbols-outlined text-primary text-base mt-0.5 flex-shrink-0" style={{ fontVariationSettings: "'FILL' 1" }}>content_cut</span>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between gap-2 mb-1.5">
+                          <p className="font-label font-bold text-sm text-on-surface">
+                            {record.summary}
+                          </p>
+                          <p className="text-xs text-on-surface-variant flex-shrink-0">{record.date}</p>
+                        </div>
+                        <div className="flex flex-wrap gap-1.5">
+                          {record.services.map((svc) => (
+                            <span
+                              key={svc}
+                              className="px-2 py-0.5 bg-surface-container rounded-full text-xs font-label text-on-surface-variant"
+                            >
+                              {svc}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <p className="text-[10px] text-on-surface-variant/60 italic">
+                    * Records are shared only with The Amber Sanctuary for this booking and are not stored by PurrBook.
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Section 6 — The PurrBook Promise */}
             <div className="bg-surface-container-lowest border border-outline-variant/10 p-8 rounded-xl">
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center flex-shrink-0">
