@@ -249,7 +249,7 @@ export default function HomePage() {
                     alt="Grooming Shop 1"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     data-alt="Interior of a luxury pet grooming studio with white marble counters, brass hardware, and minimalist wooden shelving"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCisizYA-UKaamDX6kW2add7sLhz-gimLA8hOCnbob3P_RE4FhUbTNHknE7mMITNtfW-VqTnESl5ig227WhCgc4NAEVgX5HBaRHi47Te7hJB66IomFrdyWErSzKLiQt4oZOdUkv12bD4bFMWDOrg8nAeAzZrNEPPCLgFyizmgYGt2Sy4hUID8LKfl9MyJ-zpowB5l9lpn64_KPngpltPs7vIXa-lvrqULibCFzIEbizpw6ZaDQsyO3DzMD-m1iyRVL5clEcZzuDKpR2"
+                    src="/studios/sniff-pet-salon-hotel.jpg"
                   />
                   <div className="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-primary tracking-widest uppercase">
                     San Vicente
@@ -287,7 +287,7 @@ export default function HomePage() {
                     alt="Grooming Shop 2"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     data-alt="A stylish modern dog grooming station with sleek metal tubs and designer pet hair products in aesthetic packaging"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAD9OTcCHwYhTAYeRgmlAvpMCP6fXRTN6u4mniB5rO1-omCJkM-6ly7SySSvWMe8FmFFI6cJ0e31ova3gJI5I-37sLEDn0Hu_K2LEQ7ZnMHM0D5HObxgpcl5E2fDMCSImzIx09nqWxusRoQQRvsHO0hTlszDa-JgUXEZvzXYqkrZyESUmZDduAU5MNKxcz_PDRdgmz8k4hVtc5MiSFXMBAb51mRzjtFlltLo0-iEN9M14y0O_vvmJOHEXMjpOOio-sxNHeWH1x8Zu-D"
+                    src="/studios/pet-station-grooming-salon.jpg"
                   />
                   <div className="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-primary tracking-widest uppercase">
                     San Sebastian
@@ -325,7 +325,7 @@ export default function HomePage() {
                     alt="Grooming Shop 3"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     data-alt="Cozy pet boutique interior with soft ambient lighting and premium pet accessories displayed on floating wooden shelves"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDT48xD8i_fFqMT5oji6et_7cF6boFYVww5YaRsXMrEHRj1NFiKpAKnL6X1eDPkXbzL2WyVRsPlWv43hLuxMqD7mOp_iMTFPwXPS9RczIjUCo6zMV5vR9yBq8S8_6sqHva0glprtyCzgDfwqPqrcbg73UQPoH_q7jJC1eVFH1FwW_JLnwmy3cwHOOFxOrw1E-DfPdgz8EjgB8u1yzmPV7V1efwNvwP3rVCvlKlOUCUZ1n1KvcrJOIIVu1Vh4iI3Yvhl8FqFafpBR6yJ"
+                    src="/studios/st-bernards-pet-shop.jpg"
                   />
                   <div className="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-primary tracking-widest uppercase">
                     Sto. Cristo
@@ -535,13 +535,13 @@ export default function HomePage() {
                   alt="Pet Care 1"
                   className="rounded-lg shadow-xl aspect-square object-cover -rotate-3"
                   data-alt="Close up of a fluffy dog being pampered with a soft brush, warm natural lighting"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0qcnwFYbc_nzYJkqynwTAzSx6SnCKLAEgSARRFttejTGRAb4lrZlxcBA9sHXkg4h5EtUg3cZ07OyXiorXExpxYHVzVmhTLbgQ1dmVhOJ90klSWJ0aco5m2IXabHW0DwJHttGyOHJqeozyPk18FP67WXZCdHJSsQQ3oIGaNKj9uRnMMWtT1UiHil3chZ2PBMHV0gsn3aexJ2W-8voQrvoMqFlLOB0NPO6bdGKap7UKBiZJXVTmWRoKqBBDdCBO07lVCun5bk8vz4UI"
+                  src="/editorial/editorial1.png"
                 />
                 <img
                   alt="Pet Care 2"
                   className="rounded-lg shadow-xl aspect-square object-cover translate-y-8 rotate-3"
                   data-alt="A small white dog wearing a designer pet sweater looking stylish in a modern living room"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4jqSgPunvVRkNj0vOc1AlfTPoo77VIXqeAPW8cWlvQoqOPr3BP3bASu0ns-0Q3mczSAZJsp8bFI7GnJTGPxTntIAJTW4R_dzV4qAwhvZ6auUH-6A3wEBsv9tL65cdhg24MtR-wOEKMVGY3jAd_oaizs348uc_UOQZXeN5wwi-dYx9MOnzWenjgObrv4Y9QCmn9OAVUNN6JDU1qaphIO0ItEfi-4nilNsuXzj_MYcsKDHUfd1XSs1drcfhoN6DILCgDLmIHYNxZgla"
+                  src="/editorial/editorial2.jpg"
                 />
               </div>
             </div>

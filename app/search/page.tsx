@@ -36,8 +36,7 @@ const TARLAC_SHOPS: Shop[] = [
     price: "From ₱6,800",
     services: ["Grooming", "Boarding"],
     amenities: ["Live Camera", "Luxury Suite", "Organic Treats"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuA5aMG7PkZKuqy9TcX-YwdIgbHiIoRuyAq2DjVVf3NEs9tyvPlOo9_FUaA3cGuVd86Au6vVYB89SyWXPV1aYSH3_iOcQO28K-oCO5RZcGWKcdcGM39cl_TqCcwDowUeW3ktWQjQlXH-hJbEVHPq1IjpkO4W-mdYXGKql6dm56XrYr0hF_3EMS-bD5aQDlzUYMwEjz0_Xv3uZaw-1oZGA5OOZ1GyICSSSzwRE7exi0LBXn3sGmlTy2mPeVEsDQhfuVM90AbQX6w_YgGh",
+    image: "/studios/sniff-pet-salon-hotel.jpg",
     featured: true,
   },
   {
@@ -54,8 +53,7 @@ const TARLAC_SHOPS: Shop[] = [
     price: "From ₱3,200",
     services: ["Grooming", "Training"],
     amenities: ["Organic Treats"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCisizYA-UKaamDX6kW2add7sLhz-gimLA8hOCnbob3P_RE4FhUbTNHknE7mMITNtfW-VqTnESl5ig227WhCgc4NAEVgX5HBaRHi47Te7hJB66IomFrdyWErSzKLiQt4oZOdUkv12bD4bFMWDOrg8nAeAzZrNEPPCLgFyizmgYGt2Sy4hUID8LKfl9MyJ-zpowB5l9lpn64_KPngpltPs7vIXa-lvrqULibCFzIEbizpw6ZaDQsyO3DzMD-m1iyRVL5clEcZzuDKpR2",
+    image: "/studios/pet-station-grooming-salon.jpg",
   },
   {
     id: 2,
@@ -71,8 +69,7 @@ const TARLAC_SHOPS: Shop[] = [
     price: "From ₱2,800",
     services: ["Grooming"],
     amenities: ["Organic Treats"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDT48xD8i_fFqMT5oji6et_7cF6boFYVww5YaRsXMrEHRj1NFiKpAKnL6X1eDPkXbzL2WyVRsPlWv43hLuxMqD7mOp_iMTFPwXPS9RczIjUCo6zMV5vR9yBq8S8_6sqHva0glprtyCzgDfwqPqrcbg73UQPoH_q7jJC1eVFH1FwW_JLnwmy3cwHOOFxOrw1E-DfPdgz8EjgB8u1yzmPV7V1efwNvwP3rVCvlKlOUCUZ1n1KvcrJOIIVu1Vh4iI3Yvhl8FqFafpBR6yJ",
+    image: "/studios/st-bernards-pet-shop.jpg",
   },
   {
     id: 3,
@@ -88,8 +85,7 @@ const TARLAC_SHOPS: Shop[] = [
     price: "From ₱2,500",
     services: ["Grooming", "Therapy"],
     amenities: ["Live Camera"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAD9OTcCHwYhTAYeRgmlAvpMCP6fXRTN6u4mniB5rO1-omCJkM-6ly7SySSvWMe8FmFFI6cJ0e31ova3gJI5I-37sLEDn0Hu_K2LEQ7ZnMHM0D5HObxgpcl5E2fDMCSImzIx09nqWxusRoQQRvsHO0hTlszDa-JgUXEZvzXYqkrZyESUmZDduAU5MNKxcz_PDRdgmz8k4hVtc5MiSFXMBAb51mRzjtFlltLo0-iEN9M14y0O_vvmJOHEXMjpOOio-sxNHeWH1x8Zu-D",
+    image: "/studios/paws-furs-animal-clinic.jpg",
   },
   {
     id: 4,
@@ -105,8 +101,7 @@ const TARLAC_SHOPS: Shop[] = [
     price: "From ₱1,800",
     services: ["Grooming"],
     amenities: ["Organic Treats"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCax9xrHUKSV0jb9-W7slGUygZjNXvdACyRuRtImSstGKH_eJk_ilV5RlFsoM21d7M-Y12J2OXchJZw6mv9xVeA-nhD4cMei6dvpZHIvGivHg3mGa1yKuREB2MP5SeRoJvUh6z7HgR32x1AmDEYNsi-CVaZc-mDGULM-7cf12i41OktYR-0LkyhRbOTsh1DFTUipUKwfhmBF2s0u_rBYvAlQRTdFfTHkdAwXzGTsgyr0_wK6Z-ZFYwk9vNTdkpW8obC-AmVcIBxf2Vg",
+    image: "/studios/puffs-n-furr-pet-grooming.jpg",
   },
   {
     id: 5,
@@ -122,8 +117,7 @@ const TARLAC_SHOPS: Shop[] = [
     price: "From ₱3,500",
     services: ["Grooming", "Therapy"],
     amenities: ["Live Camera"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDeDLCsZCI5xub3OrGKUTxV0eG-cgsl0rkIXo2JOwMB2BGWCZ88TofPNWIoT3g4tdTOJnEYbCGVleiwbRkH6rP-hayYcdr0Nx51txyfvprckoDWxplHGMKYBqZGX59qc4xt0VKjnqp5NerDwyU2KihXK_-baUS6nofeU2RSiPvRMeiakqm804YLgJNM3gt_tuBJpIM201nVLy1kHQzxKTz714Fa_fJofZAmeEtzpR7_PXOmonww1szQZ1FeORmYECRUNhJEcwv2PL-Y",
+    image: "/studios/vet-soucier-veterinary-grooming.jpg",
   },
   {
     id: 6,
@@ -139,8 +133,7 @@ const TARLAC_SHOPS: Shop[] = [
     price: "From ₱4,000",
     services: ["Grooming", "Therapy"],
     amenities: ["Live Camera", "Organic Treats"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCax9xrHUKSV0jb9-W7slGUygZjNXvdACyRuRtImSstGKH_eJk_ilV5RlFsoM21d7M-Y12J2OXchJZw6mv9xVeA-nhD4cMei6dvpZHIvGivHg3mGa1yKuREB2MP5SeRoJvUh6z7HgR32x1AmDEYNsi-CVaZc-mDGULM-7cf12i41OktYR-0LkyhRbOTsh1DFTUipUKwfhmBF2s0u_rBYvAlQRTdFfTHkdAwXzGTsgyr0_wK6Z-ZFYwk9vNTdkpW8obC-AmVcIBxf2Vg",
+    image: "/studios/petvetgo-animal-clinic-wellness.jpg",
   },
   {
     id: 7,
@@ -156,8 +149,7 @@ const TARLAC_SHOPS: Shop[] = [
     price: "From ₱2,200",
     services: ["Grooming"],
     amenities: ["Organic Treats"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDT48xD8i_fFqMT5oji6et_7cF6boFYVww5YaRsXMrEHRj1NFiKpAKnL6X1eDPkXbzL2WyVRsPlWv43hLuxMqD7mOp_iMTFPwXPS9RczIjUCo6zMV5vR9yBq8S8_6sqHva0glprtyCzgDfwqPqrcbg73UQPoH_q7jJC1eVFH1FwW_JLnwmy3cwHOOFxOrw1E-DfPdgz8EjgB8u1yzmPV7V1efwNvwP3rVCvlKlOUCUZ1n1KvcrJOIIVu1Vh4iI3Yvhl8FqFafpBR6yJ",
+    image: "/studios/chimichooms-ph.jpg",
   },
   {
     id: 8,
@@ -173,8 +165,7 @@ const TARLAC_SHOPS: Shop[] = [
     price: "From ₱1,500",
     services: ["Grooming"],
     amenities: ["Organic Treats"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuAD9OTcCHwYhTAYeRgmlAvpMCP6fXRTN6u4mniB5rO1-omCJkM-6ly7SySSvWMe8FmFFI6cJ0e31ova3gJI5I-37sLEDn0Hu_K2LEQ7ZnMHM0D5HObxgpcl5E2fDMCSImzIx09nqWxusRoQQRvsHO0hTlszDa-JgUXEZvzXYqkrZyESUmZDduAU5MNKxcz_PDRdgmz8k4hVtc5MiSFXMBAb51mRzjtFlltLo0-iEN9M14y0O_vvmJOHEXMjpOOio-sxNHeWH1x8Zu-D",
+    image: "/studios/paws-claws-pet-supplies.png",
   },
   {
     id: 9,
@@ -190,8 +181,7 @@ const TARLAC_SHOPS: Shop[] = [
     price: "From ₱3,000",
     services: ["Grooming", "Therapy"],
     amenities: ["Live Camera"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDeDLCsZCI5xub3OrGKUTxV0eG-cgsl0rkIXo2JOwMB2BGWCZ88TofPNWIoT3g4tdTOJnEYbCGVleiwbRkH6rP-hayYcdr0Nx51txyfvprckoDWxplHGMKYBqZGX59qc4xt0VKjnqp5NerDwyU2KihXK_-baUS6nofeU2RSiPvRMeiakqm804YLgJNM3gt_tuBJpIM201nVLy1kHQzxKTz714Fa_fJofZAmeEtzpR7_PXOmonww1szQZ1FeORmYECRUNhJEcwv2PL-Y",
+    image: "/studios/petorria-animal-clinic-grooming.jpg",
   },
   {
     id: 10,
@@ -207,8 +197,7 @@ const TARLAC_SHOPS: Shop[] = [
     price: "From ₱1,200",
     services: ["Grooming", "Boarding"],
     amenities: ["Organic Treats"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCisizYA-UKaamDX6kW2add7sLhz-gimLA8hOCnbob3P_RE4FhUbTNHknE7mMITNtfW-VqTnESl5ig227WhCgc4NAEVgX5HBaRHi47Te7hJB66IomFrdyWErSzKLiQt4oZOdUkv12bD4bFMWDOrg8nAeAzZrNEPPCLgFyizmgYGt2Sy4hUID8LKfl9MyJ-zpowB5l9lpn64_KPngpltPs7vIXa-lvrqULibCFzIEbizpw6ZaDQsyO3DzMD-m1iyRVL5clEcZzuDKpR2",
+    image: "/studios/matias-pet-shop.png",
   },
   {
     id: 11,
@@ -224,8 +213,7 @@ const TARLAC_SHOPS: Shop[] = [
     price: "From ₱900",
     services: ["Grooming"],
     amenities: [],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCax9xrHUKSV0jb9-W7slGUygZjNXvdACyRuRtImSstGKH_eJk_ilV5RlFsoM21d7M-Y12J2OXchJZw6mv9xVeA-nhD4cMei6dvpZHIvGivHg3mGa1yKuREB2MP5SeRoJvUh6z7HgR32x1AmDEYNsi-CVaZc-mDGULM-7cf12i41OktYR-0LkyhRbOTsh1DFTUipUKwfhmBF2s0u_rBYvAlQRTdFfTHkdAwXzGTsgyr0_wK6Z-ZFYwk9vNTdkpW8obC-AmVcIBxf2Vg",
+    image: "/studios/jd-petshop.jpg",
   },
   {
     id: 12,
@@ -241,8 +229,7 @@ const TARLAC_SHOPS: Shop[] = [
     price: "From ₱2,800",
     services: ["Grooming", "Boarding", "Training", "Therapy"],
     amenities: ["Live Camera", "Luxury Suite"],
-    image:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDT48xD8i_fFqMT5oji6et_7cF6boFYVww5YaRsXMrEHRj1NFiKpAKnL6X1eDPkXbzL2WyVRsPlWv43hLuxMqD7mOp_iMTFPwXPS9RczIjUCo6zMV5vR9yBq8S8_6sqHva0glprtyCzgDfwqPqrcbg73UQPoH_q7jJC1eVFH1FwW_JLnwmy3cwHOOFxOrw1E-DfPdgz8EjgB8u1yzmPV7V1efwNvwP3rVCvlKlOUCUZ1n1KvcrJOIIVu1Vh4iI3Yvhl8FqFafpBR6yJ",
+    image: "/studios/angeles-pet-care-center-tarlac.jpg",
   },
 ];
 
