@@ -3,235 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import MapWrapper from "@/components/MapWrapper";
-
-type Shop = {
-  id: number;
-  position: [number, number];
-  label: string;
-  rating: number;
-  distance: string;
-  hours: string;
-  href: string;
-  category: string;
-  description: string;
-  price: string;
-  services: string[];
-  amenities: string[];
-  image: string;
-  featured?: boolean;
-};
-
-const TARLAC_SHOPS: Shop[] = [
-  {
-    id: 0,
-    position: [15.478, 120.592],
-    label: "Sniff Pet Salon & Hotel",
-    rating: 4.9,
-    distance: "0.5",
-    hours: "Open until 7PM",
-    href: "/shop-details/sniff-pet-salon-hotel",
-    category: "Full-Service Hotel",
-    description:
-      "Full-service pet salon and hotel in Tarlac City — grooming, boarding, and daycare all under one roof.",
-    price: "From ₱450",
-    services: ["Grooming", "Boarding"],
-    amenities: ["Live Camera", "Luxury Suite", "Organic Treats"],
-    image: "/studios/sniff-pet-salon-hotel.jpg",
-    featured: true,
-  },
-  {
-    id: 1,
-    position: [15.4765, 120.602],
-    label: "Pet Station Grooming Salon",
-    rating: 4.7,
-    distance: "0.7",
-    hours: "Open until 6PM",
-    href: "/shop-details/pet-station-grooming-salon",
-    category: "San Sebastian",
-    description:
-      "Professional grooming services with expert stylists trained in breed-specific cuts and premium treatments.",
-    price: "From ₱480",
-    services: ["Grooming", "Training"],
-    amenities: ["Organic Treats"],
-    image: "/studios/pet-station-grooming-salon.jpg",
-  },
-  {
-    id: 2,
-    position: [15.47, 120.589],
-    label: "St. Bernard's Pet Shop",
-    rating: 4.8,
-    distance: "1.5",
-    hours: "Open until 8PM",
-    href: "/shop-details/st-bernards-pet-shop",
-    category: "Boutique Shop",
-    description:
-      "Cozy pet boutique offering premium grooming, curated pet accessories, and personalized care for all breeds.",
-    price: "From ₱400",
-    services: ["Grooming"],
-    amenities: ["Organic Treats"],
-    image: "/studios/st-bernards-pet-shop.jpg",
-  },
-  {
-    id: 3,
-    position: [15.475, 120.597],
-    label: "Paws & Furs Animal Clinic",
-    rating: 4.6,
-    distance: "0.2",
-    hours: "Open until 6PM",
-    href: "/shop-details/paws-furs-animal-clinic",
-    category: "Sto. Cristo",
-    description:
-      "Animal clinic offering wellness checks, vaccinations, and professional grooming all in one convenient location.",
-    price: "From ₱450",
-    services: ["Grooming", "Therapy"],
-    amenities: ["Live Camera"],
-    image: "/studios/paws-furs-animal-clinic.jpg",
-  },
-  {
-    id: 4,
-    position: [15.481, 120.599],
-    label: "Pups n Furr Pet Grooming",
-    rating: 4.5,
-    distance: "0.8",
-    hours: "Open until 5PM",
-    href: "/shop-details/puffs-n-furr-pet-grooming",
-    category: "Boutique Grooming",
-    description:
-      "Friendly neighborhood grooming with gentle handling and personalized care for all breeds and sizes.",
-    price: "From ₱420",
-    services: ["Grooming"],
-    amenities: ["Organic Treats"],
-    image: "/studios/puffs-n-furr-pet-grooming.jpg",
-  },
-  {
-    id: 5,
-    position: [15.473, 120.594],
-    label: "Vet Soucier Veterinary & Grooming",
-    rating: 4.8,
-    distance: "0.4",
-    hours: "Open until 7PM",
-    href: "/shop-details/vet-soucier-veterinary-grooming",
-    category: "Veterinary & Grooming",
-    description:
-      "Combined veterinary clinic and grooming center offering comprehensive pet health and beauty care.",
-    price: "From ₱480",
-    services: ["Grooming", "Therapy"],
-    amenities: ["Live Camera"],
-    image: "/studios/vet-soucier-veterinary-grooming.jpg",
-  },
-  {
-    id: 6,
-    position: [15.479, 120.604],
-    label: "Petvetgo Animal Clinic & Wellness",
-    rating: 4.9,
-    distance: "0.9",
-    hours: "Open until 6PM",
-    href: "/shop-details/petvetgo-animal-clinic-wellness",
-    category: "Animal Wellness",
-    description:
-      "Modern animal clinic focused on preventive care, grooming, and holistic wellness treatments.",
-    price: "From ₱500",
-    services: ["Grooming", "Therapy"],
-    amenities: ["Live Camera", "Organic Treats"],
-    image: "/studios/petvetgo-animal-clinic-wellness.jpg",
-  },
-  {
-    id: 7,
-    position: [15.474, 120.591],
-    label: "CHIMICHOOMS PH",
-    rating: 4.7,
-    distance: "0.6",
-    hours: "Open until 7PM",
-    href: "/shop-details/chimichooms-ph",
-    category: "Boutique Grooming",
-    description:
-      "Trendy boutique grooming salon known for creative styling and gentle breed-specific treatments.",
-    price: "From ₱450",
-    services: ["Grooming"],
-    amenities: ["Organic Treats"],
-    image: "/studios/chimichooms-ph.jpg",
-  },
-  {
-    id: 8,
-    position: [15.482, 120.595],
-    label: "Paws & Claws Pet Supplies",
-    rating: 4.6,
-    distance: "0.8",
-    hours: "Open until 6PM",
-    href: "/shop-details/paws-claws-pet-supplies",
-    category: "Pet Supplies & Grooming",
-    description:
-      "One-stop shop for premium pet supplies, grooming services, and expert pet care advice.",
-    price: "From ₱400",
-    services: ["Grooming"],
-    amenities: ["Organic Treats"],
-    image: "/studios/paws-claws-pet-supplies.png",
-  },
-  {
-    id: 9,
-    position: [15.477, 120.598],
-    label: "Petorria Animal Clinic & Grooming",
-    rating: 4.8,
-    distance: "0.3",
-    hours: "Open until 7PM",
-    href: "/shop-details/petorria-animal-clinic-grooming",
-    category: "Clinic & Grooming",
-    description:
-      "Trusted animal clinic combining veterinary services with professional grooming and wellness care.",
-    price: "From ₱460",
-    services: ["Grooming", "Therapy"],
-    amenities: ["Live Camera"],
-    image: "/studios/petorria-animal-clinic-grooming.jpg",
-  },
-  {
-    id: 10,
-    position: [15.471, 120.601],
-    label: "Matias Pet Shop",
-    rating: 4.5,
-    distance: "1.1",
-    hours: "Open until 6PM",
-    href: "/shop-details/matias-pet-shop",
-    category: "Pet Shop & Grooming",
-    description:
-      "Family-run pet shop with affordable grooming services, pet accessories, and knowledgeable staff.",
-    price: "From ₱400",
-    services: ["Grooming", "Boarding"],
-    amenities: ["Organic Treats"],
-    image: "/studios/matias-pet-shop.png",
-  },
-  {
-    id: 11,
-    position: [15.48, 120.588],
-    label: "J.&.D Petshop",
-    rating: 4.4,
-    distance: "0.7",
-    hours: "Open until 5PM",
-    href: "/shop-details/jd-petshop",
-    category: "Pet Shop",
-    description:
-      "Budget-friendly pet shop and grooming center with reliable services for everyday pet care needs.",
-    price: "From ₱380",
-    services: ["Grooming"],
-    amenities: [],
-    image: "/studios/jd-petshop.jpg",
-  },
-  {
-    id: 12,
-    position: [15.483, 120.603],
-    label: "Angeles Pet Care Center Tarlac",
-    rating: 4.7,
-    distance: "1.0",
-    hours: "Open until 7PM",
-    href: "/shop-details/angeles-pet-care-center-tarlac",
-    category: "Full-Service Pet Care",
-    description:
-      "Comprehensive pet care center offering grooming, boarding, training, and veterinary consultations.",
-    price: "From ₱490",
-    services: ["Grooming", "Boarding", "Training", "Therapy"],
-    amenities: ["Live Camera", "Luxury Suite"],
-    image: "/studios/angeles-pet-care-center-tarlac.jpg",
-  },
-];
+import { SHOPS, MAP_MARKERS } from "@/lib/shops";
 
 const SERVICE_TYPES = ["Grooming", "Boarding", "Therapy", "Training"];
 const AMENITY_OPTIONS = [
@@ -239,16 +11,6 @@ const AMENITY_OPTIONS = [
   { key: "Live Camera", label: "24/7 Live Camera Access" },
   { key: "Luxury Suite", label: "Luxury Suite Upgrades" },
 ];
-
-// Map data for the Leaflet component (same positions, no extra fields needed)
-const MAP_SHOPS = TARLAC_SHOPS.map((s) => ({
-  position: s.position,
-  label: s.label,
-  rating: s.rating,
-  distance: s.distance + " km",
-  hours: s.hours,
-  href: s.href,
-}));
 
 export default function SearchPage() {
   const [activeService, setActiveService] = useState<string | null>(null);
@@ -266,7 +28,7 @@ export default function SearchPage() {
   }
 
   const filteredShops = useMemo(() => {
-    return TARLAC_SHOPS.filter((shop) => {
+    return SHOPS.filter((shop) => {
       if (locationQuery && !shop.label.toLowerCase().includes(locationQuery.toLowerCase())) {
         return false;
       }
@@ -306,7 +68,7 @@ export default function SearchPage() {
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-4 text-stone-600 dark:text-stone-400">
               <span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">notifications</span>
-              <span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">pets</span>
+              <Link href="/messages"><span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">inbox</span></Link>
             </div>
             <Link href="/search" className="bg-gradient-to-r from-primary to-primary-dim text-on-primary px-8 py-3 rounded-full font-label font-bold tracking-wide active:scale-95 transition-all shadow-lg shadow-primary/20">
               Book Now
@@ -445,7 +207,7 @@ export default function SearchPage() {
             {/* Map View */}
             {showMap && (
               <div className="mb-10 rounded-2xl overflow-hidden border border-outline-variant/10 shadow-sm" style={{ height: 400 }}>
-                <MapWrapper markers={MAP_SHOPS} />
+                <MapWrapper markers={MAP_MARKERS} />
               </div>
             )}
 

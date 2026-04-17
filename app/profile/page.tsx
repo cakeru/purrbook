@@ -3,34 +3,20 @@
 import { useState } from "react";
 import Link from "next/link";
 import AddCompanionModal, { type Pet } from "@/components/AddCompanionModal";
+import { PETS } from "@/lib/pets";
 
-const SEED_COMPANIONS: (Pet & { image: string; href?: string })[] = [
-  {
-    name: "Barnaby",
-    breed: "Golden Retriever",
-    species: "dog",
-    gender: "male",
-    age: "3",
-    weight: "28",
-    coatType: "Double coat",
-    notes: "",
-    image:
-      "/pets/Barnaby.jpg",
-    href: "/pets/barnaby",
-  },
-  {
-    name: "Luna",
-    breed: "Persian Cat",
-    species: "cat",
-    gender: "female",
-    age: "2",
-    weight: "4",
-    coatType: "Silky long coat",
-    notes: "",
-    image:
-      "/pets/Luna.jpg",
-  },
-];
+const SEED_COMPANIONS: (Pet & { image: string; href?: string })[] = PETS.map((p) => ({
+  name: p.name,
+  breed: p.breed,
+  species: p.species,
+  gender: p.gender,
+  age: p.age,
+  weight: p.weight,
+  coatType: p.coatType,
+  notes: "",
+  image: p.image,
+  href: `/pets/${p.id}`,
+}));
 
 export default function ProfilePage() {
   const [companions, setCompanions] = useState(SEED_COMPANIONS);
@@ -61,7 +47,7 @@ export default function ProfilePage() {
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-4 text-stone-600 dark:text-stone-400">
               <span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">notifications</span>
-              <span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">pets</span>
+              <Link href="/messages"><span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">inbox</span></Link>
             </div>
             <Link href="/search" className="bg-gradient-to-r from-primary to-primary-dim text-on-primary px-8 py-3 rounded-full font-label font-bold tracking-wide active:scale-95 transition-all shadow-lg shadow-primary/20">
               Book Now
@@ -244,7 +230,7 @@ export default function ProfilePage() {
                   <Link href="/search" className="text-primary font-label text-xs font-bold uppercase tracking-widest hover:underline">Discover More</Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Link href="/shop-details" className="flex gap-4 p-3 rounded-xl border border-outline-variant/10 hover:border-primary bg-surface-container-lowest transition-all active:scale-95 group">
+                  <Link href="/shop-details/sniff-pet-salon-hotel" className="flex gap-4 p-3 rounded-xl border border-outline-variant/10 hover:border-primary bg-surface-container-lowest transition-all active:scale-95 group">
                     <img
                       src="/studios/sniff-pet-salon-hotel.jpg"
                       alt="Sniff Pet Salon"
@@ -262,7 +248,7 @@ export default function ProfilePage() {
                     </div>
                     <span className="material-symbols-outlined text-on-surface-variant ml-auto self-center flex-shrink-0 text-base group-hover:text-primary transition-colors">chevron_right</span>
                   </Link>
-                  <Link href="/shop-details" className="flex gap-4 p-3 rounded-xl border border-outline-variant/10 hover:border-primary bg-surface-container-lowest transition-all active:scale-95 group">
+                  <Link href="/shop-details/vet-soucier-veterinary-grooming" className="flex gap-4 p-3 rounded-xl border border-outline-variant/10 hover:border-primary bg-surface-container-lowest transition-all active:scale-95 group">
                     <img
                       src="/studios/vet-soucier-veterinary-grooming.jpg"
                       alt="Vet Soucier"
@@ -280,7 +266,7 @@ export default function ProfilePage() {
                     </div>
                     <span className="material-symbols-outlined text-on-surface-variant ml-auto self-center flex-shrink-0 text-base group-hover:text-primary transition-colors">chevron_right</span>
                   </Link>
-                  <Link href="/shop-details" className="flex gap-4 p-3 rounded-xl border border-outline-variant/10 hover:border-primary bg-surface-container-lowest transition-all active:scale-95 group">
+                  <Link href="/shop-details/petorria-animal-clinic-grooming" className="flex gap-4 p-3 rounded-xl border border-outline-variant/10 hover:border-primary bg-surface-container-lowest transition-all active:scale-95 group">
                     <img
                       src="/studios/petorria-animal-clinic-grooming.jpg"
                       alt="Petorria"

@@ -45,9 +45,7 @@ export default function SubscriptionsPage() {
               <span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">
                 notifications
               </span>
-              <span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">
-                pets
-              </span>
+              <Link href="/messages"><span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">inbox</span></Link>
             </div>
             <Link
               href="/search"

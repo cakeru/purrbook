@@ -1,123 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { type CareRecord, type Filter } from "@/lib/pets";
 
-type CareRecord = {
-  id: string;
-  type: "grooming" | "vet";
-  icon: string;
-  provider: string;
-  date: string;
-  summary: string;
-  attendant: { name: string; role: string; rating: number };
-  services: string[];
-  products: string[];
-  notes: string;
-  nextRecommended: string;
-};
+interface Props {
+  records: CareRecord[];
+  filter?: Filter;
+}
 
-const RECORDS: CareRecord[] = [
-  {
-    id: "nov-14-2024",
-    type: "grooming",
-    icon: "content_cut",
-    provider: "The Amber Sanctuary",
-    date: "Nov 14, 2024",
-    summary: "Royal Bath & Silk Cut · Double coat, no mats",
-    attendant: { name: "Camille Reyes", role: "Senior Groomer", rating: 5 },
-    services: [
-      "Full bath & blow-dry",
-      "Silk Cut trim",
-      "Nail trim",
-      "Ear cleaning",
-      "Teeth brushing",
-    ],
-    products: ["Lavender Shampoo", "Oat Conditioner", "Coat Serum"],
-    notes:
-      "Barnaby was calm throughout. No matting found. Slight sensitivity near left ear — cleaned gently. Coat is in excellent condition.",
-    nextRecommended: "Dec 26, 2024 (6-week cycle)",
-  },
-  {
-    id: "oct-2-2024",
-    type: "vet",
-    icon: "vaccines",
-    provider: "Paws & Furs Animal Clinic",
-    date: "Oct 2, 2024",
-    summary: "Annual vaccine · Rabies + DHPP booster",
-    attendant: { name: "Dr. Lena Cruz", role: "Veterinarian", rating: 5 },
-    services: ["Rabies vaccine", "DHPP booster", "Weight check", "General physical exam"],
-    products: ["Rabies vaccine (Nobivac)", "DHPP (Vanguard Plus)"],
-    notes:
-      "Barnaby is in excellent health. Weight stable at 28 kg. No abnormalities detected. Vaccine site normal. Next vaccines due Oct 2025.",
-    nextRecommended: "Oct 2, 2025 (annual booster)",
-  },
-  {
-    id: "sep-18-2024",
-    type: "grooming",
-    icon: "content_cut",
-    provider: "Sniff Pet Salon & Hotel",
-    date: "Sep 18, 2024",
-    summary: "Express groom · Gentle handling noted",
-    attendant: { name: "Marco Villanueva", role: "Groomer", rating: 4 },
-    services: ["Bath & blow-dry", "Nail trim", "Ear cleaning"],
-    products: ["Oatmeal Shampoo", "Detangling Spray"],
-    notes:
-      "Express session completed in 45 mins. Minor tangling at the flanks — combed out. Barnaby responded well to handling. Recommend full groom next visit.",
-    nextRecommended: "Nov 2024 (full groom due)",
-  },
-  {
-    id: "aug-5-2024",
-    type: "vet",
-    icon: "medical_services",
-    provider: "Petvetgo Animal Clinic",
-    date: "Aug 5, 2024",
-    summary: "Check-up · Healthy weight, clean ears",
-    attendant: { name: "Dr. Paolo Mendez", role: "Veterinarian", rating: 5 },
-    services: ["Routine check-up", "Ear examination", "Weight & vitals", "Dental inspection"],
-    products: ["Ear cleaning solution"],
-    notes:
-      "All vitals normal. Ears clean with no signs of infection. Teeth show mild tartar — recommend dental chews. Weight at 27.8 kg, within healthy range.",
-    nextRecommended: "Feb 2025 (semi-annual check)",
-  },
-  {
-    id: "jul-3-2024",
-    type: "grooming",
-    icon: "content_cut",
-    provider: "The Amber Sanctuary",
-    date: "Jul 3, 2024",
-    summary: "Full groom · Summer trim, de-shed treatment",
-    attendant: { name: "Camille Reyes", role: "Senior Groomer", rating: 5 },
-    services: [
-      "Full bath & blow-dry",
-      "Summer trim",
-      "De-shed treatment",
-      "Nail trim",
-      "Ear cleaning",
-    ],
-    products: ["De-shedding Shampoo", "Furminator Conditioner", "Finishing Spray"],
-    notes:
-      "Heavy shedding season — de-shed treatment removed significant undercoat. Coat looks much lighter. Barnaby tolerated the Furminator well. Recommended monthly de-sheds through summer.",
-    nextRecommended: "Aug 2024 (monthly de-shed)",
-  },
-  {
-    id: "may-20-2024",
-    type: "vet",
-    icon: "vaccines",
-    provider: "St. Bernard's Pet Shop",
-    date: "May 20, 2024",
-    summary: "Flea & tick prevention · Monthly treatment",
-    attendant: { name: "Dr. Ana Soriano", role: "Veterinarian", rating: 4 },
-    services: ["Flea & tick topical application", "Skin inspection", "Weight check"],
-    products: ["Frontline Plus (monthly topical)"],
-    notes:
-      "No signs of fleas or ticks. Skin healthy, no irritation. Frontline Plus applied between shoulder blades. Next application due June 20, 2024.",
-    nextRecommended: "Jun 20, 2024 (monthly topical)",
-  },
-];
-
-export default function CareRecordTimeline() {
+export default function CareRecordTimeline({ records, filter = "all" }: Props) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<CareRecord | null>(null);
+
+  const displayed = useMemo(
+    () => (filter === "all" ? records : records.filter((r) => r.type === filter)),
+    [records, filter]
+  );
 
   function openRecord(record: CareRecord) {
     setSelected(record);
@@ -133,36 +31,42 @@ export default function CareRecordTimeline() {
     <>
       {/* Timeline */}
       <div className="space-y-5">
-        {RECORDS.map((record) => (
-          <button
-            key={record.id}
-            onClick={() => openRecord(record)}
-            className="w-full flex items-start gap-4 text-left group hover:bg-surface-container rounded-xl p-3 -mx-3 transition-all active:scale-[0.99]"
-          >
-            <div
-              className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 ${record.type === "grooming" ? "bg-tertiary-container text-on-tertiary-container" : "bg-secondary-container text-on-secondary-container"}`}
+        {displayed.length === 0 ? (
+          <p className="text-sm text-on-surface-variant text-center py-6">
+            No records found.
+          </p>
+        ) : (
+          displayed.map((record) => (
+            <button
+              key={record.id}
+              onClick={() => openRecord(record)}
+              className="w-full flex items-start gap-4 text-left group hover:bg-surface-container rounded-xl p-3 -mx-3 transition-all active:scale-[0.99]"
             >
-              <span
-                className="material-symbols-outlined text-sm"
-                style={{ fontVariationSettings: "'FILL' 1" }}
+              <div
+                className={`w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 ${record.type === "grooming" ? "bg-tertiary-container text-on-tertiary-container" : "bg-secondary-container text-on-secondary-container"}`}
               >
-                {record.icon}
-              </span>
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between gap-2">
-                <p className="text-sm font-bold text-on-surface group-hover:text-primary transition-colors truncate">
-                  {record.type === "grooming" ? "Grooming" : "Vet Visit"} · {record.provider}
-                </p>
-                <p className="text-xs text-on-surface-variant flex-shrink-0">{record.date}</p>
+                <span
+                  className="material-symbols-outlined text-sm"
+                  style={{ fontVariationSettings: "'FILL' 1" }}
+                >
+                  {record.icon}
+                </span>
               </div>
-              <p className="text-xs text-on-surface-variant mt-0.5">{record.summary}</p>
-            </div>
-            <span className="material-symbols-outlined text-on-surface-variant text-base flex-shrink-0 self-center group-hover:text-primary transition-colors">
-              chevron_right
-            </span>
-          </button>
-        ))}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-sm font-bold text-on-surface group-hover:text-primary transition-colors truncate">
+                    {record.type === "grooming" ? "Grooming" : "Vet Visit"} · {record.provider}
+                  </p>
+                  <p className="text-xs text-on-surface-variant flex-shrink-0">{record.date}</p>
+                </div>
+                <p className="text-xs text-on-surface-variant mt-0.5">{record.summary}</p>
+              </div>
+              <span className="material-symbols-outlined text-on-surface-variant text-base flex-shrink-0 self-center group-hover:text-primary transition-colors">
+                chevron_right
+              </span>
+            </button>
+          ))
+        )}
       </div>
 
       {/* Modal Overlay */}
@@ -289,7 +193,7 @@ export default function CareRecordTimeline() {
                 </p>
                 <div className="bg-surface-container-low rounded-xl p-4 border-l-4 border-primary/30">
                   <p className="text-sm text-on-surface-variant leading-relaxed italic">
-                    "{selected.notes}"
+                    &ldquo;{selected.notes}&rdquo;
                   </p>
                 </div>
               </div>

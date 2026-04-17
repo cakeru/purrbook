@@ -1,112 +1,6 @@
 import Link from "next/link";
 import MapWrapper from "@/components/MapWrapper";
-
-const TARLAC_SHOPS = [
-  {
-    position: [15.478, 120.592] as [number, number],
-    label: "Sniff Pet Salon & Hotel",
-    rating: 4.9,
-    distance: "0.5 km",
-    hours: "Open until 7PM",
-    href: "/shop-details",
-  },
-  {
-    position: [15.4765, 120.602] as [number, number],
-    label: "Pet Station Grooming Salon",
-    rating: 4.7,
-    distance: "0.7 km",
-    hours: "Open until 6PM",
-    href: "/shop-details",
-  },
-  {
-    position: [15.47, 120.589] as [number, number],
-    label: "St. Bernard's Pet Shop",
-    rating: 4.8,
-    distance: "1.5 km",
-    hours: "Open until 8PM",
-    href: "/shop-details",
-  },
-  {
-    position: [15.475, 120.597] as [number, number],
-    label: "Paws & Furs Animal Clinic",
-    rating: 4.6,
-    distance: "0.2 km",
-    hours: "Open until 6PM",
-    href: "/shop-details",
-  },
-  {
-    position: [15.481, 120.599] as [number, number],
-    label: "Pups n Furr Pet Grooming",
-    rating: 4.5,
-    distance: "0.8 km",
-    hours: "Open until 5PM",
-    href: "/shop-details",
-  },
-  {
-    position: [15.473, 120.594] as [number, number],
-    label: "Vet Soucier Veterinary & Grooming",
-    rating: 4.8,
-    distance: "0.4 km",
-    hours: "Open until 7PM",
-    href: "/shop-details",
-  },
-  {
-    position: [15.479, 120.604] as [number, number],
-    label: "Petvetgo Animal Clinic & Wellness",
-    rating: 4.9,
-    distance: "0.9 km",
-    hours: "Open until 6PM",
-    href: "/shop-details",
-  },
-  {
-    position: [15.474, 120.591] as [number, number],
-    label: "CHIMICHOOMS PH",
-    rating: 4.7,
-    distance: "0.6 km",
-    hours: "Open until 7PM",
-    href: "/shop-details",
-  },
-  {
-    position: [15.482, 120.595] as [number, number],
-    label: "Paws & Claws Pet Supplies",
-    rating: 4.6,
-    distance: "0.8 km",
-    hours: "Open until 6PM",
-    href: "/shop-details",
-  },
-  {
-    position: [15.477, 120.598] as [number, number],
-    label: "Petorria Animal Clinic & Grooming",
-    rating: 4.8,
-    distance: "0.3 km",
-    hours: "Open until 7PM",
-    href: "/shop-details",
-  },
-  {
-    position: [15.471, 120.601] as [number, number],
-    label: "Matias Pet Shop",
-    rating: 4.5,
-    distance: "1.1 km",
-    hours: "Open until 6PM",
-    href: "/shop-details",
-  },
-  {
-    position: [15.48, 120.588] as [number, number],
-    label: "J.&.D Petshop",
-    rating: 4.4,
-    distance: "0.7 km",
-    hours: "Open until 5PM",
-    href: "/shop-details",
-  },
-  {
-    position: [15.483, 120.603] as [number, number],
-    label: "Angeles Pet Care Center Tarlac",
-    rating: 4.7,
-    distance: "1.0 km",
-    hours: "Open until 7PM",
-    href: "/shop-details",
-  },
-];
+import { MAP_MARKERS } from "@/lib/shops";
 
 export default function HomePage() {
   return (
@@ -153,9 +47,7 @@ export default function HomePage() {
               <span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">
                 notifications
               </span>
-              <span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">
-                pets
-              </span>
+              <Link href="/messages"><span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">inbox</span></Link>
             </div>
             <Link
               href="/search"
@@ -273,7 +165,7 @@ export default function HomePage() {
                     one-stop haven for your pet in Tarlac City.
                   </p>
                   <Link
-                    href="/shop-details"
+                    href="/shop-details/sniff-pet-salon-hotel"
                     className="w-full py-4 rounded-full bg-surface-container-low font-bold text-on-surface group-hover:bg-primary group-hover:text-on-primary transition-all"
                   >
                     Check Availability
@@ -311,7 +203,7 @@ export default function HomePage() {
                     cuts and premium treatments.
                   </p>
                   <Link
-                    href="/shop-details"
+                    href="/shop-details/pet-station-grooming-salon"
                     className="w-full py-4 rounded-full bg-surface-container-low font-bold text-on-surface group-hover:bg-primary group-hover:text-on-primary transition-all"
                   >
                     Check Availability
@@ -349,7 +241,7 @@ export default function HomePage() {
                     quality care and affordable rates.
                   </p>
                   <Link
-                    href="/shop-details"
+                    href="/shop-details/st-bernards-pet-shop"
                     className="w-full py-4 rounded-full bg-surface-container-low font-bold text-on-surface group-hover:bg-primary group-hover:text-on-primary transition-all"
                   >
                     Check Availability
@@ -498,7 +390,7 @@ export default function HomePage() {
               </div>
             </div>
             <div className="flex-1 relative overflow-hidden min-h-0">
-              <MapWrapper center={[15.4755, 120.5963]} zoom={14} markers={TARLAC_SHOPS} />
+              <MapWrapper center={[15.4755, 120.5963]} zoom={14} markers={MAP_MARKERS} />
             </div>
           </div>
         </section>

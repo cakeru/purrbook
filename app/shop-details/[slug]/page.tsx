@@ -47,9 +47,7 @@ export default async function ShopDetailsPage({
               <span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">
                 notifications
               </span>
-              <span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">
-                pets
-              </span>
+              <Link href="/messages"><span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">inbox</span></Link>
             </div>
             <Link
               href="/search"
@@ -297,6 +295,12 @@ export default async function ShopDetailsPage({
                   className="block w-full text-center bg-gradient-to-r from-primary to-primary-dim text-on-primary py-4 rounded-full font-headline font-bold text-lg hover:shadow-lg transition-all active:scale-95"
                 >
                   Confirm Appointment
+                </Link>
+                <Link
+                  href={`/messages?shop=${shop.slug}`}
+                  className="block w-full text-center py-3.5 border-2 border-primary text-primary rounded-full font-label font-bold text-sm hover:bg-primary/5 transition-all active:scale-95"
+                >
+                  Message this Sanctuary
                 </Link>
               </div>
 
