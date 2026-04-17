@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getShopBySlug, SHOPS } from "@/lib/shops";
+import NotificationBell from "@/components/NotificationBell";
+import InboxIcon from "@/components/InboxIcon";
 
 export function generateStaticParams() {
   return SHOPS.map((s) => ({ slug: s.slug }));
@@ -44,10 +46,8 @@ export default async function ShopDetailsPage({
           </div>
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-4 text-stone-600 dark:text-stone-400">
-              <span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">
-                notifications
-              </span>
-              <Link href="/messages"><span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">inbox</span></Link>
+              <NotificationBell />
+              <InboxIcon />
             </div>
             <Link
               href="/search"

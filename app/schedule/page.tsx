@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AddCompanionModal from "@/components/AddCompanionModal";
+import NotificationBell from "@/components/NotificationBell";
+import InboxIcon from "@/components/InboxIcon";
 
 const MONTH_NAMES = [
   "January", "February", "March", "April", "May", "June",
@@ -135,8 +137,8 @@ export default function SchedulePage() {
           </div>
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-4 text-stone-600 dark:text-stone-400">
-              <span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">notifications</span>
-              <Link href="/messages"><span className="material-symbols-outlined hover:bg-stone-100/50 p-2 rounded-full transition-all">inbox</span></Link>
+              <NotificationBell />
+              <InboxIcon />
             </div>
             <Link href="/search" className="bg-gradient-to-r from-primary to-primary-dim text-on-primary px-8 py-3 rounded-full font-label font-bold tracking-wide active:scale-95 transition-all shadow-lg shadow-primary/20">
               Book Now
