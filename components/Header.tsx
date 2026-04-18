@@ -46,12 +46,6 @@ export default function Header() {
             <InboxIcon />
             <ProfileMenu />
           </div>
-          <Link
-            href="/search"
-            className="bg-gradient-to-r from-primary to-primary-dim text-on-primary px-8 py-3 rounded-full font-label font-bold tracking-wide active:scale-95 transition-all shadow-lg shadow-primary/20"
-          >
-            Book Now
-          </Link>
         </div>
       </nav>
     </header>
