@@ -5,6 +5,8 @@ import Link from "next/link";
 import AddCompanionModal, { type Pet } from "@/components/AddCompanionModal";
 import Header from "@/components/Header";
 import { PETS } from "@/lib/pets";
+import { SHOPS } from "@/lib/shops";
+import { useSavedShops } from "@/lib/saved-shops";
 
 const SEED_COMPANIONS: (Pet & { image: string; href?: string })[] = PETS.map((p) => ({
   name: p.name,
@@ -21,6 +23,8 @@ const SEED_COMPANIONS: (Pet & { image: string; href?: string })[] = PETS.map((p)
 
 export default function ProfilePage() {
   const [companions, setCompanions] = useState(SEED_COMPANIONS);
+  const { saved, toggle: toggleSaved, isSaved } = useSavedShops();
+  const savedShops = SHOPS.filter((s) => saved.includes(s.slug));
 
   function handleAddCompanion(pet: Pet) {
     setCompanions((prev) => [...prev, { ...pet, image: "" }]);
@@ -81,7 +85,7 @@ export default function ProfilePage() {
                   </div>
                   <div className="w-px bg-outline-variant/20" />
                   <div className="flex-1 text-center">
-                    <p className="text-2xl font-headline font-bold text-on-surface">4</p>
+                    <p className="text-2xl font-headline font-bold text-on-surface">{saved.length}</p>
                     <p className="text-xs text-on-surface-variant mt-0.5">Saved</p>
                   </div>
                 </div>
@@ -203,62 +207,42 @@ export default function ProfilePage() {
                   <h2 className="text-xl font-headline font-bold text-on-surface tracking-tight">Saved Sanctuaries</h2>
                   <Link href="/search" className="text-primary font-label text-xs font-bold uppercase tracking-widest hover:underline">Discover More</Link>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Link href="/shop-details/sniff-pet-salon-hotel" className="flex gap-4 p-3 rounded-xl border border-outline-variant/10 hover:border-primary bg-surface-container-lowest transition-all active:scale-95 group">
-                    <img
-                      src="/studios/sniff-pet-salon-hotel.jpg"
-                      alt="Sniff Pet Salon"
-                      className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
-                    />
-                    <div className="flex flex-col justify-between py-0.5 min-w-0">
-                      <div>
-                        <p className="font-headline font-bold text-on-surface text-sm group-hover:text-primary transition-colors">Sniff Pet Salon & Hotel</p>
-                        <p className="text-xs text-on-surface-variant mt-0.5">San Vicente · Tarlac City</p>
+                {savedShops.length === 0 ? (
+                  <div className="py-8 text-center bg-surface-container-lowest rounded-xl border border-outline-variant/10">
+                    <span className="material-symbols-outlined text-3xl text-on-surface-variant/30 block mb-2">favorite</span>
+                    <p className="text-sm text-on-surface-variant font-label">No saved sanctuaries yet.</p>
+                    <Link href="/search" className="text-primary text-xs font-label font-bold mt-1 inline-block hover:underline">Browse sanctuaries →</Link>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {savedShops.map((shop) => (
+                      <div key={shop.slug} className="flex gap-4 p-3 rounded-xl border border-outline-variant/10 hover:border-primary bg-surface-container-lowest transition-all group">
+                        <Link href={shop.href} className="flex gap-4 flex-1 min-w-0 items-center active:scale-95 transition-all">
+                          <img
+                            src={shop.image}
+                            alt={shop.label}
+                            className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
+                          />
+                          <div className="flex flex-col justify-between py-0.5 min-w-0 flex-1">
+                            <p className="font-headline font-bold text-on-surface text-sm group-hover:text-primary transition-colors truncate">{shop.label}</p>
+                            <div className="flex items-center gap-1 text-tertiary mt-1">
+                              <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
+                              <span className="text-xs font-bold text-on-surface">{shop.rating}</span>
+                            </div>
+                          </div>
+                          <span className="material-symbols-outlined text-on-surface-variant self-center flex-shrink-0 text-base group-hover:text-primary transition-colors">chevron_right</span>
+                        </Link>
+                        <button
+                          onClick={() => toggleSaved(shop.slug)}
+                          className="flex-shrink-0 self-center w-8 h-8 rounded-full flex items-center justify-center hover:bg-error/5 transition-all active:scale-95"
+                          aria-label="Remove from saved"
+                        >
+                          <span className="material-symbols-outlined text-base text-error" style={{ fontVariationSettings: "'FILL' 1" }}>favorite</span>
+                        </button>
                       </div>
-                      <div className="flex items-center gap-1 text-tertiary">
-                        <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                        <span className="text-xs font-bold text-on-surface">4.9</span>
-                      </div>
-                    </div>
-                    <span className="material-symbols-outlined text-on-surface-variant ml-auto self-center flex-shrink-0 text-base group-hover:text-primary transition-colors">chevron_right</span>
-                  </Link>
-                  <Link href="/shop-details/vet-soucier-veterinary-grooming" className="flex gap-4 p-3 rounded-xl border border-outline-variant/10 hover:border-primary bg-surface-container-lowest transition-all active:scale-95 group">
-                    <img
-                      src="/studios/vet-soucier-veterinary-grooming.jpg"
-                      alt="Vet Soucier"
-                      className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
-                    />
-                    <div className="flex flex-col justify-between py-0.5 min-w-0">
-                      <div>
-                        <p className="font-headline font-bold text-on-surface text-sm group-hover:text-primary transition-colors">Vet Soucier Veterinary & Grooming</p>
-                        <p className="text-xs text-on-surface-variant mt-0.5">Tarlac City</p>
-                      </div>
-                      <div className="flex items-center gap-1 text-tertiary">
-                        <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                        <span className="text-xs font-bold text-on-surface">4.8</span>
-                      </div>
-                    </div>
-                    <span className="material-symbols-outlined text-on-surface-variant ml-auto self-center flex-shrink-0 text-base group-hover:text-primary transition-colors">chevron_right</span>
-                  </Link>
-                  <Link href="/shop-details/petorria-animal-clinic-grooming" className="flex gap-4 p-3 rounded-xl border border-outline-variant/10 hover:border-primary bg-surface-container-lowest transition-all active:scale-95 group">
-                    <img
-                      src="/studios/petorria-animal-clinic-grooming.jpg"
-                      alt="Petorria"
-                      className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
-                    />
-                    <div className="flex flex-col justify-between py-0.5 min-w-0">
-                      <div>
-                        <p className="font-headline font-bold text-on-surface text-sm group-hover:text-primary transition-colors">Petorria Animal Clinic & Grooming</p>
-                        <p className="text-xs text-on-surface-variant mt-0.5">Tarlac City</p>
-                      </div>
-                      <div className="flex items-center gap-1 text-tertiary">
-                        <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                        <span className="text-xs font-bold text-on-surface">4.8</span>
-                      </div>
-                    </div>
-                    <span className="material-symbols-outlined text-on-surface-variant ml-auto self-center flex-shrink-0 text-base group-hover:text-primary transition-colors">chevron_right</span>
-                  </Link>
-                </div>
+                    ))}
+                  </div>
+                )}
               </section>
             </div>
           </div>

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import AddCompanionModal from "@/components/AddCompanionModal";
 import Header from "@/components/Header";
 
@@ -56,9 +56,13 @@ function formatDateDisplay(day: number, month: number, year: number): string {
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 }
 
-export default function SchedulePage() {
+function ScheduleContent() {
   const router = useRouter();
+  const params = useSearchParams();
   const now = new Date();
+
+  const serviceParam = params.get("service") ?? "The \u201cRoyal Bath\u201d & Silk Cut";
+  const priceParam = params.get("price") ?? "\u20b18,200.00";
 
   const [selectedPet, setSelectedPet] = useState<"Barnaby" | "Luna">("Barnaby");
   const [currentMonth, setCurrentMonth] = useState(now.getMonth());
@@ -339,7 +343,7 @@ export default function SchedulePage() {
               <div className="space-y-6">
                 <div className="flex justify-between items-start">
                   <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">Service</span>
-                  <span className="text-sm font-semibold text-right">The &quot;Royal Bath&quot; &amp; Silk Cut</span>
+                  <span className="text-sm font-semibold text-right max-w-[180px]">{serviceParam}</span>
                 </div>
                 <div className="flex justify-between items-start">
                   <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">Companion</span>
@@ -356,7 +360,7 @@ export default function SchedulePage() {
                 <div className="pt-6 border-t border-outline-variant/20">
                   <div className="flex justify-between items-center text-primary">
                     <span className="text-sm font-bold uppercase tracking-widest">Total Estimate</span>
-                    <span className="text-2xl font-headline font-extrabold">₱8,200.00</span>
+                    <span className="text-2xl font-headline font-extrabold">{priceParam.startsWith("₱") ? priceParam : `₱${priceParam}`}</span>
                   </div>
                   <p className="text-[10px] text-on-surface-variant/60 mt-2 italic text-right">*Taxes and materials included</p>
                 </div>
@@ -384,5 +388,13 @@ export default function SchedulePage() {
         </div>
       </footer>
     </>
+  );
+}
+
+export default function SchedulePage() {
+  return (
+    <Suspense>
+      <ScheduleContent />
+    </Suspense>
   );
 }

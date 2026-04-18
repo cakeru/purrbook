@@ -5,6 +5,7 @@ import Link from "next/link";
 import MapWrapper from "@/components/MapWrapper";
 import Header from "@/components/Header";
 import { SHOPS, MAP_MARKERS } from "@/lib/shops";
+import { useSavedShops } from "@/lib/saved-shops";
 
 const SERVICE_TYPES = ["Grooming", "Boarding", "Therapy", "Training"];
 const AMENITY_OPTIONS = [
@@ -19,6 +20,7 @@ export default function SearchPage() {
   const [activeAmenities, setActiveAmenities] = useState<Set<string>>(new Set());
   const [locationQuery, setLocationQuery] = useState("");
   const [showMap, setShowMap] = useState(false);
+  const { isSaved, toggle: toggleSaved } = useSavedShops();
 
   function toggleAmenity(key: string) {
     setActiveAmenities((prev) => {
@@ -266,8 +268,11 @@ export default function SearchPage() {
                       <div className="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-primary tracking-widest uppercase">
                         {shop.category}
                       </div>
-                      <button className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-primary hover:bg-white transition-all active:scale-95 shadow-sm">
-                        <span className="material-symbols-outlined">favorite</span>
+                      <button
+                        onClick={(e) => { e.preventDefault(); toggleSaved(shop.slug); }}
+                        className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-primary hover:bg-white transition-all active:scale-95 shadow-sm"
+                      >
+                        <span className="material-symbols-outlined" style={isSaved(shop.slug) ? { fontVariationSettings: "'FILL' 1" } : {}}>favorite</span>
                       </button>
                     </div>
                     <div className="flex-grow">

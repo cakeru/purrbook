@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { getShopBySlug, SHOPS } from "@/lib/shops";
 import Header from "@/components/Header";
 import GallerySection from "./GallerySection";
+import BookingWidget from "./BookingWidget";
 
 export function generateStaticParams() {
   return SHOPS.map((s) => ({ slug: s.slug }));
@@ -121,7 +122,7 @@ export default async function ShopDetailsPage({
             </div>
 
             {/* Service List */}
-            <div>
+            <div id="services">
               <h2 className="font-headline text-2xl font-bold tracking-tight mb-8 flex items-center gap-3">
                 Boutique Services{" "}
                 <span className="h-px bg-outline-variant flex-grow opacity-30"></span>
@@ -157,109 +158,7 @@ export default async function ShopDetailsPage({
 
           {/* Booking Widget */}
           <div className="lg:col-span-1">
-            <div className="sticky top-32 bg-surface-container-lowest rounded-lg editorial-shadow p-8 space-y-8 border border-outline-variant/10">
-              <div>
-                <h3 className="font-headline font-extrabold text-xl mb-2">Schedule Visit</h3>
-                <p className="text-xs text-on-surface-variant font-medium">
-                  Select your preferred date and time
-                </p>
-              </div>
-
-              {/* Date Selection */}
-              <div>
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-sm font-bold">April 2026</span>
-                  <div className="flex gap-2">
-                    <button className="material-symbols-outlined text-sm p-1 rounded-full border border-outline-variant/20 active:scale-95 transition-all">
-                      chevron_left
-                    </button>
-                    <button className="material-symbols-outlined text-sm p-1 rounded-full border border-outline-variant/20 active:scale-95 transition-all">
-                      chevron_right
-                    </button>
-                  </div>
-                </div>
-                <div className="flex justify-between">
-                  {[
-                    { day: "MON", date: 20 },
-                    { day: "TUE", date: 21 },
-                    { day: "WED", date: 22 },
-                    { day: "THU", date: 23 },
-                    { day: "FRI", date: 24 },
-                  ].map(({ day, date }, i) => (
-                    <div
-                      key={day}
-                      className="flex flex-col items-center gap-2 cursor-pointer active:scale-95 transition-all"
-                    >
-                      <span className="text-[10px] text-outline font-bold">{day}</span>
-                      <div
-                        className={`w-10 h-10 flex items-center justify-center rounded-full text-xs font-bold transition-colors ${
-                          i === 1
-                            ? "bg-primary text-on-primary"
-                            : "border border-outline-variant/20 hover:bg-primary-container/20"
-                        }`}
-                      >
-                        {date}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Time Slots */}
-              <div>
-                <span className="text-xs font-bold text-outline mb-3 block uppercase tracking-widest">
-                  Available Slots
-                </span>
-                <div className="grid grid-cols-2 gap-2">
-                  {["09:30 AM", "11:00 AM", "01:30 PM", "03:00 PM"].map((time, i) => (
-                    <button
-                      key={time}
-                      className={`py-2.5 rounded-full text-xs font-bold transition-all active:scale-95 ${
-                        i === 2
-                          ? "border border-primary text-primary bg-primary-container/10"
-                          : "border border-outline-variant/20 hover:bg-surface-container-high"
-                      }`}
-                    >
-                      {time}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="pt-4 border-t border-outline-variant/10">
-                <div className="flex justify-between items-end mb-6">
-                  <div>
-                    <span className="text-xs text-on-surface-variant block">Starting from</span>
-                    <span className="text-2xl font-black text-on-surface">{shop.price.replace("From ", "")}</span>
-                  </div>
-                  <button className="text-primary text-xs font-bold underline decoration-2 underline-offset-4">
-                    Add service
-                  </button>
-                </div>
-                <Link
-                  href="/schedule"
-                  className="block w-full text-center bg-gradient-to-r from-primary to-primary-dim text-on-primary py-4 rounded-full font-headline font-bold text-lg hover:shadow-lg transition-all active:scale-95"
-                >
-                  Confirm Appointment
-                </Link>
-                <Link
-                  href={`/messages?shop=${shop.slug}`}
-                  className="block w-full text-center py-3.5 border-2 border-primary text-primary rounded-full font-label font-bold text-sm hover:bg-primary/5 transition-all active:scale-95"
-                >
-                  Message this Sanctuary
-                </Link>
-              </div>
-
-              <div className="bg-surface-container-low p-4 rounded-lg flex items-start gap-3">
-                <span className="material-symbols-outlined text-secondary text-xl">
-                  verified_user
-                </span>
-                <p className="text-[11px] text-on-secondary-fixed-variant leading-normal">
-                  Your booking includes PurrBook&apos;s Editorial Protection. Free cancellation
-                  up to 24 hours before your slot.
-                </p>
-              </div>
-            </div>
+            <BookingWidget shop={shop} />
           </div>
         </div>
       </main>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 import { BOOKINGS, type UserBooking, type UserBookingStatus } from "@/lib/bookings";
+import BookingDetailPanel from "./BookingDetailPanel";
 
 const TABS: { label: string; value: UserBookingStatus | "all" }[] = [
   { label: "All", value: "all" },
@@ -30,13 +31,16 @@ function StatusChip({ status }: { status: UserBookingStatus }) {
   );
 }
 
-function BookingCard({ booking }: { booking: UserBooking }) {
+function BookingCard({ booking, onSelect }: { booking: UserBooking; onSelect: (b: UserBooking) => void }) {
   const petColor = booking.petSpecies === "dog"
     ? "bg-tertiary-container text-on-tertiary-container"
     : "bg-secondary-container text-on-secondary-container";
 
   return (
-    <div className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 px-5 py-4 flex items-center gap-4 hover:-translate-y-0.5 transition-all duration-200 shadow-sm">
+    <div
+      className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 px-5 py-4 flex items-center gap-4 hover:-translate-y-0.5 transition-all duration-200 shadow-sm cursor-pointer"
+      onClick={() => onSelect(booking)}
+    >
       {/* Shop thumbnail */}
       <img
         src={booking.shopImage}
@@ -77,59 +81,57 @@ function BookingCard({ booking }: { booking: UserBooking }) {
         <p className="text-xs text-on-surface-variant mt-0.5">#{booking.refNumber}</p>
       </div>
 
-      {/* Actions */}
-      <div className="flex flex-col gap-2 flex-shrink-0">
-        {booking.status === "upcoming" && (
-          <>
-            <Link
-              href={`/shop-details/${booking.shopSlug}`}
-              className="px-4 py-2 border border-outline-variant/30 text-on-surface-variant rounded-full font-label font-bold text-xs hover:border-primary hover:text-primary transition-all active:scale-95 text-center"
-            >
-              View Details
-            </Link>
-            <button className="px-4 py-2 text-error font-label font-bold text-xs hover:opacity-70 transition-opacity active:scale-95">
-              Cancel
-            </button>
-          </>
-        )}
-        {booking.status === "completed" && (
-          <>
-            <Link
-              href={`/schedule?shop=${booking.shopSlug}`}
-              className="px-4 py-2 bg-gradient-to-r from-primary to-primary-dim text-on-primary rounded-full font-label font-bold text-xs active:scale-95 transition-all shadow shadow-primary/20 text-center"
-            >
-              Rebook
-            </Link>
-            <Link
-              href="/reviews"
-              className="px-4 py-2 border border-outline-variant/30 text-on-surface-variant rounded-full font-label font-bold text-xs hover:border-primary hover:text-primary transition-all active:scale-95 text-center"
-            >
-              Leave Review
-            </Link>
-          </>
-        )}
-        {booking.status === "cancelled" && (
+      {/* Secondary actions for completed/cancelled */}
+      {booking.status === "completed" && (
+        <div className="flex flex-col gap-2 flex-shrink-0" onClick={(e) => e.stopPropagation()}>
           <Link
             href={`/schedule?shop=${booking.shopSlug}`}
             className="px-4 py-2 bg-gradient-to-r from-primary to-primary-dim text-on-primary rounded-full font-label font-bold text-xs active:scale-95 transition-all shadow shadow-primary/20 text-center"
           >
             Rebook
           </Link>
-        )}
-      </div>
+          <Link
+            href="/reviews"
+            className="px-4 py-2 border border-outline-variant/30 text-on-surface-variant rounded-full font-label font-bold text-xs hover:border-primary hover:text-primary transition-all active:scale-95 text-center"
+          >
+            Leave Review
+          </Link>
+        </div>
+      )}
+      {booking.status === "cancelled" && (
+        <div className="flex-shrink-0" onClick={(e) => e.stopPropagation()}>
+          <Link
+            href={`/schedule?shop=${booking.shopSlug}`}
+            className="px-4 py-2 bg-gradient-to-r from-primary to-primary-dim text-on-primary rounded-full font-label font-bold text-xs active:scale-95 transition-all shadow shadow-primary/20 text-center"
+          >
+            Rebook
+          </Link>
+        </div>
+      )}
+
+      {/* Chevron hint */}
+      <span className="material-symbols-outlined text-on-surface-variant text-base flex-shrink-0">
+        chevron_right
+      </span>
     </div>
   );
 }
 
 export default function BookingsPage() {
+  const [bookings, setBookings] = useState<UserBooking[]>(BOOKINGS);
   const [activeTab, setActiveTab] = useState<UserBookingStatus | "all">("all");
+  const [selectedBooking, setSelectedBooking] = useState<UserBooking | null>(null);
+
+  function handleCancel(id: string) {
+    setBookings((prev) => prev.map((b) => b.id === id ? { ...b, status: "cancelled" as UserBookingStatus } : b));
+  }
 
   const filtered = activeTab === "all"
-    ? BOOKINGS
-    : BOOKINGS.filter((b) => b.status === activeTab);
+    ? bookings
+    : bookings.filter((b) => b.status === activeTab);
 
   function countFor(tab: UserBookingStatus | "all") {
-    return tab === "all" ? BOOKINGS.length : BOOKINGS.filter((b) => b.status === tab).length;
+    return tab === "all" ? bookings.length : bookings.filter((b) => b.status === tab).length;
   }
 
   return (
@@ -185,12 +187,18 @@ export default function BookingsPage() {
         ) : (
           <div className="space-y-3">
             {filtered.map((booking) => (
-              <BookingCard key={booking.id} booking={booking} />
+              <BookingCard key={booking.id} booking={booking} onSelect={setSelectedBooking} />
             ))}
           </div>
         )}
 
       </main>
+
+      <BookingDetailPanel
+        booking={selectedBooking}
+        onClose={() => setSelectedBooking(null)}
+        onCancel={handleCancel}
+      />
     </>
   );
 }
