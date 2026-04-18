@@ -20,45 +20,43 @@ export default function SettingsPage() {
     <>
       <Header />
       <main className="pt-24 pb-16 px-12 max-w-2xl mx-auto space-y-6">
+
+        {/* Page Title */}
         <div className="mb-8">
-          <h1 className="text-3xl font-['Plus_Jakarta_Sans'] font-bold text-amber-900 dark:text-amber-100 tracking-tight">
+          <h1 className="text-3xl font-headline font-bold text-on-surface tracking-tight">
             Settings
           </h1>
-          <p className="text-stone-500 mt-1 text-sm">
+          <p className="text-on-surface-variant mt-1 text-sm font-body">
             Manage your account and preferences
           </p>
         </div>
 
         {/* Account */}
-        <section className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-700 shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-stone-100 dark:border-stone-800">
-            <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-base text-stone-800 dark:text-stone-100">
-              Account
-            </h2>
-            <p className="text-xs text-stone-400 mt-0.5">Your personal information</p>
+        <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+          <div className="px-6 py-4 border-b border-outline-variant/10">
+            <h2 className="font-headline font-bold text-base text-on-surface">Account</h2>
+            <p className="text-xs text-on-surface-variant mt-0.5">Your personal information</p>
           </div>
-          <div className="divide-y divide-stone-100 dark:divide-stone-800">
+          <div className="divide-y divide-outline-variant/10">
             {[
               { label: "Name", value: "Maria Santos" },
               { label: "Email", value: "maria@example.com" },
               { label: "Phone", value: "+63 917 123 4567" },
             ].map((row) => (
-              <div key={row.label} className="flex items-center justify-between px-6 py-4">
+              <div key={row.label} className="flex items-center px-6 py-4">
                 <div>
-                  <p className="text-xs font-['Plus_Jakarta_Sans'] font-bold uppercase tracking-widest text-stone-400">
+                  <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant">
                     {row.label}
                   </p>
-                  <p className="text-sm font-['Plus_Jakarta_Sans'] text-stone-700 dark:text-stone-300 mt-0.5">
-                    {row.value}
-                  </p>
+                  <p className="text-sm font-body text-on-surface mt-0.5">{row.value}</p>
                 </div>
               </div>
             ))}
           </div>
-          <div className="px-6 py-4 border-t border-stone-100 dark:border-stone-800">
+          <div className="px-6 py-4 border-t border-outline-variant/10">
             <a
               href="/auth"
-              className="text-sm font-['Plus_Jakarta_Sans'] font-semibold text-amber-700 hover:text-amber-900 transition-colors"
+              className="text-sm font-label font-bold text-primary hover:opacity-80 transition-opacity"
             >
               Edit profile →
             </a>
@@ -66,26 +64,22 @@ export default function SettingsPage() {
         </section>
 
         {/* Notifications */}
-        <section className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-700 shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-stone-100 dark:border-stone-800">
-            <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-base text-stone-800 dark:text-stone-100">
-              Notifications
-            </h2>
-            <p className="text-xs text-stone-400 mt-0.5">Choose which alerts you receive</p>
+        <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+          <div className="px-6 py-4 border-b border-outline-variant/10">
+            <h2 className="font-headline font-bold text-base text-on-surface">Notifications</h2>
+            <p className="text-xs text-on-surface-variant mt-0.5">Choose which alerts you receive</p>
           </div>
-          <div className="divide-y divide-stone-100 dark:divide-stone-800">
+          <div className="divide-y divide-outline-variant/10">
             {NOTIFICATION_PREFS.map((pref) => (
               <div key={pref.id} className="flex items-center justify-between gap-4 px-6 py-4">
                 <div>
-                  <p className="font-['Plus_Jakarta_Sans'] font-semibold text-sm text-stone-700 dark:text-stone-300">
-                    {pref.label}
-                  </p>
-                  <p className="text-xs text-stone-400 mt-0.5">{pref.description}</p>
+                  <p className="font-label font-bold text-sm text-on-surface">{pref.label}</p>
+                  <p className="text-xs text-on-surface-variant mt-0.5">{pref.description}</p>
                 </div>
                 <button
                   onClick={() => setNotifs((prev) => ({ ...prev, [pref.id]: !prev[pref.id] }))}
                   className={`relative w-10 h-6 rounded-full transition-all flex-shrink-0 active:scale-95 ${
-                    notifs[pref.id] ? "bg-amber-600" : "bg-stone-200"
+                    notifs[pref.id] ? "bg-primary" : "bg-surface-container-highest"
                   }`}
                 >
                   <span
@@ -100,24 +94,20 @@ export default function SettingsPage() {
         </section>
 
         {/* App Preferences */}
-        <section className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-700 shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-stone-100 dark:border-stone-800">
-            <h2 className="font-['Plus_Jakarta_Sans'] font-bold text-base text-stone-800 dark:text-stone-100">
-              App Preferences
-            </h2>
-            <p className="text-xs text-stone-400 mt-0.5">Display and behavior settings</p>
+        <section className="bg-surface-container-lowest rounded-2xl border border-outline-variant/20 shadow-sm overflow-hidden">
+          <div className="px-6 py-4 border-b border-outline-variant/10">
+            <h2 className="font-headline font-bold text-base text-on-surface">App Preferences</h2>
+            <p className="text-xs text-on-surface-variant mt-0.5">Display and behavior settings</p>
           </div>
           <div className="flex items-center justify-between gap-4 px-6 py-4">
             <div>
-              <p className="font-['Plus_Jakarta_Sans'] font-semibold text-sm text-stone-700 dark:text-stone-300">
-                Dark Mode
-              </p>
-              <p className="text-xs text-stone-400 mt-0.5">Switch to a darker interface</p>
+              <p className="font-label font-bold text-sm text-on-surface">Dark Mode</p>
+              <p className="text-xs text-on-surface-variant mt-0.5">Switch to a darker interface</p>
             </div>
             <button
               onClick={() => setDarkMode((v) => !v)}
               className={`relative w-10 h-6 rounded-full transition-all flex-shrink-0 active:scale-95 ${
-                darkMode ? "bg-amber-600" : "bg-stone-200"
+                darkMode ? "bg-primary" : "bg-surface-container-highest"
               }`}
             >
               <span
@@ -128,6 +118,7 @@ export default function SettingsPage() {
             </button>
           </div>
         </section>
+
       </main>
     </>
   );
