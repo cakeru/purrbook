@@ -1,6 +1,18 @@
 // ─── Types ────────────────────────────────────────────────────────────────────
 export type Filter = "all" | "grooming" | "vet";
 
+export type Vaccination = {
+  name: string;
+  date: string;
+  nextDue: string;
+  status: "current" | "due_soon" | "overdue";
+};
+
+export type WeightEntry = {
+  month: string;
+  weight: number;
+};
+
 export type CareRecord = {
   id: string;
   type: "grooming" | "vet";
@@ -55,6 +67,13 @@ export type PetProfile = {
     seasonalTip: string;
     healthReminder: string;
   };
+  birthday: string;
+  microchipId: string;
+  insurance?: string;
+  vetClinic: { name: string; phone: string };
+  vaccinations: Vaccination[];
+  weightHistory: WeightEntry[];
+  photos: string[];
 };
 
 // ─── Care Records ─────────────────────────────────────────────────────────────
@@ -257,6 +276,29 @@ export const PETS: PetProfile[] = [
       healthReminder:
         "Barnaby's next DHPP booster is due in October 2025. Schedule a vet check at least 2 weeks in advance.",
     },
+    birthday: "March 15, 2021",
+    microchipId: "985 121 012 345 678",
+    insurance: "PawShield PH",
+    vetClinic: { name: "Paws & Furs Animal Clinic", phone: "+63 920 123 4567" },
+    vaccinations: [
+      { name: "Rabies", date: "Oct 2, 2024", nextDue: "Oct 2, 2025", status: "current" },
+      { name: "DHLPP", date: "Oct 2, 2024", nextDue: "Oct 2, 2025", status: "current" },
+      { name: "Bordetella", date: "Apr 5, 2024", nextDue: "Apr 5, 2025", status: "due_soon" },
+      { name: "Leptospirosis", date: "Oct 2, 2024", nextDue: "Oct 2, 2025", status: "current" },
+    ],
+    weightHistory: [
+      { month: "May 2024", weight: 22 },
+      { month: "Jun 2024", weight: 23.5 },
+      { month: "Jul 2024", weight: 25 },
+      { month: "Aug 2024", weight: 26.5 },
+      { month: "Sep 2024", weight: 27.8 },
+      { month: "Nov 2024", weight: 28 },
+    ],
+    photos: [
+      "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&q=80",
+      "https://images.unsplash.com/photo-1552053831-71594a27632d?w=800&q=80",
+      "https://images.unsplash.com/photo-1537151608828-ea2b11777ee8?w=800&q=80",
+    ],
   },
   {
     id: "luna",
@@ -300,6 +342,28 @@ export const PETS: PetProfile[] = [
       healthReminder:
         "Luna's annual feline distemper booster is due in September 2025. Schedule 2 weeks in advance at Vet Soucier or your preferred clinic.",
     },
+    birthday: "June 4, 2022",
+    microchipId: "985 121 098 765 432",
+    insurance: "PawShield PH",
+    vetClinic: { name: "Petvetgo Animal Clinic & Wellness", phone: "+63 921 234 5678" },
+    vaccinations: [
+      { name: "Rabies", date: "Sep 10, 2024", nextDue: "Sep 10, 2025", status: "current" },
+      { name: "FVRCP", date: "Mar 15, 2024", nextDue: "Mar 15, 2025", status: "due_soon" },
+      { name: "FeLV", date: "Sep 10, 2024", nextDue: "Sep 10, 2025", status: "current" },
+    ],
+    weightHistory: [
+      { month: "May 2024", weight: 3.5 },
+      { month: "Jun 2024", weight: 3.6 },
+      { month: "Jul 2024", weight: 3.7 },
+      { month: "Aug 2024", weight: 3.8 },
+      { month: "Sep 2024", weight: 3.9 },
+      { month: "Nov 2024", weight: 4 },
+    ],
+    photos: [
+      "https://images.unsplash.com/photo-1518791841217-8f162f1912da?w=800&q=80",
+      "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=800&q=80",
+      "https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=800&q=80",
+    ],
   },
 ];
 

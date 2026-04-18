@@ -39,7 +39,7 @@ export default function AuthPage() {
 
     setLoading(true);
     setTimeout(() => {
-      router.push("/profile");
+      router.push(mode === "signup" ? "/onboarding" : "/profile");
     }, 600);
   }
 

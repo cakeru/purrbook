@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getShopBySlug, SHOPS } from "@/lib/shops";
 import Header from "@/components/Header";
+import GallerySection from "./GallerySection";
 
 export function generateStaticParams() {
   return SHOPS.map((s) => ({ slug: s.slug }));
@@ -116,23 +117,7 @@ export default async function ShopDetailsPage({
                 The Experience{" "}
                 <span className="h-px bg-outline-variant flex-grow opacity-30"></span>
               </h2>
-              <div className="grid grid-cols-4 gap-4 auto-rows-[150px]">
-                <div className="col-span-2 row-span-2 rounded-lg overflow-hidden">
-                  <img alt={`${shop.label} gallery 1`} className="w-full h-full object-cover" src={shop.gallery[0]} />
-                </div>
-                <div className="col-span-2 row-span-1 rounded-lg overflow-hidden">
-                  <img alt={`${shop.label} gallery 2`} className="w-full h-full object-cover" src={shop.gallery[1]} />
-                </div>
-                <div className="col-span-1 row-span-1 rounded-lg overflow-hidden">
-                  <img alt={`${shop.label} gallery 3`} className="w-full h-full object-cover" src={shop.gallery[2]} />
-                </div>
-                <div className="col-span-1 row-span-1 rounded-lg overflow-hidden relative group">
-                  <img alt={`${shop.label} gallery 4`} className="w-full h-full object-cover" src={shop.gallery[3]} />
-                  <div className="absolute inset-0 bg-primary/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span className="text-on-primary font-bold text-sm">View All</span>
-                  </div>
-                </div>
-              </div>
+              <GallerySection images={shop.gallery} shopName={shop.label} />
             </div>
 
             {/* Service List */}

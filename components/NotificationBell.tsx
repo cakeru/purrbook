@@ -67,9 +67,13 @@ export default function NotificationBell() {
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-stone-100">
-          <span className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-stone-800">
+          <a
+            href="/notifications"
+            onClick={() => setOpen(false)}
+            className="font-['Plus_Jakarta_Sans'] font-bold text-sm text-stone-800 hover:text-amber-800 transition-colors"
+          >
             Notifications
-          </span>
+          </a>
           {unreadCount > 0 && (
             <button
               onClick={markAllRead}
@@ -125,6 +129,17 @@ export default function NotificationBell() {
               </button>
             ))
           )}
+        </div>
+
+        {/* Footer link */}
+        <div className="border-t border-stone-100 px-4 py-2.5">
+          <a
+            href="/notifications"
+            onClick={() => setOpen(false)}
+            className="block text-center text-xs font-['Plus_Jakarta_Sans'] font-semibold text-amber-700 hover:text-amber-900 transition-colors"
+          >
+            View all notifications →
+          </a>
         </div>
       </div>
     </div>

@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { getPetById, PETS } from "@/lib/pets";
 import Header from "@/components/Header";
 import PetCareSection from "./PetCareSection";
+import PetPhotoGallery from "./PetPhotoGallery";
+import WeightChart from "./WeightChart";
 
 export function generateStaticParams() {
   return PETS.map((p) => ({ id: p.id }));
@@ -118,6 +120,31 @@ export default async function PetPage({ params }: { params: Promise<{ id: string
                     <span className="text-on-surface-variant">On PurrBook</span>
                     <span className="font-semibold text-on-surface ml-auto">{pet.joinDate}</span>
                   </div>
+                  <div className="flex items-center gap-3 text-sm">
+                    <span className="material-symbols-outlined text-primary text-base">cake</span>
+                    <span className="text-on-surface-variant">Birthday</span>
+                    <span className="font-semibold text-on-surface ml-auto text-right">{pet.birthday}</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm">
+                    <span className="material-symbols-outlined text-primary text-base">pin</span>
+                    <span className="text-on-surface-variant flex-shrink-0">Microchip</span>
+                    <span className="font-mono font-semibold text-on-surface ml-auto text-xs text-right">{pet.microchipId}</span>
+                  </div>
+                  <div className="flex items-start gap-3 text-sm">
+                    <span className="material-symbols-outlined text-primary text-base mt-0.5">local_hospital</span>
+                    <span className="text-on-surface-variant flex-shrink-0">Vet</span>
+                    <div className="ml-auto text-right">
+                      <p className="font-semibold text-on-surface">{pet.vetClinic.name}</p>
+                      <p className="text-xs text-on-surface-variant">{pet.vetClinic.phone}</p>
+                    </div>
+                  </div>
+                  {pet.insurance && (
+                    <div className="flex items-center gap-3 text-sm">
+                      <span className="material-symbols-outlined text-primary text-base">shield</span>
+                      <span className="text-on-surface-variant">Insurance</span>
+                      <span className="font-semibold text-on-surface ml-auto">{pet.insurance}</span>
+                    </div>
+                  )}
                 </div>
                 <div className="pt-4 border-t border-outline-variant/10">
                   <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-3">
@@ -166,6 +193,14 @@ export default async function PetPage({ params }: { params: Promise<{ id: string
 
           {/* Main Content */}
           <section className="lg:col-span-8 space-y-10">
+            {/* Photo Gallery */}
+            <div className="bg-surface-container-low p-8 rounded-xl">
+              <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary mb-6">
+                Photo Gallery
+              </p>
+              <PetPhotoGallery photos={[pet.image, ...pet.photos]} petName={pet.name} />
+            </div>
+
             {/* Grooming Profile */}
             <div className="bg-surface-container-low p-8 rounded-xl">
               <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary mb-6">
@@ -211,6 +246,52 @@ export default async function PetPage({ params }: { params: Promise<{ id: string
                   &ldquo;{pet.grooming.groomerNotes}&rdquo;
                 </p>
               </div>
+            </div>
+
+            {/* Vaccination & Health Records */}
+            <div className="bg-surface-container-low p-8 rounded-xl">
+              <p className="text-xs font-headline font-bold uppercase tracking-widest text-primary mb-6">
+                Vaccination & Health Records
+              </p>
+              <div className="space-y-3">
+                {pet.vaccinations.map((v) => {
+                  const chipClass =
+                    v.status === "current"
+                      ? "bg-tertiary-container text-on-tertiary-container"
+                      : v.status === "due_soon"
+                      ? "bg-secondary-container text-on-secondary-container"
+                      : "bg-error/10 text-error";
+                  const statusLabel =
+                    v.status === "current" ? "Current" : v.status === "due_soon" ? "Due Soon" : "Overdue";
+                  return (
+                    <div
+                      key={v.name}
+                      className="bg-surface-container-lowest rounded-xl px-5 py-4 flex items-center gap-4"
+                    >
+                      <span
+                        className="material-symbols-outlined text-primary text-base flex-shrink-0"
+                        style={{ fontVariationSettings: "'FILL' 1" }}
+                      >
+                        vaccines
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-label font-bold text-sm text-on-surface">{v.name}</p>
+                        <p className="text-xs text-on-surface-variant mt-0.5">
+                          Given {v.date} · Next due {v.nextDue}
+                        </p>
+                      </div>
+                      <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-label font-bold flex-shrink-0 ${chipClass}`}>
+                        {statusLabel}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Weight History */}
+            <div className="bg-surface-container-low p-8 rounded-xl">
+              <WeightChart data={pet.weightHistory} />
             </div>
 
             {/* Upcoming Appointment */}

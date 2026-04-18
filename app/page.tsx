@@ -200,6 +200,145 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+        {/* How It Works */}
+        <section className="px-12 py-24 max-w-screen-2xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-secondary-container text-on-secondary-container font-label text-xs font-bold uppercase tracking-widest mb-4">
+              The Process
+            </span>
+            <h2 className="text-4xl font-headline font-bold tracking-tight text-on-surface">
+              Bespoke care in three steps
+            </h2>
+            <p className="text-on-surface-variant mt-3 max-w-md mx-auto font-light">
+              From discovery to aftercare — a seamless sanctuary journey designed for the discerning pet owner.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            {/* Connector line (desktop only) */}
+            <div className="hidden md:block absolute top-10 left-[calc(33%+24px)] right-[calc(33%+24px)] h-px bg-outline-variant/30" />
+            {[
+              {
+                step: "01",
+                icon: "search",
+                title: "Discover Your Sanctuary",
+                body: "Browse our curated map of vetted grooming studios, vet clinics, and boarding suites near Tarlac City. Filter by service, rating, and distance.",
+                color: "bg-secondary-container text-on-secondary-container",
+              },
+              {
+                step: "02",
+                icon: "calendar_month",
+                title: "Reserve the Moment",
+                body: "Select your companion, choose a date and time, and confirm your bespoke session in four guided steps — all in under two minutes.",
+                color: "bg-tertiary-container text-on-tertiary-container",
+              },
+              {
+                step: "03",
+                icon: "auto_awesome",
+                title: "Experience the Ritual",
+                body: "Arrive, relax, and let our editorial-standard providers work their magic. Track sessions, leave reviews, and book again with a single tap.",
+                color: "bg-primary/10 text-primary",
+              },
+            ].map(({ step, icon, title, body, color }) => (
+              <div key={step} className="flex flex-col items-center text-center gap-5">
+                <div className="relative">
+                  <div className={`w-20 h-20 rounded-2xl flex items-center justify-center shadow-sm ${color}`}>
+                    <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                      {icon}
+                    </span>
+                  </div>
+                  <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-on-surface text-surface text-[10px] font-headline font-extrabold flex items-center justify-center">
+                    {step}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-headline font-bold text-on-surface mb-2">{title}</h3>
+                  <p className="text-sm text-on-surface-variant leading-relaxed max-w-xs mx-auto">{body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-center mt-14">
+            <Link
+              href="/schedule"
+              className="bg-gradient-to-r from-primary to-primary-dim text-on-primary px-10 py-4 rounded-full font-label font-bold tracking-wide active:scale-95 transition-all shadow-lg shadow-primary/20"
+            >
+              Book Your First Session
+            </Link>
+          </div>
+        </section>
+
+        {/* Testimonials */}
+        <section className="bg-surface-container-low py-24">
+          <div className="px-12 max-w-screen-2xl mx-auto">
+            <div className="flex justify-between items-end mb-16">
+              <div className="space-y-4">
+                <h2 className="text-4xl font-headline font-bold tracking-tight">
+                  Voices from the Sanctuary
+                </h2>
+                <p className="text-on-surface-variant max-w-md">
+                  What our community of discerning pet owners says about their PurrBook experience.
+                </p>
+              </div>
+              <Link
+                href="/reviews"
+                className="text-primary font-label font-bold text-sm uppercase tracking-widest border-b-2 border-primary/20 pb-1 hover:border-primary transition-all hidden md:block"
+              >
+                All Reviews
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {[
+                {
+                  quote: "Barnaby came home looking absolutely regal. The lavender finish and attention to his double coat was unlike anything we'd experienced before. We'll be regulars.",
+                  author: "Maria Santos",
+                  pet: "Barnaby · Golden Retriever",
+                  rating: 5,
+                  shop: "The Amber Sanctuary",
+                },
+                {
+                  quote: "Luna usually hates being groomed anywhere, but she came back visibly calm. The feline-specialist approach made all the difference. Her coat is silky and gorgeous.",
+                  author: "Jose Reyes",
+                  pet: "Luna · Persian Cat",
+                  rating: 5,
+                  shop: "Pet Station Grooming Salon",
+                },
+                {
+                  quote: "Dr. Ramon was thorough, gentle, and took the time to explain everything. Mochi barely flinched during the exam. Highly recommend for anxious cats.",
+                  author: "Lena Dela Cruz",
+                  pet: "Mochi · Scottish Fold",
+                  rating: 5,
+                  shop: "Petvetgo Animal Clinic",
+                },
+              ].map(({ quote, author, pet, rating, shop }) => (
+                <div
+                  key={author}
+                  className="bg-surface-container-lowest rounded-2xl border border-outline-variant/10 p-8 flex flex-col gap-5 hover:-translate-y-0.5 transition-all duration-200"
+                >
+                  <div className="flex items-center gap-0.5">
+                    {[1, 2, 3, 4, 5].map((n) => (
+                      <span
+                        key={n}
+                        className={`material-symbols-outlined text-lg ${n <= rating ? "text-tertiary" : "text-outline-variant"}`}
+                        style={{ fontVariationSettings: n <= rating ? "'FILL' 1" : "'FILL' 0" }}
+                      >
+                        star
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-sm text-on-surface-variant font-body leading-relaxed italic flex-1">
+                    &ldquo;{quote}&rdquo;
+                  </p>
+                  <div className="border-t border-outline-variant/10 pt-4">
+                    <p className="font-headline font-bold text-sm text-on-surface">{author}</p>
+                    <p className="text-xs text-on-surface-variant mt-0.5">{pet}</p>
+                    <p className="text-xs text-primary font-label font-bold mt-1">{shop}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Interactive Map Section */}
         <section className="px-12 py-24 max-w-screen-2xl mx-auto">
           <div className="bg-surface-container-low rounded-xl overflow-hidden shadow-sm flex flex-col md:flex-row h-[700px]">
