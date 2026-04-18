@@ -3,8 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import AddCompanionModal, { type Pet } from "@/components/AddCompanionModal";
-import NotificationBell from "@/components/NotificationBell";
-import InboxIcon from "@/components/InboxIcon";
+import Header from "@/components/Header";
 import { PETS } from "@/lib/pets";
 
 const SEED_COMPANIONS: (Pet & { image: string; href?: string })[] = PETS.map((p) => ({
@@ -29,34 +28,7 @@ export default function ProfilePage() {
 
   return (
     <>
-      {/* TopNavBar */}
-      <header className="fixed top-0 w-full z-50 bg-[#faf9f6]/70 dark:bg-stone-900/70 backdrop-blur-xl shadow-[0_8px_32px_rgba(48,51,48,0.06)]">
-        <nav className="flex justify-between items-center px-12 py-4 max-w-screen-2xl mx-auto font-['Plus_Jakarta_Sans'] tracking-tight">
-          <div className="flex items-center gap-12">
-            <div className="flex items-center gap-2">
-              <img src="/purrbook.png" alt="PurrBook logo" className="h-8 w-auto" />
-              <span className="text-2xl font-bold italic text-amber-900 dark:text-amber-100">
-                PurrBook
-              </span>
-            </div>
-            <div className="hidden md:flex items-center gap-8">
-              <Link className="text-stone-600 dark:text-stone-400 hover:text-amber-800 transition-colors" href="/">Explore</Link>
-              <Link className="text-stone-600 dark:text-stone-400 hover:text-amber-800 transition-colors" href="/search">Search</Link>
-              <Link className="text-amber-900 dark:text-amber-100 border-b-2 border-amber-700 pb-1 font-semibold" href="/profile">Profile</Link>
-              <Link className="text-stone-600 dark:text-stone-400 hover:text-amber-800 transition-colors" href="/subscriptions">Subscriptions</Link>
-            </div>
-          </div>
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-4 text-stone-600 dark:text-stone-400">
-              <NotificationBell />
-              <InboxIcon />
-            </div>
-            <Link href="/search" className="bg-gradient-to-r from-primary to-primary-dim text-on-primary px-8 py-3 rounded-full font-label font-bold tracking-wide active:scale-95 transition-all shadow-lg shadow-primary/20">
-              Book Now
-            </Link>
-          </div>
-        </nav>
-      </header>
+      <Header />
 
       <main className="pt-24 pb-16">
         {/* Cover Banner */}
