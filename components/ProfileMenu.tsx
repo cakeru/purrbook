@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react";
 
 const MENU_ITEMS = [
   { icon: "person", label: "My Profile", href: "/profile" },
+  { icon: "calendar_month", label: "My Bookings", href: "/bookings" },
+  { icon: "star", label: "My Reviews", href: "/reviews" },
   { icon: "settings", label: "Settings", href: "/settings" },
   { icon: "edit", label: "Edit Profile", href: "/auth" },
 ];
