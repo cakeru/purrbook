@@ -63,6 +63,7 @@ function ScheduleContent() {
 
   const serviceParam = params.get("service") ?? "The \u201cRoyal Bath\u201d & Silk Cut";
   const priceParam = params.get("price") ?? "\u20b18,200.00";
+  const shopParam = params.get("shop") ?? "";
 
   const [selectedPet, setSelectedPet] = useState<"Barnaby" | "Luna">("Barnaby");
   const [currentMonth, setCurrentMonth] = useState(now.getMonth());
@@ -99,7 +100,7 @@ function ScheduleContent() {
     if (!selectedDay || !selectedTime) return;
     const date = formatDateParam(selectedDay, currentMonth, currentYear);
     router.push(
-      `/schedule/confirm?pet=${encodeURIComponent(selectedPet)}&date=${encodeURIComponent(date)}&time=${encodeURIComponent(selectedTime)}`
+      `/schedule/confirm?pet=${encodeURIComponent(selectedPet)}&date=${encodeURIComponent(date)}&time=${encodeURIComponent(selectedTime)}&service=${encodeURIComponent(serviceParam)}&price=${encodeURIComponent(priceParam)}&shop=${encodeURIComponent(shopParam)}`
     );
   }
 
@@ -345,6 +346,12 @@ function ScheduleContent() {
                   <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">Service</span>
                   <span className="text-sm font-semibold text-right max-w-[180px]">{serviceParam}</span>
                 </div>
+                {shopParam && (
+                  <div className="flex justify-between items-start">
+                    <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">Shop</span>
+                    <span className="text-sm font-semibold text-right max-w-[180px] capitalize">{shopParam.replace(/-/g, " ")}</span>
+                  </div>
+                )}
                 <div className="flex justify-between items-start">
                   <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">Companion</span>
                   <span className="text-sm font-semibold">{selectedPet}</span>

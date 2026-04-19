@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getShopBySlug, SHOPS } from "@/lib/shops";
 import Header from "@/components/Header";
 import GallerySection from "./GallerySection";
-import BookingWidget from "./BookingWidget";
+import ShopBookingFlow from "./ShopBookingFlow";
 
 export function generateStaticParams() {
   return SHOPS.map((s) => ({ slug: s.slug }));
@@ -109,58 +109,17 @@ export default async function ShopDetailsPage({
           </div>
         </section>
 
-        <div className="max-w-screen-2xl mx-auto px-12 grid grid-cols-1 lg:grid-cols-3 gap-16">
-          {/* Service Menu & Gallery */}
-          <div className="lg:col-span-2 space-y-16">
-            {/* Gallery */}
-            <div>
-              <h2 className="font-headline text-2xl font-bold tracking-tight mb-8 flex items-center gap-3">
-                The Experience{" "}
-                <span className="h-px bg-outline-variant flex-grow opacity-30"></span>
-              </h2>
-              <GallerySection images={shop.gallery} shopName={shop.label} />
-            </div>
+        {/* Gallery */}
+        <section className="max-w-screen-2xl mx-auto px-12 mb-16">
+          <h2 className="font-headline text-2xl font-bold tracking-tight mb-8 flex items-center gap-3">
+            The Experience{" "}
+            <span className="h-px bg-outline-variant flex-grow opacity-30"></span>
+          </h2>
+          <GallerySection images={shop.gallery} shopName={shop.label} />
+        </section>
 
-            {/* Service List */}
-            <div id="services">
-              <h2 className="font-headline text-2xl font-bold tracking-tight mb-8 flex items-center gap-3">
-                Boutique Services{" "}
-                <span className="h-px bg-outline-variant flex-grow opacity-30"></span>
-              </h2>
-              <div className="space-y-4">
-                {shop.detailServices.map((svc) => (
-                  <div
-                    key={svc.name}
-                    className="group bg-surface hover:bg-surface-container-low p-6 rounded-lg transition-all duration-300 flex justify-between items-center cursor-pointer active:scale-95"
-                  >
-                    <div className="flex gap-6 items-center">
-                      <div className={`w-16 h-16 rounded-full flex items-center justify-center ${svc.colorClass}`}>
-                        <span className="material-symbols-outlined text-2xl">{svc.icon}</span>
-                      </div>
-                      <div>
-                        <h4 className="font-headline font-bold text-lg text-on-surface">
-                          {svc.name}
-                        </h4>
-                        <p className="text-sm text-on-surface-variant max-w-md">
-                          {svc.description}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-headline font-black text-xl text-primary">{svc.price}</p>
-                      <p className="text-xs uppercase tracking-widest text-outline">{svc.duration}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Booking Widget */}
-          <div className="lg:col-span-1">
-            <BookingWidget shop={shop} />
-          </div>
-        </div>
+        {/* Service Selection + Booking Widget */}
+        <ShopBookingFlow shop={shop} />
       </main>
 
       {/* Footer */}
