@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import AddCompanionModal, { type Pet } from "@/components/AddCompanionModal";
 import Header from "@/components/Header";
@@ -25,6 +25,11 @@ export default function ProfilePage() {
   const [companions, setCompanions] = useState(SEED_COMPANIONS);
   const { saved, toggle: toggleSaved, isSaved } = useSavedShops();
   const savedShops = SHOPS.filter((s) => saved.includes(s.slug));
+  const [subPlan, setSubPlan] = useState<"flexible" | "annual" | null>(null);
+
+  useEffect(() => {
+    setSubPlan(localStorage.getItem("purrbook_plan") as "flexible" | "annual" | null);
+  }, []);
 
   function handleAddCompanion(pet: Pet) {
     setCompanions((prev) => [...prev, { ...pet, image: "" }]);
@@ -98,6 +103,14 @@ export default function ProfilePage() {
                     <span className="material-symbols-outlined text-base text-tertiary" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
                     <span>Identity verified</span>
                   </div>
+                  {subPlan && (
+                    <div className="flex items-center gap-3 text-sm">
+                      <span className="material-symbols-outlined text-base text-primary" style={{ fontVariationSettings: "'FILL' 1" }}>workspace_premium</span>
+                      <Link href="/subscriptions" className="font-label font-bold text-primary hover:underline">
+                        {subPlan === "annual" ? "Annual Plan" : "Flexible Plan"}
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             </aside>

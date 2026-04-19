@@ -1,7 +1,22 @@
+"use client";
+
+import { Suspense, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
 
-export default function ScheduleConfirmedPage() {
+function ConfirmedContent() {
+  const params = useSearchParams();
+  const pet = params.get("pet") ?? "your companion";
+  const service = params.get("service") ?? "The \"Royal Bath\" & Silk Cut";
+  const rawPrice = params.get("price") ?? "₱8,200.00";
+  const date = params.get("date") ?? "—";
+  const time = params.get("time") ?? "";
+  const shop = params.get("shop") ?? "The Amber Sanctuary";
+  const price = rawPrice.startsWith("₱") ? rawPrice : `₱${rawPrice}`;
+  const dateTime = time ? `${date} · ${time}` : date;
+  const ref = useMemo(() => "PB-" + Date.now().toString(36).toUpperCase(), []);
+
   return (
     <>
       <Header />
@@ -33,12 +48,12 @@ export default function ScheduleConfirmedPage() {
 
           {/* Subtitle */}
           <p className="text-on-surface-variant text-lg mt-4 mb-2 font-light">
-            Barnaby's bespoke grooming session has been secured.
+            {pet}&apos;s bespoke grooming session has been secured.
           </p>
 
           {/* Reference number */}
           <p className="font-label font-bold tracking-widest text-primary text-sm uppercase mb-12">
-            Ref #PB-20241114-0042
+            Ref #{ref}
           </p>
 
           {/* Booking Summary Card */}
@@ -51,33 +66,33 @@ export default function ScheduleConfirmedPage() {
                 <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">
                   Sanctuary
                 </span>
-                <span className="text-sm font-semibold text-right">The Amber Sanctuary</span>
+                <span className="text-sm font-semibold text-right">{shop}</span>
               </div>
               <div className="flex justify-between items-center border-b border-outline-variant/10 py-4">
                 <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">
                   Service
                 </span>
                 <span className="text-sm font-semibold text-right max-w-[200px]">
-                  The "Royal Bath" &amp; Silk Cut
+                  {service}
                 </span>
               </div>
               <div className="flex justify-between items-center border-b border-outline-variant/10 py-4">
                 <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">
                   Companion
                 </span>
-                <span className="text-sm font-semibold">Barnaby</span>
+                <span className="text-sm font-semibold">{pet}</span>
               </div>
               <div className="flex justify-between items-center border-b border-outline-variant/10 py-4">
                 <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">
                   Date &amp; Time
                 </span>
-                <span className="text-sm font-semibold">Nov 14, 2024 · 11:15 AM</span>
+                <span className="text-sm font-semibold">{dateTime}</span>
               </div>
               <div className="flex justify-between items-center pt-4">
                 <span className="text-xs uppercase tracking-widest font-bold text-on-surface-variant">
                   Total
                 </span>
-                <span className="text-xl font-headline font-extrabold text-primary">₱8,200.00</span>
+                <span className="text-xl font-headline font-extrabold text-primary">{price}</span>
               </div>
             </div>
           </div>
@@ -110,7 +125,7 @@ export default function ScheduleConfirmedPage() {
                 While You Wait
               </h2>
               <p className="text-on-surface-variant mt-3 max-w-md mx-auto font-light">
-                Curated guidance to make Barnaby's sanctuary experience truly exceptional.
+                Curated guidance to make {pet}&apos;s sanctuary experience truly exceptional.
               </p>
             </div>
 
@@ -130,14 +145,14 @@ export default function ScheduleConfirmedPage() {
                   </h3>
                 </div>
                 <p className="text-sm text-on-surface-variant leading-relaxed">
-                  Give Barnaby a light brush-out the evening before to remove surface tangles — this
+                  Give {pet} a light brush-out the evening before to remove surface tangles — this
                   helps your groomer achieve a flawless finish without added stress. Avoid bathing
-                  at home 48 hours prior so the coat's natural oils remain intact for the sanctuary
+                  at home 48 hours prior so the coat&apos;s natural oils remain intact for the sanctuary
                   treatment.
                 </p>
                 <div className="pt-2 border-t border-outline-variant/10">
                   <p className="text-xs text-on-surface-variant/70 italic">
-                    "A well-prepared coat is a groomer's greatest canvas."
+                    &ldquo;A well-prepared coat is a groomer&apos;s greatest canvas.&rdquo;
                   </p>
                 </div>
               </div>
@@ -173,7 +188,7 @@ export default function ScheduleConfirmedPage() {
                       check_small
                     </span>
                     Your booking reference:{" "}
-                    <strong className="text-on-surface font-bold">Ref #PB-20241114-0042</strong>
+                    <strong className="text-on-surface font-bold">Ref #{ref}</strong>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="material-symbols-outlined text-primary text-base mt-0.5 flex-shrink-0">
@@ -200,9 +215,9 @@ export default function ScheduleConfirmedPage() {
                   </h3>
                 </div>
                 <p className="text-sm text-on-surface-variant leading-relaxed">
-                  The Amber Sanctuary's senior groomer, Ana, holds a decade of breed-specific
+                  {shop}&apos;s senior groomer, Ana, holds a decade of breed-specific
                   expertise. Known for a calm, intuitive approach with large breeds, she treats each
-                  session as a collaborative ritual — your pet's comfort is the throughline of every
+                  session as a collaborative ritual — your pet&apos;s comfort is the throughline of every
                   technique she employs.
                 </p>
                 <div className="flex items-center gap-3 pt-3 border-t border-outline-variant/10">
@@ -253,5 +268,13 @@ export default function ScheduleConfirmedPage() {
         </div>
       </footer>
     </>
+  );
+}
+
+export default function ConfirmedPage() {
+  return (
+    <Suspense>
+      <ConfirmedContent />
+    </Suspense>
   );
 }

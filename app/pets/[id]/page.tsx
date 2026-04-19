@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import PetCareSection from "./PetCareSection";
 import PetPhotoGallery from "./PetPhotoGallery";
 import WeightChart from "./WeightChart";
+import PetEditPanel from "./PetEditPanel";
 
 export function generateStaticParams() {
   return PETS.map((p) => ({ id: p.id }));
@@ -52,9 +53,7 @@ export default async function PetPage({ params }: { params: Promise<{ id: string
             >
               Book a Grooming
             </Link>
-            <button className="border-2 border-primary text-primary px-8 py-3 rounded-full font-label font-bold tracking-wide active:scale-95 transition-all">
-              Edit Profile
-            </button>
+            <PetEditPanel pet={pet} />
           </div>
         </header>
 

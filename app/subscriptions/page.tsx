@@ -1,7 +1,21 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
 
 export default function SubscriptionsPage() {
+  const [activePlan, setActivePlan] = useState<"flexible" | "annual" | null>("flexible");
+
+  useEffect(() => {
+    const stored = localStorage.getItem("purrbook_plan") as "flexible" | "annual" | null;
+    if (stored) setActivePlan(stored);
+  }, []);
+
+  useEffect(() => {
+    if (activePlan) localStorage.setItem("purrbook_plan", activePlan);
+  }, [activePlan]);
+
   return (
     <>
       <Header />
@@ -29,7 +43,7 @@ export default function SubscriptionsPage() {
         <section className="mb-24">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl">
             {/* Flexible Plan */}
-            <div className="bg-surface-container-lowest border border-outline-variant/10 rounded-2xl p-8 flex flex-col hover:border-primary/30 hover:-translate-y-1 transition-all duration-300">
+            <div className={`bg-surface-container-lowest border rounded-2xl p-8 flex flex-col hover:-translate-y-1 transition-all duration-300 ${activePlan === "flexible" ? "border-primary/30 ring-2 ring-primary/20" : "border-outline-variant/10 hover:border-primary/30"}`}>
               <p className="text-xs font-label font-bold uppercase tracking-widest text-primary mb-2">
                 Flexible Plan
               </p>
@@ -132,16 +146,23 @@ export default function SubscriptionsPage() {
                 </ul>
               </div>
 
-              <Link
-                href="/search"
-                className="mt-6 block text-center bg-gradient-to-r from-primary to-primary-dim text-on-primary py-4 rounded-full font-label font-bold tracking-wide uppercase active:scale-95 transition-all shadow-lg shadow-primary/20"
-              >
-                Start Flexible
-              </Link>
+              {activePlan === "flexible" ? (
+                <div className="mt-6 py-4 rounded-full bg-tertiary-container text-on-tertiary-container font-label font-bold tracking-wide uppercase text-center flex items-center justify-center gap-2">
+                  <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                  Current Plan
+                </div>
+              ) : (
+                <button
+                  onClick={() => setActivePlan("flexible")}
+                  className="mt-6 block w-full text-center bg-gradient-to-r from-primary to-primary-dim text-on-primary py-4 rounded-full font-label font-bold tracking-wide uppercase active:scale-95 transition-all shadow-lg shadow-primary/20"
+                >
+                  Start Flexible
+                </button>
+              )}
             </div>
 
             {/* Annual Plan */}
-            <div className="bg-primary text-on-primary rounded-2xl p-8 flex flex-col shadow-2xl shadow-primary/30 hover:-translate-y-1 transition-all duration-300 relative">
+            <div className={`bg-primary text-on-primary rounded-2xl p-8 flex flex-col shadow-2xl shadow-primary/30 hover:-translate-y-1 transition-all duration-300 relative ${activePlan === "annual" ? "ring-2 ring-primary-dim" : ""}`}>
               <div className="absolute top-6 right-6">
                 <span className="inline-block px-3 py-1 rounded-full bg-on-primary/20 text-on-primary font-label text-xs font-bold uppercase tracking-widest">
                   Best Value
@@ -252,12 +273,19 @@ export default function SubscriptionsPage() {
                 </ul>
               </div>
 
-              <Link
-                href="/search"
-                className="mt-6 block text-center bg-on-primary text-primary py-4 rounded-full font-label font-bold tracking-wide uppercase active:scale-95 transition-all shadow-lg"
-              >
-                Start Annual Plan
-              </Link>
+              {activePlan === "annual" ? (
+                <div className="mt-6 py-4 rounded-full bg-on-primary/20 text-on-primary font-label font-bold tracking-wide uppercase text-center flex items-center justify-center gap-2">
+                  <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                  Current Plan
+                </div>
+              ) : (
+                <button
+                  onClick={() => setActivePlan("annual")}
+                  className="mt-6 block w-full text-center bg-on-primary text-primary py-4 rounded-full font-label font-bold tracking-wide uppercase active:scale-95 transition-all shadow-lg"
+                >
+                  Start Annual Plan
+                </button>
+              )}
             </div>
           </div>
         </section>
