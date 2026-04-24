@@ -156,7 +156,7 @@ function MessagesClient() {
         const { message } = await api.post<{ message: any }>(`/messages/threads/${activeSlug}`, { content: text.trim() });
         setThreads((prev) => prev.map((t) =>
           t.shopSlug === activeSlug
-            ? { ...t, messages: t.messages.map((m) => m.id === optimistic.id ? { ...m, id: message.id } : m) }
+            ? { ...t, messages: t.messages.map((m: any) => m.id === optimistic.id ? { ...m, id: message.id } : m) }
             : t
         ));
       } catch (err) {

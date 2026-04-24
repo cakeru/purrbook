@@ -2,7 +2,7 @@ import Link from "next/link";
 import MapWrapper from "@/components/MapWrapper";
 import Header from "@/components/Header";
 const MAP_MARKERS = [
-  { id: "center", lat: 15.4755, lng: 120.5963, name: "PurrBook Area", type: "salon" as const },
+  { position: [15.4755, 120.5963] as [number, number], label: "PurrBook Area" },
 ];
 
 export default function HomePage() {

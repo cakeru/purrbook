@@ -158,7 +158,7 @@ export default function BookingsPage() {
     ? bookings
     : bookings.filter((b) => b.status === activeTab);
 
-  function countFor(tab: UserBookingStatus | "all") {
+  function countFor(tab: BookingStatus | "all") {
     return tab === "all" ? bookings.length : bookings.filter((b) => b.status === tab).length;
   }
 

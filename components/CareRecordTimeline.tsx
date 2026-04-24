@@ -15,7 +15,7 @@ export default function CareRecordTimeline({ records, filter = "all" }: Props) {
     [records, filter]
   );
 
-  function openRecord(record: CareRecord) {
+  function openRecord(record: any) {
     setSelected(record);
     setOpen(true);
   }
@@ -151,7 +151,7 @@ export default function CareRecordTimeline({ records, filter = "all" }: Props) {
                   Services Performed
                 </p>
                 <ul className="space-y-2">
-                  {selected.services.map((service) => (
+                  {selected.services.map((service: string) => (
                     <li key={service} className="flex items-center gap-3 text-sm text-on-surface">
                       <span
                         className="material-symbols-outlined text-primary text-base flex-shrink-0"
@@ -172,7 +172,7 @@ export default function CareRecordTimeline({ records, filter = "all" }: Props) {
                     Products Used
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    {selected.products.map((product) => (
+                    {selected.products.map((product: string) => (
                       <span
                         key={product}
                         className="bg-surface-container rounded-full px-3 py-1.5 text-xs font-label font-bold text-on-surface"
