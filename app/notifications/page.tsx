@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
-import { SEED_NOTIFICATIONS, formatNotifTime, type AppNotification } from "@/lib/notifications";
+import { formatNotifTime, type AppNotification } from "@/lib/notifications";
+import { api } from "@/lib/api";
 
 const TYPE_ICON: Record<AppNotification["type"], string> = {
   booking: "calendar_month",
@@ -104,17 +105,33 @@ function Section({ label, notifs, onRead }: { label: string; notifs: AppNotifica
 }
 
 export default function NotificationsPage() {
-  const [notifs, setNotifs] = useState<AppNotification[]>(SEED_NOTIFICATIONS);
+  const [notifs, setNotifs] = useState<AppNotification[]>([]);
+
+  useEffect(() => {
+    api.get<{ notifications: any[] }>("/notifications").then(({ notifications: rows }) => {
+      setNotifs(rows.map((n) => ({
+        id: n.id,
+        type: (n.type?.includes("message") ? "message" : n.type?.includes("reminder") ? "reminder" : "booking") as AppNotification["type"],
+        title: n.title,
+        body: n.body,
+        href: n.href ?? undefined,
+        read: n.read,
+        timestamp: n.createdAt,
+      })));
+    }).catch(console.error);
+  }, []);
 
   const unread = notifs.filter((n) => !n.read).length;
   const { today, yesterday, earlier } = groupNotifications(notifs);
 
-  function markRead(id: string) {
+  async function markRead(id: string) {
     setNotifs((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
+    await api.patch(`/notifications/${id}/read`).catch(console.error);
   }
 
-  function markAllRead() {
+  async function markAllRead() {
     setNotifs((prev) => prev.map((n) => ({ ...n, read: true })));
+    await api.patch("/notifications/read-all").catch(console.error);
   }
 
   return (

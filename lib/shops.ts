@@ -95,6 +95,33 @@ const SERVICES_PREMIUM: ServiceItem[] = [
     price: "₱400",
     duration: "45 MIN",
   },
+  {
+    icon: "handyman",
+    colorClass: "text-primary bg-primary-container/20",
+    name: "Nail Trim & Ear Clean",
+    description:
+      "Precision nail filing, grinding, and gentle ear cleaning using botanical solutions.",
+    price: "₱180",
+    duration: "20 MIN",
+  },
+  {
+    icon: "dentistry",
+    colorClass: "text-secondary bg-secondary-container/20",
+    name: "Dental Brushing",
+    description:
+      "Gentle teeth brushing with pet-safe enzymatic toothpaste. Essential for oral hygiene.",
+    price: "₱150",
+    duration: "15 MIN",
+  },
+  {
+    icon: "air",
+    colorClass: "text-tertiary bg-tertiary-container/20",
+    name: "De-shedding Treatment",
+    description:
+      "High-velocity drying and thorough brush-out to remove seasonal undercoat.",
+    price: "₱550",
+    duration: "60 MIN",
+  },
 ];
 
 const SERVICES_CLINIC: ServiceItem[] = [
@@ -125,6 +152,33 @@ const SERVICES_CLINIC: ServiceItem[] = [
     price: "₱520",
     duration: "90 MIN",
   },
+  {
+    icon: "stethoscope",
+    colorClass: "text-primary bg-primary-container/20",
+    name: "Annual Check-up",
+    description:
+      "Full physical exam by our in-house veterinarian including vitals and health assessment.",
+    price: "₱600",
+    duration: "45 MIN",
+  },
+  {
+    icon: "dentistry",
+    colorClass: "text-secondary bg-secondary-container/20",
+    name: "Dental Scaling",
+    description:
+      "Professional plaque and tartar removal under light sedation for a clean, healthy mouth.",
+    price: "₱1,200",
+    duration: "60 MIN",
+  },
+  {
+    icon: "medication",
+    colorClass: "text-tertiary bg-tertiary-container/20",
+    name: "Deworming Package",
+    description:
+      "Broad-spectrum deworming treatment with follow-up schedule and parasite prevention guidance.",
+    price: "₱350",
+    duration: "20 MIN",
+  },
 ];
 
 const SERVICES_SHOP: ServiceItem[] = [
@@ -154,6 +208,33 @@ const SERVICES_SHOP: ServiceItem[] = [
       "Nail clipping, grinding, ear cleaning, and paw balm application.",
     price: "₱180",
     duration: "20 MIN",
+  },
+  {
+    icon: "pets",
+    colorClass: "text-primary bg-primary-container/20",
+    name: "Full Groom Package",
+    description:
+      "Bath, haircut, nail trim, ear clean, and finishing spray — everything in one visit.",
+    price: "₱850",
+    duration: "120 MIN",
+  },
+  {
+    icon: "dentistry",
+    colorClass: "text-secondary bg-secondary-container/20",
+    name: "Teeth Brushing",
+    description:
+      "Quick but effective brushing with pet-safe toothpaste. Great as a recurring add-on.",
+    price: "₱150",
+    duration: "15 MIN",
+  },
+  {
+    icon: "bug_report",
+    colorClass: "text-tertiary bg-tertiary-container/20",
+    name: "Flea & Tick Treatment",
+    description:
+      "Medicated bath and topical application to eliminate and prevent flea and tick infestations.",
+    price: "₱480",
+    duration: "45 MIN",
   },
 ];
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { type PetProfile, type WeightEntry } from "@/lib/pets";
+import { api } from "@/lib/api";
 
 type Edits = {
   weight: string;
@@ -11,13 +11,15 @@ type Edits = {
   newCareNote: string;
 };
 
-export default function PetEditPanel({ pet }: { pet: Pick<PetProfile, "name" | "weight" | "grooming" | "weightHistory"> }) {
+export default function PetEditPanel({ pet }: { pet: any }) {
   const [open, setOpen] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [weightHistory, setWeightHistory] = useState<WeightEntry[]>(pet.weightHistory);
+  const [weightHistory, setWeightHistory] = useState<{ month: string; weight: number }[]>(
+    (pet.weightHistory ?? []).map((e: any) => ({ month: e.recordedAt ?? e.month ?? "", weight: parseFloat(e.weightKg ?? e.weight ?? 0) }))
+  );
   const [form, setForm] = useState<Edits>({
-    weight: pet.weight,
-    groomerNotes: pet.grooming.groomerNotes,
+    weight: pet.weightKg ?? pet.weight ?? "0",
+    groomerNotes: pet.groomingNotes?.groomerNotes ?? pet.grooming?.groomerNotes ?? "",
     newWeightMonth: "",
     newWeightKg: "",
     newCareNote: "",
@@ -35,7 +37,12 @@ export default function PetEditPanel({ pet }: { pet: Pick<PetProfile, "name" | "
     set("newWeightKg", "");
   }
 
-  function handleSave() {
+  async function handleSave() {
+    const kg = parseFloat(form.weight);
+    await api.put(`/pets/${pet.id}`, {
+      weightKg: isNaN(kg) ? undefined : kg,
+      groomingNotes: { ...(pet.groomingNotes ?? {}), groomerNotes: form.groomerNotes },
+    }).catch(() => {});
     setSaved(true);
     setTimeout(() => {
       setSaved(false);

@@ -4,35 +4,55 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import AddCompanionModal, { type Pet } from "@/components/AddCompanionModal";
 import Header from "@/components/Header";
-import { PETS } from "@/lib/pets";
-import { SHOPS } from "@/lib/shops";
-import { useSavedShops } from "@/lib/saved-shops";
-
-const SEED_COMPANIONS: (Pet & { image: string; href?: string })[] = PETS.map((p) => ({
-  name: p.name,
-  breed: p.breed,
-  species: p.species,
-  gender: p.gender,
-  age: p.age,
-  weight: p.weight,
-  coatType: p.coatType,
-  notes: "",
-  image: p.image,
-  href: `/pets/${p.id}`,
-}));
+import { api, getStoredUser } from "@/lib/api";
 
 export default function ProfilePage() {
-  const [companions, setCompanions] = useState(SEED_COMPANIONS);
-  const { saved, toggle: toggleSaved, isSaved } = useSavedShops();
-  const savedShops = SHOPS.filter((s) => saved.includes(s.slug));
+  const [user, setUser] = useState<any>(null);
+  const [companions, setCompanions] = useState<(Pet & { id?: string; image: string; href?: string })[]>([]);
+  const [savedShops, setSavedShops] = useState<any[]>([]);
   const [subPlan, setSubPlan] = useState<"flexible" | "annual" | null>(null);
 
   useEffect(() => {
-    setSubPlan(localStorage.getItem("purrbook_plan") as "flexible" | "annual" | null);
+    setUser(getStoredUser());
+
+    api.get<{ pets: any[] }>("/pets").then(({ pets }) => {
+      setCompanions(pets.map((p) => ({
+        id: p.id,
+        name: p.name,
+        breed: p.breed ?? "",
+        species: p.species,
+        gender: p.gender ?? "male",
+        age: parseFloat(p.ageYears ?? "0"),
+        weight: parseFloat(p.weightKg ?? "0"),
+        coatType: p.coatType ?? "",
+        notes: "",
+        image: p.imageUrl ?? "",
+        href: `/pets/${p.id}`,
+      })));
+    }).catch(console.error);
+
+    api.get<{ shops: any[] }>("/shops/saved").then(({ shops }) => setSavedShops(shops)).catch(console.error);
+
+    api.get<{ subscription: any }>("/subscriptions").then(({ subscription }) => {
+      if (subscription) setSubPlan(subscription.plan as "flexible" | "annual");
+    }).catch(console.error);
   }, []);
 
-  function handleAddCompanion(pet: Pet) {
-    setCompanions((prev) => [...prev, { ...pet, image: "" }]);
+  async function handleAddCompanion(pet: Pet) {
+    try {
+      const { pet: created } = await api.post<{ pet: any }>("/pets", {
+        name: pet.name,
+        species: pet.species,
+        breed: pet.breed,
+        gender: pet.gender,
+        ageYears: pet.age,
+        weightKg: pet.weight,
+        coatType: pet.coatType,
+      });
+      setCompanions((prev) => [...prev, { ...pet, id: created.id, image: "", href: `/pets/${created.id}` }]);
+    } catch (err) {
+      console.error("Add companion failed", err);
+    }
   }
 
   return (
@@ -48,7 +68,7 @@ export default function ProfilePage() {
           </div>
           <img
             src="/purrbook_profile.jpg"
-            alt="Maria Santos"
+            alt={user?.name ?? "Profile"}
             className="absolute bottom-0 left-20 w-20 h-20 rounded-full object-cover ring-4 ring-surface shadow-xl translate-y-1/2"
           />
         </div>
@@ -56,7 +76,7 @@ export default function ProfilePage() {
         {/* Name Strip */}
         <div className="max-w-screen-xl mx-auto px-12 flex items-end justify-between pt-14 pb-6">
           <div>
-            <h1 className="text-2xl font-headline font-bold text-on-surface">Maria Santos</h1>
+            <h1 className="text-2xl font-headline font-bold text-on-surface">{user?.name ?? "—"}</h1>
             <div className="flex items-center gap-2 text-on-surface-variant text-sm mt-1">
               <span className="material-symbols-outlined text-sm">location_on</span>
               <span>Tarlac City, Philippines</span>
@@ -90,7 +110,7 @@ export default function ProfilePage() {
                   </div>
                   <div className="w-px bg-outline-variant/20" />
                   <div className="flex-1 text-center">
-                    <p className="text-2xl font-headline font-bold text-on-surface">{saved.length}</p>
+                    <p className="text-2xl font-headline font-bold text-on-surface">{savedShops.length}</p>
                     <p className="text-xs text-on-surface-variant mt-0.5">Saved</p>
                   </div>
                 </div>
@@ -230,23 +250,23 @@ export default function ProfilePage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {savedShops.map((shop) => (
                       <div key={shop.slug} className="flex gap-4 p-3 rounded-xl border border-outline-variant/10 hover:border-primary bg-surface-container-lowest transition-all group">
-                        <Link href={shop.href} className="flex gap-4 flex-1 min-w-0 items-center active:scale-95 transition-all">
+                        <Link href={`/shop-details/${shop.slug}`} className="flex gap-4 flex-1 min-w-0 items-center active:scale-95 transition-all">
                           <img
-                            src={shop.image}
-                            alt={shop.label}
+                            src={shop.imageUrl ?? "/purrbook.png"}
+                            alt={shop.name ?? shop.label}
                             className="w-12 h-12 rounded-lg object-cover flex-shrink-0"
                           />
                           <div className="flex flex-col justify-between py-0.5 min-w-0 flex-1">
-                            <p className="font-headline font-bold text-on-surface text-sm group-hover:text-primary transition-colors truncate">{shop.label}</p>
+                            <p className="font-headline font-bold text-on-surface text-sm group-hover:text-primary transition-colors truncate">{shop.name ?? shop.label}</p>
                             <div className="flex items-center gap-1 text-tertiary mt-1">
                               <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                              <span className="text-xs font-bold text-on-surface">{shop.rating}</span>
+                              <span className="text-xs font-bold text-on-surface">{parseFloat(String(shop.rating ?? 0)).toFixed(1)}</span>
                             </div>
                           </div>
                           <span className="material-symbols-outlined text-on-surface-variant self-center flex-shrink-0 text-base group-hover:text-primary transition-colors">chevron_right</span>
                         </Link>
                         <button
-                          onClick={() => toggleSaved(shop.slug)}
+                          onClick={() => async () => { await api.delete(`/shops/${shop.slug}/save`).catch(console.error); setSavedShops((prev) => prev.filter((s) => s.slug !== shop.slug)); }}
                           className="flex-shrink-0 self-center w-8 h-8 rounded-full flex items-center justify-center hover:bg-error/5 transition-all active:scale-95"
                           aria-label="Remove from saved"
                         >

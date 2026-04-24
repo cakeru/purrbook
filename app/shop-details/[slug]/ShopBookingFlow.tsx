@@ -1,11 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { type Shop, type ServiceItem } from "@/lib/shops";
 import BookingWidget from "./BookingWidget";
 
-export default function ShopBookingFlow({ shop }: { shop: Shop }) {
-  const [selectedService, setSelectedService] = useState<ServiceItem | null>(null);
+export default function ShopBookingFlow({ shop }: { shop: any }) {
+  const [selectedServices, setSelectedServices] = useState<any[]>([]);
+
+  function toggleService(svc: any) {
+    setSelectedServices((prev) =>
+      prev.some((s) => s.name === svc.name)
+        ? prev.filter((s) => s.name !== svc.name)
+        : [...prev, svc]
+    );
+  }
 
   return (
     <div className="max-w-screen-2xl mx-auto px-12 grid grid-cols-1 lg:grid-cols-3 gap-16">
@@ -16,16 +23,16 @@ export default function ShopBookingFlow({ shop }: { shop: Shop }) {
           <span className="h-px bg-outline-variant flex-grow opacity-30"></span>
         </h2>
         <div className="space-y-4">
-          {shop.detailServices.map((svc) => {
-            const isSelected = selectedService?.name === svc.name;
+          {(shop.detailServices ?? []).map((svc: any) => {
+            const isSelected = selectedServices.some((s) => s.name === svc.name);
             return (
               <div
                 key={svc.name}
-                onClick={() => setSelectedService(svc)}
-                className={`group relative bg-surface p-6 rounded-lg transition-all duration-300 flex justify-between items-center cursor-pointer active:scale-95 ${
+                onClick={() => toggleService(svc)}
+                className={`group relative p-6 rounded-lg transition-all duration-300 flex justify-between items-center cursor-pointer active:scale-95 ${
                   isSelected
                     ? "bg-surface-container-low ring-2 ring-primary"
-                    : "hover:bg-surface-container-low"
+                    : "bg-surface hover:bg-surface-container-low"
                 }`}
               >
                 <div className="flex gap-6 items-center">
@@ -59,7 +66,7 @@ export default function ShopBookingFlow({ shop }: { shop: Shop }) {
 
       {/* Booking Widget */}
       <div className="lg:col-span-1">
-        <BookingWidget shop={shop} selectedService={selectedService} />
+        <BookingWidget shop={shop} selectedServices={selectedServices} />
       </div>
     </div>
   );

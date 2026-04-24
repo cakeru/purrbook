@@ -1,7 +1,9 @@
 import Link from "next/link";
 import MapWrapper from "@/components/MapWrapper";
 import Header from "@/components/Header";
-import { MAP_MARKERS } from "@/lib/shops";
+const MAP_MARKERS = [
+  { id: "center", lat: 15.4755, lng: 120.5963, name: "PurrBook Area", type: "salon" as const },
+];
 
 export default function HomePage() {
   return (

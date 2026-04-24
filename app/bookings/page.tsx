@@ -1,25 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Header from "@/components/Header";
-import { BOOKINGS, type UserBooking, type UserBookingStatus } from "@/lib/bookings";
+import { api } from "@/lib/api";
 import BookingDetailPanel from "./BookingDetailPanel";
 
-const TABS: { label: string; value: UserBookingStatus | "all" }[] = [
+type BookingStatus = "all" | "upcoming" | "completed" | "cancelled";
+
+const TABS: { label: string; value: BookingStatus }[] = [
   { label: "All", value: "all" },
   { label: "Upcoming", value: "upcoming" },
   { label: "Completed", value: "completed" },
   { label: "Cancelled", value: "cancelled" },
 ];
 
-function StatusChip({ status }: { status: UserBookingStatus }) {
-  const styles: Record<UserBookingStatus, string> = {
+function StatusChip({ status }: { status: string }) {
+  const styles: Record<string, string> = {
     upcoming: "bg-tertiary-container text-on-tertiary-container",
     completed: "bg-surface-container-highest text-on-surface-variant",
     cancelled: "bg-error/10 text-error",
   };
-  const labels: Record<UserBookingStatus, string> = {
+  const labels: Record<string, string> = {
     upcoming: "Upcoming",
     completed: "Completed",
     cancelled: "Cancelled",
@@ -31,7 +33,7 @@ function StatusChip({ status }: { status: UserBookingStatus }) {
   );
 }
 
-function BookingCard({ booking, onSelect }: { booking: UserBooking; onSelect: (b: UserBooking) => void }) {
+function BookingCard({ booking, onSelect }: { booking: any; onSelect: (b: any) => void }) {
   const petColor = booking.petSpecies === "dog"
     ? "bg-tertiary-container text-on-tertiary-container"
     : "bg-secondary-container text-on-secondary-container";
@@ -118,12 +120,38 @@ function BookingCard({ booking, onSelect }: { booking: UserBooking; onSelect: (b
 }
 
 export default function BookingsPage() {
-  const [bookings, setBookings] = useState<UserBooking[]>(BOOKINGS);
-  const [activeTab, setActiveTab] = useState<UserBookingStatus | "all">("all");
-  const [selectedBooking, setSelectedBooking] = useState<UserBooking | null>(null);
+  const [bookings, setBookings] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState<BookingStatus>("all");
+  const [selectedBooking, setSelectedBooking] = useState<any | null>(null);
 
-  function handleCancel(id: string) {
-    setBookings((prev) => prev.map((b) => b.id === id ? { ...b, status: "cancelled" as UserBookingStatus } : b));
+  useEffect(() => {
+    api.get<{ bookings: any[] }>("/bookings").then(({ bookings: rows }) => {
+      setBookings(rows.map((b) => ({
+        id: b.id,
+        refNumber: b.refNumber,
+        shopName: b.providerName ?? "",
+        shopSlug: b.providerSlug ?? b.providerId ?? "",
+        shopImage: b.shopImage ?? "/purrbook.png",
+        service: b.serviceName ?? "",
+        petName: b.petName ?? "",
+        petSpecies: b.petSpecies ?? "dog",
+        date: b.scheduledDate ?? "",
+        time: b.scheduledTime ?? "",
+        duration: b.durationMins ? `${b.durationMins} min` : "",
+        price: Math.round((b.priceCentavos ?? 0) / 100),
+        status: (b.status === "confirmed" ? "upcoming" : b.status) as BookingStatus,
+        paymentStatus: b.paymentStatus,
+      })));
+    }).catch(console.error);
+  }, []);
+
+  async function handleCancel(id: string) {
+    try {
+      await api.patch(`/bookings/${id}/cancel`);
+      setBookings((prev) => prev.map((b) => b.id === id ? { ...b, status: "cancelled" as BookingStatus } : b));
+    } catch (err) {
+      console.error("Cancel failed", err);
+    }
   }
 
   const filtered = activeTab === "all"

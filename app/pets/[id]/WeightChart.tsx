@@ -1,8 +1,6 @@
 "use client";
 
-import type { WeightEntry } from "@/lib/pets";
-
-export default function WeightChart({ data }: { data: WeightEntry[] }) {
+export default function WeightChart({ data }: { data: { month: string; weight: number }[] }) {
   const max = Math.max(...data.map((d) => d.weight));
   const latest = data[data.length - 1];
 

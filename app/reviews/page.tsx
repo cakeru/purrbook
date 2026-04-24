@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "@/components/Header";
-import { REVIEWS, type UserReview } from "@/lib/reviews";
-import { BOOKINGS } from "@/lib/bookings";
+import { api } from "@/lib/api";
 
 function StarRating({ rating, interactive = false, onChange }: {
   rating: number;
@@ -34,7 +33,7 @@ function StarRating({ rating, interactive = false, onChange }: {
   );
 }
 
-function ReviewCard({ review }: { review: UserReview }) {
+function ReviewCard({ review }: { review: any }) {
   const petColor = review.petName === "Luna"
     ? "bg-secondary-container text-on-secondary-container"
     : "bg-tertiary-container text-on-tertiary-container";
@@ -68,36 +67,77 @@ function ReviewCard({ review }: { review: UserReview }) {
 }
 
 export default function ReviewsPage() {
-  const [reviews, setReviews] = useState<UserReview[]>(REVIEWS);
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [pendingBookings, setPendingBookings] = useState<any[]>([]);
   const [modalBookingId, setModalBookingId] = useState<string | null>(null);
   const [draftRating, setDraftRating] = useState(5);
   const [draftBody, setDraftBody] = useState("");
 
-  const reviewedIds = new Set(reviews.map((r) => r.bookingId));
-  const pendingBookings = BOOKINGS.filter(
-    (b) => b.status === "completed" && !reviewedIds.has(b.id)
-  );
-  const modalBooking = BOOKINGS.find((b) => b.id === modalBookingId) ?? null;
+  useEffect(() => {
+    // Load existing reviews
+    api.get<{ reviews: any[] }>("/reviews").then(({ reviews: rows }) => {
+      setReviews(rows.map((r) => ({
+        id: r.id,
+        bookingId: r.bookingId,
+        shopSlug: r.providerSlug ?? "",
+        shopName: r.providerName ?? "",
+        shopImage: "/purrbook.png",
+        service: r.serviceName ?? "",
+        petName: r.petName ?? "",
+        rating: r.rating,
+        body: r.body ?? "",
+        date: new Date(r.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+        staffName: "The Team",
+      })));
+    }).catch(console.error);
 
-  function submitReview() {
+    // Load completed bookings for review prompts
+    api.get<{ bookings: any[] }>("/bookings?status=completed").then(({ bookings: rows }) => {
+      setPendingBookings(rows.map((b) => ({
+        id: b.id,
+        shopName: b.providerName ?? "",
+        shopImage: "/purrbook.png",
+        service: b.serviceName ?? "",
+        date: b.scheduledDate ?? "",
+        petName: b.petName ?? "",
+        petSpecies: b.petSpecies ?? "dog",
+        shopSlug: b.providerSlug ?? b.providerId ?? "",
+      })));
+    }).catch(console.error);
+  }, []);
+
+  const reviewedIds = new Set(reviews.map((r) => r.bookingId));
+  const unreviewedBookings = pendingBookings.filter((b) => !reviewedIds.has(b.id));
+  const modalBooking = pendingBookings.find((b) => b.id === modalBookingId) ?? null;
+
+  async function submitReview() {
     if (!modalBooking || !draftBody.trim()) return;
-    const newReview: UserReview = {
-      id: `rv-${Date.now()}`,
-      bookingId: modalBooking.id,
-      shopSlug: modalBooking.shopSlug,
-      shopName: modalBooking.shopName,
-      shopImage: modalBooking.shopImage,
-      service: modalBooking.service,
-      petName: modalBooking.petName,
-      rating: draftRating,
-      body: draftBody.trim(),
-      date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
-      staffName: "The Team",
-    };
-    setReviews((prev) => [newReview, ...prev]);
-    setModalBookingId(null);
-    setDraftRating(5);
-    setDraftBody("");
+    try {
+      const { review } = await api.post<{ review: any }>("/reviews", {
+        bookingId: modalBooking.id,
+        rating: draftRating,
+        body: draftBody.trim(),
+      });
+      const newReview = {
+        id: review.id,
+        bookingId: modalBooking.id,
+        shopSlug: modalBooking.shopSlug,
+        shopName: modalBooking.shopName,
+        shopImage: modalBooking.shopImage,
+        service: modalBooking.service,
+        petName: modalBooking.petName,
+        rating: draftRating,
+        body: draftBody.trim(),
+        date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+        staffName: "The Team",
+      };
+      setReviews((prev) => [newReview, ...prev]);
+      setModalBookingId(null);
+      setDraftRating(5);
+      setDraftBody("");
+    } catch (err) {
+      console.error("Submit review failed", err);
+    }
   }
 
   return (
@@ -116,13 +156,13 @@ export default function ReviewsPage() {
         </div>
 
         {/* Pending — write a review */}
-        {pendingBookings.length > 0 && (
+        {unreviewedBookings.length > 0 && (
           <section>
             <p className="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant mb-4">
               Awaiting Your Review
             </p>
             <div className="space-y-3">
-              {pendingBookings.map((booking) => {
+              {unreviewedBookings.map((booking) => {
                 const petColor = booking.petSpecies === "cat"
                   ? "bg-secondary-container text-on-secondary-container"
                   : "bg-tertiary-container text-on-tertiary-container";

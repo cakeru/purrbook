@@ -1,22 +1,24 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { SEED_THREADS } from "@/lib/messages";
-
-const totalUnread = SEED_THREADS.reduce((sum, t) => sum + t.unreadCount, 0);
+import { api } from "@/lib/api";
 
 export default function InboxIcon() {
   const pathname = usePathname();
   const active = pathname === "/messages";
+  const [totalUnread, setTotalUnread] = useState(0);
+
+  useEffect(() => {
+    api.get<{ threads: any[] }>("/messages/threads")
+      .then(({ threads }) => setTotalUnread(threads.reduce((s, t) => s + (t.unreadCount ?? 0), 0)))
+      .catch(() => {});
+  }, []);
 
   return (
     <Link href="/messages" className="relative p-2 rounded-full hover:bg-stone-100/50 transition-all active:scale-95 flex items-center justify-center">
-      <span
-        className={`material-symbols-outlined transition-colors ${
-          active ? "text-primary" : ""
-        }`}
-      >
+      <span className={`material-symbols-outlined transition-colors ${active ? "text-primary" : ""}`}>
         inbox
       </span>
       {totalUnread > 0 && (

@@ -1,11 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { SHOPS } from "@/lib/shops";
-
-const FEATURED_SHOPS = SHOPS.filter((s) => s.featured).concat(SHOPS.filter((s) => !s.featured)).slice(0, 3);
+import { api } from "@/lib/api";
 
 const DOG_BREEDS = ["Golden Retriever", "Labrador Retriever", "Shih Tzu", "Poodle", "Pomeranian", "Aspin (Mixed Breed)", "Other"];
 const CAT_BREEDS = ["Persian", "Scottish Fold", "Siamese", "Maine Coon", "Puspin (Mixed Breed)", "Other"];
@@ -19,6 +17,13 @@ export default function OnboardingPage() {
   const [petName, setPetName] = useState("");
   const [breed, setBreed] = useState("");
   const [chosenShop, setChosenShop] = useState<string | null>(null);
+  const [featuredShops, setFeaturedShops] = useState<any[]>([]);
+
+  useEffect(() => {
+    api.get<{ shops: any[] }>("/shops?limit=3")
+      .then(({ shops }) => setFeaturedShops(shops))
+      .catch(() => {});
+  }, []);
 
   function canProceedStep1() {
     return species !== null && petName.trim().length > 0 && breed.length > 0;
@@ -151,7 +156,10 @@ export default function OnboardingPage() {
             </div>
 
             <div className="space-y-4 mb-8">
-              {FEATURED_SHOPS.map((shop) => (
+              {featuredShops.length === 0 && (
+                <p className="text-sm text-on-surface-variant text-center py-4">Loading sanctuaries…</p>
+              )}
+              {featuredShops.map((shop) => (
                 <button
                   key={shop.slug}
                   onClick={() => setChosenShop(shop.slug)}
@@ -162,20 +170,20 @@ export default function OnboardingPage() {
                   }`}
                 >
                   <img
-                    src={shop.image}
-                    alt={shop.label}
+                    src="/purrbook_homepage.png"
+                    alt={shop.name}
                     className="w-16 h-16 rounded-xl object-cover flex-shrink-0"
                   />
                   <div className="flex-1 min-w-0">
-                    <p className="font-headline font-bold text-on-surface text-base leading-tight">{shop.label}</p>
+                    <p className="font-headline font-bold text-on-surface text-base leading-tight">{shop.name}</p>
                     <p className="text-xs text-on-surface-variant mt-0.5">{shop.address}</p>
                     <div className="flex items-center gap-2 mt-1.5">
                       <span className="inline-flex items-center gap-1 text-tertiary">
                         <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                        <span className="text-xs font-bold">{shop.rating}</span>
+                        <span className="text-xs font-bold">{parseFloat(String(shop.rating ?? 0)).toFixed(1)}</span>
                       </span>
                       <span className="text-outline-variant">·</span>
-                      <span className="text-xs text-on-surface-variant">{shop.price}</span>
+                      <span className="text-xs text-on-surface-variant capitalize">{shop.type}</span>
                     </div>
                   </div>
                   {chosenShop === shop.slug && (
@@ -248,7 +256,7 @@ export default function OnboardingPage() {
                   <span className="material-symbols-outlined text-primary text-base" style={{ fontVariationSettings: "'FILL' 1" }}>storefront</span>
                   <span className="text-sm text-on-surface-variant">Favourite Sanctuary</span>
                   <span className="ml-auto font-label font-bold text-sm text-on-surface">
-                    {FEATURED_SHOPS.find((s) => s.slug === chosenShop)?.label}
+                    {featuredShops.find((s) => s.slug === chosenShop)?.name}
                   </span>
                 </div>
               )}

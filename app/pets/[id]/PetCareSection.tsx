@@ -2,16 +2,15 @@
 
 import { useState } from "react";
 import CareRecordTimeline from "@/components/CareRecordTimeline";
-import { type CareRecord, type Filter } from "@/lib/pets";
 
-const TABS: { label: string; value: Filter }[] = [
+const TABS = [
   { label: "All", value: "all" },
   { label: "Grooming", value: "grooming" },
   { label: "Vet Visits", value: "vet" },
 ];
 
-export default function PetCareSection({ records }: { records: CareRecord[] }) {
-  const [filter, setFilter] = useState<Filter>("all");
+export default function PetCareSection({ records }: { records: any[] }) {
+  const [filter, setFilter] = useState("all");
 
   return (
     <div className="bg-surface-container-low p-8 rounded-xl">

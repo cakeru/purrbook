@@ -1,11 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import MapWrapper from "@/components/MapWrapper";
 import Header from "@/components/Header";
-import { SHOPS, MAP_MARKERS } from "@/lib/shops";
-import { useSavedShops } from "@/lib/saved-shops";
+import { api } from "@/lib/api";
 
 const SERVICE_TYPES = ["Grooming", "Boarding", "Therapy", "Training"];
 const AMENITY_OPTIONS = [
@@ -15,12 +14,30 @@ const AMENITY_OPTIONS = [
 ];
 
 export default function SearchPage() {
+  const [allShops, setAllShops] = useState<any[]>([]);
+  const [savedSlugs, setSavedSlugs] = useState<Set<string>>(new Set());
   const [activeService, setActiveService] = useState<string | null>(null);
   const [maxDistance, setMaxDistance] = useState(20);
   const [activeAmenities, setActiveAmenities] = useState<Set<string>>(new Set());
   const [locationQuery, setLocationQuery] = useState("");
   const [showMap, setShowMap] = useState(false);
-  const { isSaved, toggle: toggleSaved } = useSavedShops();
+
+  useEffect(() => {
+    api.get<{ shops: any[] }>("/shops?lat=15.4755&lng=120.5963").then(({ shops }) => setAllShops(shops)).catch(console.error);
+    api.get<{ shops: any[] }>("/shops/saved").then(({ shops }) => setSavedSlugs(new Set(shops.map((s: any) => s.slug)))).catch(console.error);
+  }, []);
+
+  async function toggleSaved(slug: string) {
+    if (savedSlugs.has(slug)) {
+      await api.delete(`/shops/${slug}/save`).catch(console.error);
+      setSavedSlugs((prev) => { const n = new Set(prev); n.delete(slug); return n; });
+    } else {
+      await api.post(`/shops/${slug}/save`).catch(console.error);
+      setSavedSlugs((prev) => new Set([...prev, slug]));
+    }
+  }
+
+  function isSaved(slug: string) { return savedSlugs.has(slug); }
 
   function toggleAmenity(key: string) {
     setActiveAmenities((prev) => {
@@ -31,25 +48,31 @@ export default function SearchPage() {
   }
 
   const filteredShops = useMemo(() => {
-    return SHOPS.filter((shop) => {
-      if (locationQuery && !shop.label.toLowerCase().includes(locationQuery.toLowerCase())) {
-        return false;
-      }
-      if (activeService && !shop.services.includes(activeService)) {
-        return false;
-      }
-      if (parseFloat(shop.distance) > maxDistance) {
-        return false;
-      }
-      for (const amenity of activeAmenities) {
-        if (!shop.amenities.includes(amenity)) return false;
+    return allShops.filter((shop) => {
+      if (locationQuery && !shop.name?.toLowerCase().includes(locationQuery.toLowerCase())) return false;
+      if (activeService && !shop.services?.some((s: any) => s.category === activeService || s.name?.includes(activeService))) return false;
+      if (activeAmenities.size > 0) {
+        for (const amenity of activeAmenities) {
+          if (!shop.amenities?.includes(amenity)) return false;
+        }
       }
       return true;
     });
-  }, [locationQuery, activeService, maxDistance, activeAmenities]);
+  }, [allShops, locationQuery, activeService, activeAmenities]);
 
-  const featuredShop = filteredShops.find((s) => s.featured);
-  const regularShops = filteredShops.filter((s) => !s.featured);
+  const mapMarkers = filteredShops
+    .filter((s) => s.lat && s.lng)
+    .map((s) => ({
+      position: [parseFloat(s.lat), parseFloat(s.lng)] as [number, number],
+      label: s.name,
+      rating: parseFloat(s.rating ?? "0"),
+      distance: s.distanceM ? `${(s.distanceM / 1000).toFixed(1)} km` : "",
+      hours: "",
+      href: `/shop-details/${s.slug}`,
+    }));
+
+  const featuredShop = filteredShops[0];
+  const regularShops = filteredShops.slice(1);
 
   return (
     <>
@@ -185,7 +208,7 @@ export default function SearchPage() {
             {/* Map View */}
             {showMap && (
               <div className="mb-10 rounded-2xl overflow-hidden border border-outline-variant/10 shadow-sm" style={{ height: 400 }}>
-                <MapWrapper markers={MAP_MARKERS} />
+                <MapWrapper markers={mapMarkers} />
               </div>
             )}
 
@@ -212,9 +235,9 @@ export default function SearchPage() {
                   <div className="group bg-surface-container-lowest rounded-xl overflow-hidden hover:shadow-[0_12px_40px_rgba(48,51,48,0.08)] transition-all duration-500 xl:col-span-2 flex flex-col lg:flex-row border border-outline-variant/5">
                     <div className="lg:w-2/5 h-80 lg:h-auto overflow-hidden relative">
                       <img
-                        alt={featuredShop.label}
+                        alt={featuredShop.name ?? featuredShop.label}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        src={featuredShop.image}
+                        src={featuredShop.imageUrl ?? "/purrbook.png"}
                       />
                       <div className="absolute top-6 left-6 bg-tertiary-fixed text-on-tertiary-fixed px-4 py-1.5 rounded-full font-label text-xs font-bold uppercase tracking-widest shadow-lg">
                         Featured Studio
@@ -223,10 +246,10 @@ export default function SearchPage() {
                     <div className="p-10 flex flex-col justify-between lg:w-3/5">
                       <div>
                         <div className="flex justify-between items-start mb-4">
-                          <h3 className="text-3xl font-headline font-bold text-on-surface">{featuredShop.label}</h3>
+                          <h3 className="text-3xl font-headline font-bold text-on-surface">{featuredShop.name ?? featuredShop.label}</h3>
                           <div className="flex items-center gap-1 text-tertiary">
                             <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                            <span className="font-bold">{featuredShop.rating}</span>
+                            <span className="font-bold">{parseFloat(String(featuredShop.rating ?? 0))}</span>
                           </div>
                         </div>
                         <p className="text-on-surface-variant leading-relaxed text-lg mb-8 italic">
@@ -246,9 +269,9 @@ export default function SearchPage() {
                       <div className="flex items-center justify-between border-t border-outline-variant/10 pt-6">
                         <div>
                           <p className="text-xs font-label font-bold text-on-surface-variant uppercase tracking-widest mb-1">Pricing</p>
-                          <p className="text-2xl font-headline font-bold text-primary">{featuredShop.price}</p>
+                          <p className="text-2xl font-headline font-bold text-primary">{`₱${((featuredShop.services?.[0]?.priceCentavos ?? 0)/100).toLocaleString()}+`}</p>
                         </div>
-                        <Link href={featuredShop.href} className="bg-primary text-on-primary px-8 py-3 rounded-full font-label font-bold hover:shadow-lg hover:shadow-primary/20 transition-all active:scale-95">
+                        <Link href={`/shop-details/${featuredShop.slug}`} className="bg-primary text-on-primary px-8 py-3 rounded-full font-label font-bold hover:shadow-lg hover:shadow-primary/20 transition-all active:scale-95">
                           Book Studio
                         </Link>
                       </div>
@@ -261,9 +284,9 @@ export default function SearchPage() {
                   <div key={shop.id} className="bg-surface-container-lowest rounded-lg p-6 flex flex-col group border border-outline-variant/5">
                     <div className="aspect-[4/3] rounded-lg overflow-hidden mb-6 relative">
                       <img
-                        alt={shop.label}
+                        alt={shop.name ?? shop.label}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                        src={shop.image}
+                        src={shop.imageUrl ?? "/purrbook.png"}
                       />
                       <div className="absolute top-4 left-4 bg-surface-container-lowest/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-primary tracking-widest uppercase">
                         {shop.category}
@@ -282,18 +305,18 @@ export default function SearchPage() {
                         </span>
                         <div className="flex items-center gap-1 text-tertiary text-sm">
                           <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>star</span>
-                          <span className="font-bold">{shop.rating}</span>
+                          <span className="font-bold">{parseFloat(String(shop.rating ?? 0))}</span>
                         </div>
                       </div>
-                      <h3 className="text-xl font-headline font-bold text-on-surface mb-2">{shop.label}</h3>
+                      <h3 className="text-xl font-headline font-bold text-on-surface mb-2">{shop.name ?? shop.label}</h3>
                       <p className="text-sm text-on-surface-variant line-clamp-2 mb-6">{shop.description}</p>
                     </div>
                     <div className="flex justify-between items-center pt-4 border-t border-outline-variant/10">
                       <div className="flex items-center gap-1.5 text-sm text-on-surface-variant">
                         <span className="material-symbols-outlined text-base">near_me</span>
-                        <span className="font-medium">{shop.distance} km away</span>
+                        <span className="font-medium">{shop.distanceM ? (shop.distanceM/1000).toFixed(1)+" km" : ""} km away</span>
                       </div>
-                      <Link href={shop.href} className="bg-surface-container-low text-on-surface px-5 py-2 rounded-full font-label font-bold text-sm group-hover:bg-primary group-hover:text-on-primary transition-all active:scale-95">
+                      <Link href={'/shop-details/'+shop.slug} className="bg-surface-container-low text-on-surface px-5 py-2 rounded-full font-label font-bold text-sm group-hover:bg-primary group-hover:text-on-primary transition-all active:scale-95">
                         Reserve →
                       </Link>
                     </div>

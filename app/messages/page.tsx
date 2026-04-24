@@ -4,14 +4,19 @@ import { Suspense, useState, useEffect, useRef, useCallback, type KeyboardEvent 
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Header from "@/components/Header";
-import {
-  SEED_THREADS,
-  getShopReply,
-  formatMessageTime,
-  formatDaySeparator,
-  type MessageThread,
-  type ThreadMessage,
-} from "@/lib/messages";
+import { api } from "@/lib/api";
+
+function formatMessageTime(iso: string): string {
+  const date = new Date(iso);
+  const now = new Date();
+  const isToday = date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth() && date.getDate() === now.getDate();
+  if (isToday) return date.toLocaleTimeString("en-PH", { hour: "numeric", minute: "2-digit" });
+  return date.toLocaleDateString("en-PH", { month: "short", day: "numeric" });
+}
+
+function formatDaySeparator(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-PH", { month: "long", day: "numeric", year: "numeric" });
+}
 
 // ─── Thread List Item ─────────────────────────────────────────────────────────
 function ThreadItem({
@@ -19,7 +24,7 @@ function ThreadItem({
   active,
   onClick,
 }: {
-  thread: MessageThread;
+  thread: any;
   active: boolean;
   onClick: () => void;
 }) {
@@ -74,82 +79,93 @@ function MessagesClient() {
   const searchParams = useSearchParams();
   const initialSlug = searchParams.get("shop");
 
-  const [threads, setThreads] = useState<MessageThread[]>(() =>
-    SEED_THREADS.map((t) => ({ ...t, messages: [...t.messages] }))
-  );
-  const [activeSlug, setActiveSlug] = useState<string | null>(
-    initialSlug ?? SEED_THREADS[0]?.shopSlug ?? null
-  );
+  const [threads, setThreads] = useState<any[]>([]);
+  const [activeSlug, setActiveSlug] = useState<string | null>(initialSlug ?? null);
   const [input, setInput] = useState("");
-  const [typing, setTyping] = useState(false);
+  const [sending, setSending] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const replyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const activeThread = threads.find((t) => t.shopSlug === activeSlug) ?? null;
 
-  // Clear unread when a thread is opened
+  // Load thread list on mount
   useEffect(() => {
-    if (!activeSlug) return;
-    setThreads((prev) =>
-      prev.map((t) => (t.shopSlug === activeSlug ? { ...t, unreadCount: 0 } : t))
-    );
-    setTimeout(() => inputRef.current?.focus(), 80);
-  }, [activeSlug]);
-
-  // Scroll to bottom on new messages or typing indicator
-  useEffect(() => {
-    const frame = requestAnimationFrame(() => {
-      if (scrollRef.current) {
-        scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-      }
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [activeThread?.messages, typing]);
-
-  // Cleanup pending reply on unmount
-  useEffect(() => {
-    return () => {
-      if (replyTimerRef.current) clearTimeout(replyTimerRef.current);
-    };
+    api.get<{ threads: any[] }>("/messages/threads").then(({ threads: rows }) => {
+      const mapped: any[] =rows.map((t) => ({
+        id: t.id,
+        shopName: t.providerName,
+        shopSlug: t.providerSlug,
+        shopImage: "/purrbook.png",
+        shopCategory: "",
+        shopAddress: "",
+        unreadCount: t.unreadCount ?? 0,
+        messages: t.lastMessage
+          ? [{ id: "last", sender: "shop" as const, content: t.lastMessage, timestamp: t.lastMessageAt ?? new Date().toISOString() }]
+          : [],
+      }));
+      setThreads(mapped);
+      if (!activeSlug && mapped.length > 0) setActiveSlug(mapped[0].shopSlug);
+    }).catch(console.error);
   }, []);
 
-  const sendMessage = useCallback(
-    (text: string) => {
-      if (!text.trim() || typing || !activeSlug) return;
+  // Load messages when active thread changes
+  useEffect(() => {
+    if (!activeSlug) return;
+    api.get<{ thread: any }>(`/messages/threads/${activeSlug}`).then(({ thread }) => {
+      const msgs: any[] =(thread.messages ?? []).map((m: any) => ({
+        id: m.id,
+        sender: m.senderType === "user" ? "user" as const : "shop" as const,
+        content: m.content,
+        timestamp: m.createdAt,
+      }));
+      setThreads((prev) => prev.map((t) =>
+        t.shopSlug === activeSlug
+          ? { ...t, messages: msgs, unreadCount: 0, shopName: thread.providerName ?? t.shopName }
+          : t
+      ));
+      setTimeout(() => inputRef.current?.focus(), 80);
+    }).catch(console.error);
+  }, [activeSlug]);
 
-      const userMsg: ThreadMessage = {
-        id: Date.now().toString(),
+  // Scroll to bottom on new messages
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [activeThread?.messages]);
+
+  const sendMessage = useCallback(
+    async (text: string) => {
+      if (!text.trim() || sending || !activeSlug) return;
+      setSending(true);
+      setInput("");
+
+      const optimistic = {
+        id: `tmp-${Date.now()}`,
         sender: "user",
         content: text.trim(),
         timestamp: new Date().toISOString(),
       };
+      setThreads((prev) => prev.map((t) =>
+        t.shopSlug === activeSlug ? { ...t, messages: [...t.messages, optimistic] } : t
+      ));
 
-      setThreads((prev) =>
-        prev.map((t) =>
-          t.shopSlug === activeSlug ? { ...t, messages: [...t.messages, userMsg] } : t
-        )
-      );
-      setInput("");
-      setTyping(true);
-
-      replyTimerRef.current = setTimeout(() => {
-        const reply: ThreadMessage = {
-          id: (Date.now() + 1).toString(),
-          sender: "shop",
-          content: getShopReply(activeSlug, text),
-          timestamp: new Date().toISOString(),
-        };
-        setTyping(false);
-        setThreads((prev) =>
-          prev.map((t) =>
-            t.shopSlug === activeSlug ? { ...t, messages: [...t.messages, reply] } : t
-          )
-        );
-      }, 1200);
+      try {
+        const { message } = await api.post<{ message: any }>(`/messages/threads/${activeSlug}`, { content: text.trim() });
+        setThreads((prev) => prev.map((t) =>
+          t.shopSlug === activeSlug
+            ? { ...t, messages: t.messages.map((m) => m.id === optimistic.id ? { ...m, id: message.id } : m) }
+            : t
+        ));
+      } catch (err) {
+        console.error("Send failed", err);
+      } finally {
+        setSending(false);
+      }
     },
-    [typing, activeSlug]
+    [sending, activeSlug]
   );
 
   function handleKeyDown(e: KeyboardEvent<HTMLInputElement>) {
@@ -157,8 +173,8 @@ function MessagesClient() {
   }
 
   // Group messages by day for separators
-  function groupByDay(messages: ThreadMessage[]) {
-    const groups: { dayKey: string; messages: ThreadMessage[] }[] = [];
+  function groupByDay(messages: any[]) {
+    const groups: { dayKey: string; messages: any[] }[] = [];
     for (const msg of messages) {
       const dayKey = msg.timestamp.slice(0, 10);
       const last = groups[groups.length - 1];
@@ -281,7 +297,7 @@ function MessagesClient() {
             ))}
 
             {/* Typing indicator */}
-            {typing && (
+            {sending && (
               <div className="flex items-end gap-2.5 pt-1">
                 <div className="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center flex-shrink-0 text-xs font-bold text-on-surface-variant">
                   {activeThread.shopName.charAt(0)}
@@ -310,7 +326,7 @@ function MessagesClient() {
             />
             <button
               onClick={() => sendMessage(input)}
-              disabled={!input.trim() || typing}
+              disabled={!input.trim() || sending}
               className="w-11 h-11 rounded-full bg-gradient-to-br from-primary to-primary-dim text-on-primary flex items-center justify-center disabled:opacity-40 active:scale-95 transition-all flex-shrink-0"
             >
               <span className="material-symbols-outlined text-base">send</span>

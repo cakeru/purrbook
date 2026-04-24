@@ -2,15 +2,13 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { type UserBooking, type UserBookingStatus } from "@/lib/bookings";
-
-const STATUS_STYLES: Record<UserBookingStatus, string> = {
+const STATUS_STYLES: Record<string, string> = {
   upcoming: "bg-tertiary-container text-on-tertiary-container",
   completed: "bg-surface-container-highest text-on-surface-variant",
   cancelled: "bg-error/10 text-error",
 };
 
-const STATUS_LABELS: Record<UserBookingStatus, string> = {
+const STATUS_LABELS: Record<string, string> = {
   upcoming: "Upcoming",
   completed: "Completed",
   cancelled: "Cancelled",
@@ -21,7 +19,7 @@ export default function BookingDetailPanel({
   onClose,
   onCancel,
 }: {
-  booking: UserBooking | null;
+  booking: any | null;
   onClose: () => void;
   onCancel: (id: string) => void;
 }) {

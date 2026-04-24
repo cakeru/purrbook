@@ -1,16 +1,14 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { type CareRecord, type Filter } from "@/lib/pets";
-
 interface Props {
-  records: CareRecord[];
-  filter?: Filter;
+  records: any[];
+  filter?: string;
 }
 
 export default function CareRecordTimeline({ records, filter = "all" }: Props) {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<CareRecord | null>(null);
+  const [selected, setSelected] = useState<any | null>(null);
 
   const displayed = useMemo(
     () => (filter === "all" ? records : records.filter((r) => r.type === filter)),

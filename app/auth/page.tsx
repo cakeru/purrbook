@@ -14,7 +14,7 @@ export default function AuthPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
 
@@ -38,9 +38,25 @@ export default function AuthPage() {
     }
 
     setLoading(true);
-    setTimeout(() => {
+    try {
+      const base = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001/v1";
+      const endpoint = mode === "signup" ? "/auth/signup" : "/auth/login";
+      const body = mode === "signup" ? { name, email, password } : { email, password };
+      const res = await fetch(`${base}${endpoint}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Something went wrong");
+      localStorage.setItem("purrbook_token", data.accessToken);
+      localStorage.setItem("purrbook_user", JSON.stringify(data.user));
       router.push(mode === "signup" ? "/onboarding" : "/profile");
-    }, 600);
+    } catch (err: any) {
+      setError(err.message ?? "Something went wrong. Please try again.");
+      setLoading(false);
+    }
   }
 
   return (
